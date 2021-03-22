@@ -1,6 +1,162 @@
 {
     "packages": [
         {
+            "name": "doctrine/annotations",
+            "version": "1.12.1",
+            "version_normalized": "1.12.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/annotations.git",
+                "reference": "b17c5014ef81d212ac539f07a1001832df1b6d3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/b17c5014ef81d212ac539f07a1001832df1b6d3b",
+                "reference": "b17c5014ef81d212ac539f07a1001832df1b6d3b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/lexer": "1.*",
+                "ext-tokenizer": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "1.*",
+                "doctrine/coding-standard": "^6.0 || ^8.1",
+                "phpstan/phpstan": "^0.12.20",
+                "phpunit/phpunit": "^7.5 || ^9.1.5"
+            },
+            "time": "2021-02-21T21:00:45+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Docblock Annotations Parser",
+            "homepage": "https://www.doctrine-project.org/projects/annotations.html",
+            "keywords": [
+                "annotations",
+                "docblock",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/annotations/issues",
+                "source": "https://github.com/doctrine/annotations/tree/1.12.1"
+            },
+            "install-path": "../doctrine/annotations"
+        },
+        {
+            "name": "doctrine/lexer",
+            "version": "1.2.1",
+            "version_normalized": "1.2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/lexer.git",
+                "reference": "e864bbf5904cb8f5bb334f99209b48018522f042"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/e864bbf5904cb8f5bb334f99209b48018522f042",
+                "reference": "e864bbf5904cb8f5bb334f99209b48018522f042",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "phpstan/phpstan": "^0.11.8",
+                "phpunit/phpunit": "^8.2"
+            },
+            "time": "2020-05-25T17:44:05+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Lexer\\": "lib/Doctrine/Common/Lexer"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
+            "homepage": "https://www.doctrine-project.org/projects/lexer.html",
+            "keywords": [
+                "annotations",
+                "docblock",
+                "lexer",
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/lexer/issues",
+                "source": "https://github.com/doctrine/lexer/tree/1.2.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../doctrine/lexer"
+        },
+        {
             "name": "psr/cache",
             "version": "2.0.0",
             "version_normalized": "2.0.0.0",
@@ -50,7 +206,7 @@
             "support": {
                 "source": "https://github.com/php-fig/cache/tree/2.0.0"
             },
-            "install-path": "../../psr/cache"
+            "install-path": "../psr/cache"
         },
         {
             "name": "psr/container",
@@ -101,7 +257,7 @@
                 "issues": "https://github.com/php-fig/container/issues",
                 "source": "https://github.com/php-fig/container/tree/1.1.1"
             },
-            "install-path": "../../psr/container"
+            "install-path": "../psr/container"
         },
         {
             "name": "psr/event-dispatcher",
@@ -154,7 +310,7 @@
                 "issues": "https://github.com/php-fig/event-dispatcher/issues",
                 "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
             },
-            "install-path": "../../psr/event-dispatcher"
+            "install-path": "../psr/event-dispatcher"
         },
         {
             "name": "psr/log",
@@ -207,7 +363,88 @@
             "support": {
                 "source": "https://github.com/php-fig/log/tree/1.1.3"
             },
-            "install-path": "../../psr/log"
+            "install-path": "../psr/log"
+        },
+        {
+            "name": "sensio/framework-extra-bundle",
+            "version": "v6.1.1",
+            "version_normalized": "6.1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
+                "reference": "8ef75e99f20332f2725587896364f7079b53de95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/8ef75e99f20332f2725587896364f7079b53de95",
+                "reference": "8ef75e99f20332f2725587896364f7079b53de95",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "^1.0",
+                "php": ">=7.2.5",
+                "symfony/config": "^4.4|^5.0",
+                "symfony/dependency-injection": "^4.4|^5.0",
+                "symfony/framework-bundle": "^4.4|^5.0",
+                "symfony/http-kernel": "^4.4|^5.0"
+            },
+            "conflict": {
+                "doctrine/doctrine-cache-bundle": "<1.3.1",
+                "doctrine/persistence": "<1.3"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.10|^3.0",
+                "doctrine/doctrine-bundle": "^1.11|^2.0",
+                "doctrine/orm": "^2.5",
+                "symfony/browser-kit": "^4.4|^5.0",
+                "symfony/doctrine-bridge": "^4.4|^5.0",
+                "symfony/dom-crawler": "^4.4|^5.0",
+                "symfony/expression-language": "^4.4|^5.0",
+                "symfony/finder": "^4.4|^5.0",
+                "symfony/monolog-bridge": "^4.0|^5.0",
+                "symfony/monolog-bundle": "^3.2",
+                "symfony/phpunit-bridge": "^4.4.9|^5.0.9",
+                "symfony/security-bundle": "^4.4|^5.0",
+                "symfony/twig-bundle": "^4.4|^5.0",
+                "symfony/yaml": "^4.4|^5.0",
+                "twig/twig": "^1.34|^2.4|^3.0"
+            },
+            "time": "2021-02-23T11:50:58+00:00",
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Sensio\\Bundle\\FrameworkExtraBundle\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "This bundle provides a way to configure your controllers with annotations",
+            "keywords": [
+                "annotations",
+                "controllers"
+            ],
+            "support": {
+                "issues": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/issues",
+                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.1.1"
+            },
+            "install-path": "../sensio/framework-extra-bundle"
         },
         {
             "name": "symfony/cache",
@@ -305,7 +542,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/cache"
+            "install-path": "../symfony/cache"
         },
         {
             "name": "symfony/cache-contracts",
@@ -388,7 +625,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/cache-contracts"
+            "install-path": "../symfony/cache-contracts"
         },
         {
             "name": "symfony/config",
@@ -469,7 +706,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/config"
+            "install-path": "../symfony/config"
         },
         {
             "name": "symfony/console",
@@ -569,7 +806,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/console"
+            "install-path": "../symfony/console"
         },
         {
             "name": "symfony/dependency-injection",
@@ -659,7 +896,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/dependency-injection"
+            "install-path": "../symfony/dependency-injection"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -729,7 +966,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/deprecation-contracts"
+            "install-path": "../symfony/deprecation-contracts"
         },
         {
             "name": "symfony/dotenv",
@@ -802,7 +1039,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/dotenv"
+            "install-path": "../symfony/dotenv"
         },
         {
             "name": "symfony/error-handler",
@@ -874,7 +1111,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/error-handler"
+            "install-path": "../symfony/error-handler"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -962,7 +1199,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/event-dispatcher"
+            "install-path": "../symfony/event-dispatcher"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -1044,7 +1281,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/event-dispatcher-contracts"
+            "install-path": "../symfony/event-dispatcher-contracts"
         },
         {
             "name": "symfony/filesystem",
@@ -1109,7 +1346,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/filesystem"
+            "install-path": "../symfony/filesystem"
         },
         {
             "name": "symfony/finder",
@@ -1173,7 +1410,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/finder"
+            "install-path": "../symfony/finder"
         },
         {
             "name": "symfony/flex",
@@ -1244,7 +1481,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/flex"
+            "install-path": "../symfony/flex"
         },
         {
             "name": "symfony/framework-bundle",
@@ -1396,7 +1633,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/framework-bundle"
+            "install-path": "../symfony/framework-bundle"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -1478,7 +1715,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/http-client-contracts"
+            "install-path": "../symfony/http-client-contracts"
         },
         {
             "name": "symfony/http-foundation",
@@ -1554,7 +1791,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/http-foundation"
+            "install-path": "../symfony/http-foundation"
         },
         {
             "name": "symfony/http-kernel",
@@ -1669,7 +1906,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/http-kernel"
+            "install-path": "../symfony/http-kernel"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
@@ -1753,7 +1990,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/polyfill-intl-grapheme"
+            "install-path": "../symfony/polyfill-intl-grapheme"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
@@ -1840,7 +2077,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/polyfill-intl-normalizer"
+            "install-path": "../symfony/polyfill-intl-normalizer"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1923,7 +2160,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/polyfill-mbstring"
+            "install-path": "../symfony/polyfill-mbstring"
         },
         {
             "name": "symfony/polyfill-php73",
@@ -2005,7 +2242,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/polyfill-php73"
+            "install-path": "../symfony/polyfill-php73"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -2091,7 +2328,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/polyfill-php80"
+            "install-path": "../symfony/polyfill-php80"
         },
         {
             "name": "symfony/routing",
@@ -2184,7 +2421,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/routing"
+            "install-path": "../symfony/routing"
         },
         {
             "name": "symfony/service-contracts",
@@ -2266,7 +2503,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/service-contracts"
+            "install-path": "../symfony/service-contracts"
         },
         {
             "name": "symfony/string",
@@ -2352,7 +2589,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/string"
+            "install-path": "../symfony/string"
         },
         {
             "name": "symfony/var-dumper",
@@ -2443,7 +2680,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/var-dumper"
+            "install-path": "../symfony/var-dumper"
         },
         {
             "name": "symfony/var-exporter",
@@ -2519,7 +2756,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/var-exporter"
+            "install-path": "../symfony/var-exporter"
         },
         {
             "name": "symfony/yaml",
@@ -2597,7 +2834,7 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../../symfony/yaml"
+            "install-path": "../symfony/yaml"
         }
     ],
     "dev": true,
