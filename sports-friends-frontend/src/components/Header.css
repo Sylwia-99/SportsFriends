@@ -1,0 +1,80 @@
+.App-header{
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    background-color: #04C9A8;
+    box-shadow: 1px -1px 10px;
+  }
+
+  img{
+    width: 6em;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .search{
+    grid-column: 4/8;
+    align-self: center;
+    justify-content: center;
+  }
+
+  .search-icon{
+    visibility: hidden;
+  }
+  
+  .search-input{
+    height: 2.5em;
+    width: 16em;
+    position: relative;
+    left: 1em;
+    text-align:center;
+    border-radius: 10em 0 0 10em;
+    box-shadow: 0 0 20px 5px #2a907f;
+  }
+  
+  .search-button{
+    height: 2.65em;
+    width: 3em;
+    text-align: center;
+    border-radius: 0 10em 10em 0;
+    border: none;
+    background-color: white;
+    position: relative;
+    left: -1em;
+    cursor: pointer;
+  }
+  
+  .icons{
+    grid-column: 9/13;
+    align-self: center;
+  }
+  
+  .icons > a{
+    margin: 0.2em;
+    color: white;
+    font-size: 2.5em;
+  }
+
+@media only screen and (max-width: 1200px) {
+  .App-header{
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .icons{
+    grid-column: 9/13;
+    align-self: center;
+  }
+  .search-input, .search-button{
+    visibility: hidden;
+  }
+
+  .search-icon{
+    visibility: initial;
+  }
+
+  .icons > a{
+    margin: 0.2em;
+    color: white;
+    font-size: 2em;
+  }
+}
+  

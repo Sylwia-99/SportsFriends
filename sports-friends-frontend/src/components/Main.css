@@ -1,0 +1,48 @@
+section{
+    display: grid;
+    grid-template-columns: repeat(3,20em);
+    gap: 0.5em;
+    margin: 1em auto 1em auto;
+    justify-content: center;
+}
+
+section > div{
+    height: 20em;
+    background-color: white;
+}
+  
+.avatar > h3{
+    margin-top: 13em;
+    margin-bottom: 0;
+    color: white;
+}
+  
+.avatar > h4{
+    margin-top: 0;
+    color: white;
+}
+
+.avatar{
+    background-image: url('../images/przyklad.svg');
+    background-size: cover;
+}
+  
+@media only screen and (max-width: 1200px) {
+    section{
+        margin: 0.1em auto 0.1em auto;
+        gap: 0.2em;
+        grid-template-columns: repeat(3,32vw);
+    }
+    section > div{
+        height: 32vw;
+        background-color: white;
+    }
+    .avatar > h3{
+        margin-top: 6em;
+        font-size: small;
+    }
+      
+    .avatar > h4{
+        font-size: smaller;
+    }
+  }
