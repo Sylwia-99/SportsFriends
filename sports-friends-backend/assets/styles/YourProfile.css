@@ -1,0 +1,229 @@
+.App{
+    display: flex;
+    flex-direction: column;
+}
+
+.Your-information{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 65vh;
+    margin: 0 1em 0 1em;
+}
+
+.Profile{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 2em;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0.5em 1em 0;
+    width: 20vw;
+    color: #04C9A8;
+    box-shadow: 0 0 20px 5px #2a907f;
+}
+
+.Big-avatar{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 100%;
+    box-shadow: 0 0 20px 2px #000000;
+}
+
+.AboutMe{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 2em;
+    align-items: flex-start;
+    margin: 1em 0 1em 0.5em;
+    width: 72vw;
+    color: #04C9A8;
+    box-shadow: 0 0 20px 5px #2a907f;
+}
+
+.AboutMe > h2{
+    margin: 0.3em 1.2em 0.3em;
+}
+
+.AboutMe > h5{
+    margin: 0.8em 2.2em 1.2em;
+    color: black;
+}
+
+.Activities{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 65vw;
+    margin: 0.1em 2.2em 0.1em 2.2em;
+    justify-items: center;
+}
+
+.Activities > div{
+    width: -webkit-fill-available;
+    margin: 0.5em;
+    background-color: #EA0B72;
+    color: white;
+    border-radius: 2em;
+    height: 3em;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 5px 4px 11px 1px #000000;
+}
+
+.Edition{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    background-color: white;
+    align-items: center;
+    align-self: center;
+    padding: 2em;
+    border-radius: 2em;
+    width: 90vw;
+    overflow: auto;
+    box-shadow: 0 0 20px 5px #2a907f;
+    margin: 0 1em 0 1em;
+}
+
+.Edition-button{
+    font-size: 1em;
+    height: 2.5em;
+    width: 15em;
+    border-radius: 2em;
+    background-color: #04C9A8;
+    color: white;
+    margin:  0.1em 1.1em;
+    border: none;
+    box-shadow: 5px 4px 11px 1px #000000;
+}
+
+hr{
+    color: gray;
+    width: 92%;
+}
+
+form.Send-message-form{
+    background-color: #a6f3e6;
+    align-items: center;
+    align-self: center;
+    border-radius: 2em;
+    width: -webkit-fill-available;
+    display: flex;
+}
+
+
+.Send-input{
+    font-size: 1em;
+    height: 2.5em;
+    width: -webkit-fill-available;
+    border-radius: 2em;
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.Send-button{
+    font-size: 1em;
+    height: 2.5em;
+    width: 15em;
+    border-radius: 2em;
+    background-color: #04C9A8;
+    color: white;
+    border: none;
+}
+
+.Activities > div > h4 >svg{
+    color: white;
+    font-size: x-large;
+    padding: 0.5em 0.5em 0.5em 0;
+}
+
+.Activities > div > h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Follow{
+    font-size: 1em;
+    height: 2.5em;
+    width: 15vw;
+    border-radius: 2em;
+    background-color: #04C9A8;
+    color: white;
+    border: none;
+    left: -1em;
+}
+
+div.Send-message-profile{
+    background-color: white;
+    align-items: center;
+    align-self: center;
+    padding: 2em;
+    border-radius: 2em;
+    width: 90vw;
+    box-shadow: 0 0 20px 5px #2a907f;
+    margin: 0 1em 0 1em;
+}
+
+@media only screen and (max-width: 1200px) {
+    .Your-information {
+        flex-direction: column;
+        align-items: center;
+        height: fit-content;
+        margin-top: 1em;
+        font-size: 30px;
+    }
+
+    .Big-avatar {
+        width: 10em;
+        height: 10em;
+    }
+
+    .Profile {
+        margin: 0.4em;
+        height: 20em;
+        width: 80vw;
+    }
+
+    .AboutMe {
+        width: 92vw;
+        height: auto;
+    }
+
+    .Activities {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 1em;
+        align-content: center;
+        width: -webkit-fill-available;
+    }
+
+    .Activities > div {
+        margin: 0.5em;
+        height: 4em;
+    }
+
+    .Edition {
+        width: 84vw;
+        grid-template-columns: repeat(1, 1fr);
+        font-size: 30px;
+    }
+
+    .Edition > a > button, .Edition > button {
+        width: -webkit-fill-available;
+        margin: 0.5em;
+        justify-self: center;
+        height: 4em;;
+    }
+
+    button.Follow {
+        width: 10em;
+    }
+
+    div.Send-message-profile {
+        font-size: 30px;
+        padding: 1em;
+    }
+}

@@ -1,0 +1,72 @@
+.App-log{
+    background-image: url('../images/tło.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+}
+
+.Register{
+    width: 80vw;
+    margin-top: 1.5vh;
+}
+
+.Logo-place-register{
+    background-color: #04C9A8;
+    border-radius: 2em 2em 0 0 ;
+    display: flex;
+    justify-content: center;
+}
+
+.Logo{
+    font-size: 18px;
+}
+
+.Register-form{
+    background: rgba(255, 255, 255, 0.575);
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0 2em 2em ;
+    height: 80vh;
+    padding: 1.5em 1.5em 0 1.5em;
+}
+
+text{
+    align-self: flex-start;
+    justify-content: flex-start;
+    font-size: large;
+    margin: 0.5em 0 0.25em 0;
+}
+
+input{
+    border-radius: 2em;
+    border: 3em;
+    height: 4em;
+}
+
+.Register-button{
+    background-color: #04C9A8;
+    color:white;
+    border: none;
+    border-radius: 2em;
+    height: 3.5em;
+    width: 15em;
+    align-self: center;
+    margin: 0.6em;
+    font-size: large;
+}
+
+@media only screen and (max-width: 1200px) {
+    text, .Register-button{
+        font-size: 30px;
+    }
+
+
+    .Register-form{
+        font-size: 30px;
+        padding: 1em 1em 0 1em;
+    }
+}
