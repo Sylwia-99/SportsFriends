@@ -10,7 +10,7 @@ class SingleChat extends Component{
         return (
             <div className="App">
                 <Header/>
-                <div className="App-Messages-mobile">
+                <div className="App-Chat-mobile">
                     <div className="Chat-place">
                         <div className="Chat-mobile">
                             <div className="One-friend-chat">

@@ -1,0 +1,39 @@
+.Message-form{
+    margin: 1vw 0 0 18vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Receiver, .Message-title, .Message-input{
+    width: 60vw;
+    margin: 0.5em;
+    border-top: 0.4em;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 0 10px 1px #2a907f;
+}
+
+.Message-input{
+    height: 50vh;
+    text-align: start;
+}
+
+.Send{
+    background-color: #04C9A8;
+    color: white;
+    border: none;
+    height: 4vh;
+    margin: 1em;
+    border-radius: 1em;
+}
+
+@media only screen and (max-width: 1200px) {
+    .Message-form {
+        margin: 1vw 0 0 1vw;
+    }
+
+    .Receiver, .Message-title, .Message-input {
+        width: 80vw;
+    }
+}

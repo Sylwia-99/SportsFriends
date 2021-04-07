@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Messages from './Messages';
+import NewMessage from './NewMessage';
+import ReceiverMessage from './ReceiverMessage';
+import SendMessage from './SendMessage';
 import Notification from './Notification';
 import YourProfile from './YourProfile';
 import Profile from './Profile';
@@ -20,6 +23,9 @@ class Navigation extends Component{
                 <Router>
                     <Switch>
                         <Route path="/messages" extact component={Messages}/>
+                        <Route path="/newmessage" exact component={NewMessage}/>
+                        <Route path="/receivermessage" exact component={ReceiverMessage}/>
+                        <Route path="/sendmessage" exact component={SendMessage}/>
                         <Route path="/notification" extact component={Notification}/>
                         <Route path="/yourProfile" extact component={YourProfile}/>
                         <Route path="/profile" extact component={Profile}/>

@@ -27,7 +27,6 @@ class Header extends Component{
             </header>
         )
     }
-
 }
 
 export default withRouter(Header);

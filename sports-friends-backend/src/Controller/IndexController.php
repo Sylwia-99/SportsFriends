@@ -11,13 +11,6 @@ class IndexController extends AbstractController
 {
     private $users = [
         [
-            'id' => 1,
-            'name' => 'Sylwia',
-            'surname' => 'Rusek',
-            'avatar' => 'https://randomuser.me/api/portraits/women/50.jpg',
-            'activity' => 'Silownia'
-        ],
-        [
             'id' => 2,
             'name' => 'Kamil',
             'surname' => 'Kowalski',

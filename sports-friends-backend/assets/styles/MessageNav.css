@@ -1,0 +1,36 @@
+.nav-message{
+    width: 20vw;
+    position: absolute;
+}
+
+.nav-message-links{
+    color: #04C9A8;
+}
+
+li{
+    list-style-type: none;
+    margin-top: 3em;
+}
+
+.nav-menu-message{
+    display: grid;
+    grid-template-rows: repeat(6, 8vh);
+    margin: 1em;
+}
+
+@media only screen and (max-width: 1200px){
+    .nav-message{
+        width: 80vw;
+        position: relative;
+    }
+
+    .nav-menu-message{
+        display: flex;
+        font-size: 30px;
+        width: 88vw;
+    }
+
+    .nav-item{
+        margin: 1em;
+    }
+}
