@@ -56,7 +56,9 @@ class YourProfile extends Component{
                     <Link to="/Followers">
                         <button className="Edition-button">Obserwujący</button>
                     </Link>
-                    <button className="Edition-button">Wyloguj</button>
+                    <Link to="/Register">
+                        <button className="Edition-button">Wyloguj</button>
+                    </Link>
                 </div>
             </div>
         );

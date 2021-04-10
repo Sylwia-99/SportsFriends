@@ -34,19 +34,7 @@ class IndexController extends AbstractController
     ];
 
     /**
-     * @Route("/api/user/{id}", name="profile")
-     * @return JsonResponse
-     */
-    public function getU($id)
-    {
-        $user = $this->users[$id];
-        $response =new Response();
-        $response->setContent(json_encode($user));
-        return $response;
-    }
-
-    /**
-     * @Route("/{reactRouting}", name="index", defaults={"reactRouting": null})
+     * @Route("/{ReactRouting}", name="index", defaults={"reactRouting": null})
      */
     public function index(): Response
     {
