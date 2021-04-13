@@ -8,8 +8,10 @@ use App\Entity\UserDetails;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -20,6 +22,7 @@ class UserController extends AbstractController
     {
         $params = dump($request->request->all());
         $entityManager = $this->getDoctrine()->getManager();
+
 
         $userDetails = new UserDetails();
         $userDetails->setName($params['name']);

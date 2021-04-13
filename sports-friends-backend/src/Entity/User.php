@@ -46,9 +46,23 @@ class User
      */
     private $id_role;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class)
+     * @ORM\JoinTable(name="user_follower")
+     */
+    private $followers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class)
+     * @ORM\JoinTable(name="user_watcher")
+     */
+    private $watchers;
+
     public function __construct()
     {
         $this->id_role = new ArrayCollection();
+        $this->followers = new ArrayCollection();
+        $this->watchers = new ArrayCollection();
     }
 
     public function getId(): ?int

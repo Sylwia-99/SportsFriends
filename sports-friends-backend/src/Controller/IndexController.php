@@ -42,6 +42,14 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @Route("/", name="homePage")
+     */
+    public function home(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
      * @Route("/api/users", name="users")
      * @return JsonResponse
      */
