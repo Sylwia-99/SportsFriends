@@ -35,7 +35,7 @@ class Register extends Component{
         }
     };
 
-    componentDidMount() {
+    /*componentDidMount() {
         this.register();
     }
 
@@ -55,7 +55,7 @@ class Register extends Component{
           .catch(function (error) {
             console.log(error);
           });
-    }
+    }*/
 
     handleChange = (input) => (e) => {
         this.setState({
@@ -65,6 +65,23 @@ class Register extends Component{
 
     handleSubmit = (e) => {
         console.log(e);
+        e.preventDefault();
+
+        axios.post(`http://localhost:8000/createUser`, {
+            email: this.state.values.email,
+            name:this.state.values.name,
+            surname: this.state.values.surname,
+            password: this.state.values.password,
+            confirmPassword: this.state.values.confirmPassword,
+            postalCode: this.state.values.postalCode,
+            city: this.state.values.city,
+            street: this.state.values.street
+        }).then(function (response) {
+            console.log(response);
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     render() {
@@ -77,7 +94,7 @@ class Register extends Component{
                     </div>
                     <form className="Register-form" onSubmit={this.handleSubmit}>
                         <text>Imię</text>
-                        <input 
+                        <input
                             name="name" 
                             type="text" 
                             value={values.name}

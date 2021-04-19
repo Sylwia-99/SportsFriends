@@ -9,37 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
-    private $users = [
-        [
-            'id' => 2,
-            'name' => 'Kamil',
-            'surname' => 'Kowalski',
-            'avatar' => 'https://randomuser.me/api/portraits/men/42.jpg',
-            'activity' => 'Pływanie'
-        ],
-        [
-            'id' => 3,
-            'name' => 'Agnieszka',
-            'surname' => 'Sroka',
-            'avatar' => 'https://randomuser.me/api/portraits/women/67.jpg',
-            'activity' => 'Bieganie'
-        ],
-        [
-            'id' => 5,
-            'name' => 'Dawid',
-            'surname' => 'Mosur',
-            'avatar' => 'https://randomuser.me/api/portraits/men/89.jpg',
-            'activity' => 'Jazda na rowerze'
-        ]
-    ];
+    /*
+     @Route("/{ReactRouting}", name="index", defaults={"reactRouting": null})
 
-    /**
-     * @Route("/{ReactRouting}", name="index", defaults={"reactRouting": null})
-     */
     public function index(): Response
     {
         return $this->render('index/index.html.twig');
-    }
+    }*/
 
     /**
      * @Route("/", name="homePage")
@@ -50,19 +26,105 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/api/users", name="users")
-     * @return JsonResponse
+     * @Route("/login", name="login")
      */
-    public function getUsers()
+    public function login(): Response
     {
-        $response = new Response();
+        return $this->render('index/index.html.twig');
+    }
 
-        $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
+    /**
+     * @Route("/register", name="registration")
+     */
+    public function register(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
 
-        $users = $this->users;
-        $response->setContent(json_encode($users));
+    /**
+     * @Route("/editProfile", name="register")
+     */
+    public function editProfile(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
 
-        return $response;
+    /**
+     * @Route("/messages", name="messages")
+     */
+    public function messages(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/newmessage", name="newmessage")
+     */
+    public function newmessage(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/receivermessage", name="receivermessage")
+     */
+    public function receivermessage(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/sendmessage", name="sendmessage")
+     */
+    public function sendmessage(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/notification", name="notification")
+     */
+    public function notification(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/yourProfile", name="yourProfile")
+     */
+    public function yourProfile(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/profile", name="profile")
+     */
+    public function showProfile(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/singleChat", name="singleChat")
+     */
+    public function singleChat(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/watched", name="watched")
+     */
+    public function watched(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+    /**
+     * @Route("/followers", name="followers")
+     */
+    public function followers(): Response
+    {
+        return $this->render('index/index.html.twig');
     }
 }

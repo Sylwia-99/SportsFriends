@@ -17,7 +17,7 @@ class Main extends Component{
     }
 
     getUsers(){
-        axios.get(`http://localhost:8000/api/users`).then(users => {
+        axios.get(`http://localhost:8000/showUsers`).then(users => {
             this.setState({ users: users.data})
         })
     }
@@ -27,7 +27,7 @@ class Main extends Component{
         <main>
             <section>
                 {this.state.users.map(user =>
-                    <Link to={`/Profile/${user.id}`} className="avatar">
+                    <Link to={`/user/${user.id}`} className="avatar">
                         <img className="avatar-image" src={user.avatar}/>
                         <h3>{user.name} {user.surname}</h3>
                         <h4>{user.activity}</h4>

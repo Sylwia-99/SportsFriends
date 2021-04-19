@@ -19,7 +19,7 @@ class Header extends Component{
                 </div>
                 <div className="icons">
                     <Link to="/search" className="search-icon"><FiSearch/></Link>
-                    <Link to="/home"><FaHome/></Link>
+                    <Link to="/"><FaHome/></Link>
                     <Link to="/messages"><BiMessageDetail/></Link>
                     <Link to="/notification"><FaHeart/></Link>
                     <Link to="/yourProfile"><Avatar/></Link>

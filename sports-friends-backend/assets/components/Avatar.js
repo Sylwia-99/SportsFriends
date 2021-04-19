@@ -2,11 +2,31 @@ import React, {Component} from 'react';
 import '../styles/Avatar.css';
 import {withRouter} from "react-router";
 import avatar from '../images/avatar.jpg';
+import axios from "axios";
 
 class Avatar extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            avatar: '',
+        }
+    }
+
+    componentDidMount() {
+        this.getUser();
+    }
+
+    getUser(){
+        axios.get('http://localhost:8000/user/13').then(user => {
+            this.setState({
+                avatar: user.data[0].avatar,
+            });
+            console.log(user);
+        });
+    }
     render(){
     return (
-        <img className="small-avatar" src={avatar} alt={"this is avatar image"}/>
+        <img className="small-avatar" src={this.state.avatar} alt={"this is avatar image"}/>
     )
 }
 }

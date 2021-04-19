@@ -58,11 +58,17 @@ class User
      */
     private $watchers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=UsersActivities::class, mappedBy="id_user")
+     */
+    private $usersActivities;
+
     public function __construct()
     {
         $this->id_role = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->watchers = new ArrayCollection();
+        $this->usersActivities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +149,33 @@ class User
             if ($idRole->getUser() === $this) {
                 $idRole->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UsersActivities[]
+     */
+    public function getUsersActivities(): Collection
+    {
+        return $this->usersActivities;
+    }
+
+    public function addUsersActivity(UsersActivities $usersActivity): self
+    {
+        if (!$this->usersActivities->contains($usersActivity)) {
+            $this->usersActivities[] = $usersActivity;
+            $usersActivity->addIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersActivity(UsersActivities $usersActivity): self
+    {
+        if ($this->usersActivities->removeElement($usersActivity)) {
+            $usersActivity->removeIdUser($this);
         }
 
         return $this;
