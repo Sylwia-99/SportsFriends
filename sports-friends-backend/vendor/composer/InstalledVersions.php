@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'a5c06acc036bfced963e6d826e8120b37eb1c60f',
+    'reference' => 'c958ced70262a0fcdbc490d3cb633f3879d62b47',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'a5c06acc036bfced963e6d826e8120b37eb1c60f',
+      'reference' => 'c958ced70262a0fcdbc490d3cb633f3879d62b47',
+    ),
+    'api-platform/core' => 
+    array (
+      'pretty_version' => 'v2.6.4',
+      'version' => '2.6.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'be971e5d0257a8c01a824ee01cfc217ba04c3200',
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -206,6 +215,15 @@ private static $installed = array (
       ),
       'reference' => '62c3b73c581c834885acf6e120b412b76acc495a',
     ),
+    'fig/link-util' => 
+    array (
+      'pretty_version' => '1.1.2',
+      'version' => '1.1.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5d7b8d04ed3393b4b59968ca1e906fb7186d81e8',
+    ),
     'friendsofphp/proxy-manager-lts' => 
     array (
       'pretty_version' => 'v1.0.3',
@@ -250,6 +268,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
+    ),
+    'nelmio/cors-bundle' => 
+    array (
+      'pretty_version' => '2.1.1',
+      'version' => '2.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0b964b665016dfb61dd0fd2bb8c24afb1ae45a93',
     ),
     'nikic/php-parser' => 
     array (
@@ -1122,6 +1149,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '6964c76c7804814a842473e0c8fd15bab0f18e25',
+    ),
+    'willdurand/negotiation' => 
+    array (
+      'pretty_version' => '3.0.0',
+      'version' => '3.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '04e14f38d4edfcc974114a07d2777d90c98f3d9c',
     ),
     'zendframework/zend-code' => 
     array (

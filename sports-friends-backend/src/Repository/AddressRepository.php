@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Address;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +21,20 @@ class AddressRepository extends ServiceEntityRepository
         parent::__construct($registry, Address::class);
     }
 
+    public function addAddress(String $street, String $postalCode, String $city):Address{
+        $entityManager = $this->getEntityManager();
+
+        $address = new Address();
+        $address->setStreet($street);
+        $address->setPostalCode($postalCode);
+        $address->setCity($city);
+        try {
+            $entityManager->persist($address);
+            $entityManager->flush();
+        } catch (ORMException $e) {
+        }
+        return $address;
+    }
     // /**
     //  * @return Address[] Returns an array of Address objects
     //  */

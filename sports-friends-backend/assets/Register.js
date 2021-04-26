@@ -22,41 +22,6 @@ class Register extends Component{
         }
     }
 
-    state = {
-        values:{
-            email: '',
-            name:'',
-            surname: '',
-            password: '',
-            confirmPassword: '',
-            postalCode: '',
-            city: '',
-            street: ''
-        }
-    };
-
-    /*componentDidMount() {
-        this.register();
-    }
-
-    register(){
-        axios.post(`http://localhost:8000/register123`, {
-            email: this.state.values.email,
-            name:this.state.values.name,
-            surname: this.state.values.surname,
-            password: this.state.values.password,
-            confirmPassword: this.state.values.confirmPassword,
-            postalCode: this.state.values.postalCode,
-            city: this.state.values.city,
-            street: this.state.values.street
-        }).then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-    }*/
-
     handleChange = (input) => (e) => {
         this.setState({
           values: { ...this.state.values, [input]: e.target.value}
@@ -78,10 +43,9 @@ class Register extends Component{
             street: this.state.values.street
         }).then(function (response) {
             console.log(response);
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
+        }).catch(function (error) {
+            console.log(error);
+        });
     }
 
     render() {

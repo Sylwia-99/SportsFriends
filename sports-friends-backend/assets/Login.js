@@ -4,6 +4,7 @@ import {withRouter} from "react-router";
 import logo from './images/logo.png';
 import { withMedia } from 'react-media-query-hoc';
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 class Login extends Component{
     constructor(props){
@@ -15,13 +16,6 @@ class Login extends Component{
             }
         }
     }
-
-    state = {
-        values:{
-            email: '',
-            password: ''
-        }
-    };
 
     handleChange = (input) => (e) => {
         this.setState({
@@ -38,14 +32,10 @@ class Login extends Component{
             password: this.state.values.password,
         }).then(function (response) {
             console.log(response);
-        })
+        }).then(() => location.href = '/')
             .catch(function (error) {
                 console.log(error);
-            });
-    }
-
-    isEmail(email){
-        return /\S+@\S+\.\S+/.test(email);
+        });
     }
 
     render() {
@@ -73,7 +63,9 @@ class Login extends Component{
                         />
                         <button className="Login-button" type="submit">Zaloguj się</button>
                     </form>
-                    <button className="Register-button-login" type="submit">Zarejestruj się</button>
+                    <Link to="/Register">
+                        <button className="Register-button-login" type="submit">Zarejestruj się</button>
+                    </Link>
                 </div>
             </div>
         )

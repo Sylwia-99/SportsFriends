@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import Header from './components/Header';
-import MessageNav from './components/MessageNav';
 import './styles/Messages.css';
 import {withRouter} from 'react-router';
 import { withMedia } from 'react-media-query-hoc';

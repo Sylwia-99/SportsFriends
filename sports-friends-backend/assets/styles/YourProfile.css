@@ -168,6 +168,21 @@ div.Send-message-profile{
     margin: 0 1em 0 1em;
 }
 
+button.Remove-User{
+    font-size: x-large;
+    color: white;
+    background-color: #04C9A8;
+    margin-top: 1em;
+    width: 20em;
+    height: 5vh;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 1em;
+}
+
 @media only screen and (max-width: 1200px) {
     .Your-information {
         flex-direction: column;

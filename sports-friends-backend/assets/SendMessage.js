@@ -4,8 +4,26 @@ import {withRouter} from "react-router";
 import Header from "./components/Header";
 import './styles/ReceiverSendMessage.css';
 import avatar from "./images/avatar.jpg";
+import axios from "axios";
 
 class SendMessage extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            sentMessages: []
+        }
+    }
+
+    componentDidMount() {
+        this.getSentMessages();
+    }
+
+    getSentMessages(){
+        axios.get(`http://localhost:8000/getUserSentMessages`).then(sentMessages => {
+            this.setState({ sentMessages: sentMessages.data})
+        })
+    }
+
     render() {
         return (
             <div className="App">
@@ -16,24 +34,26 @@ class SendMessage extends Component{
                         <div className='Receiver-messages'>
                             <h1>Wysłane</h1>
                             <ul className="Rec-messages-list">
-                                <li>
-                                    <div className="One-friend">
-                                        <img className="Medium-avatar" src={avatar}/>
-                                        <h4>Imie Nazwisko</h4>
-                                    </div>
-                                    <p>temat</p>
-                                </li>
-                                <li>
-                                    <div className="One-friend">
-                                        <img className="Medium-avatar" src={avatar}/>
-                                        <h4>Imie Nazwisko</h4>
-                                    </div>
-                                    <p>temat</p>
-                                </li>
+                                {
+                                    this.state.sentMessages.contents!=null ?
+                                        this.state.sentMessages.map(sentMessage =>
+                                                <li>
+                                                    <div className="One-friend">
+                                                        <img className="Medium-avatar" src={sentMessage.avatar}/>
+                                                        <h4>{sentMessage.name} {sentMessage.surname}</h4>
+                                                    </div>
+                                                    <p>{sentMessage.contents}</p>
+                                                </li>)
+                                        :
+                                        <li>
+                                            <div className="One-friend">
+                                                <h4>Brak wiadomości</h4>
+                                            </div>
+                                        </li>
+                                }
                             </ul>
                         </div>
                         <div className='Receiver-message'>
-                            <h2>Temat</h2>
                             <div className="One-friend">
                                 <h4>Do:</h4>
                                 <img className="Medium-avatar" src={avatar}/>

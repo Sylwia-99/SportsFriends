@@ -14,6 +14,11 @@
     box-shadow: 0 0 10px 1px #2a907f;
 }
 
+select.Receiver{
+    background-color: white;
+    color: #1b1b1b;
+}
+
 .Message-input{
     height: 50vh;
     text-align: start;

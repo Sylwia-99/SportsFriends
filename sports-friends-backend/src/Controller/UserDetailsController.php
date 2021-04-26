@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Address;
+use App\Entity\User;
 use App\Entity\UserDetails;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -52,9 +54,21 @@ class UserDetailsController extends AbstractController
         }
 
         return new Response($userDetails->getName());
-
-        // or render a template
-        // in the template, print things with {{ user.email }}
-        // return $this->render('user/index.html.twig', ['user' => $user]);
+    }
+    /**
+     * @Route("/changeUserNameSurname", name="change_user_name_surname")
+     */
+    public function changeNameSurname(Request $request):Response
+    {
+        $params = $request->getContent();
+        $params = json_decode($params, true);
+        $email = ['email' => $_COOKIE['user']];
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy($email);
+        $id = $user->getIdUserDetails();
+        $userDetails = $this->getDoctrine()
+            ->getRepository(UserDetails::class)
+            ->changeUserNameSurname($id,$params['name'], $params['surname']);
     }
 }

@@ -7,7 +7,6 @@ import {MdDirectionsBike} from 'react-icons/md';
 import {CgGym} from 'react-icons/cg';
 import {Link} from 'react-router-dom';
 import {withRouter} from "react-router";
-import avatar from './images/avatar.jpg';
 import { withMedia } from 'react-media-query-hoc';
 import axios from "axios";
 
@@ -15,21 +14,26 @@ class YourProfile extends Component{
     constructor(props){
         super(props);
         this.state = {
+            user: '',
+            email: '',
             name: '',
             surname: '',
             city: '',
             street: '',
             avatar: '',
+            activities: []
         }
     }
 
     componentDidMount() {
         this.getUser();
+        this.getUserActivities();
     }
 
     getUser(){
-        axios.get('http://localhost:8000/user/13').then(user => {
+        axios.get('http://localhost:8000/showCurrentUser').then(user => {
             this.setState({
+                email: user.data[0].email,
                 name: user.data[0].name,
                 surname: user.data[0].surname,
                 city: user.data[0].city,
@@ -37,6 +41,23 @@ class YourProfile extends Component{
                 avatar: user.data[0].avatar,
             });
             console.log(user);
+        });
+    }
+
+    getUserActivities(){
+        axios.get('http://localhost:8000/showUserActivities/currentUser').then(activities => {
+            this.setState({
+                activities: activities.data
+            });
+            console.log(activities);
+        });
+    }
+
+    logout(){
+        axios.post(`http://localhost:8000/logoutUser`, {
+        }).then(() => location.href = '/login')
+            .catch(function (error) {
+            console.log(error);
         });
     }
     render() {
@@ -55,37 +76,42 @@ class YourProfile extends Component{
                         <h2>Moje Aktywności</h2>
                         <hr/>
                         <div className="Activities">
+                            {this.state.activities.map(activity =>
                             <div>
-                                <h4><FaRunning/> Bieganie</h4>
+                                {
+                                    activity.name==="Bieganie" ? <h4><FaRunning/> Bieganie</h4> : null
+                                }
+                                {
+                                    activity.name==="Rower" ? <h4><MdDirectionsBike/> Rower</h4> : null
+                                }
+                                {
+                                    activity.name==="Pływanie" ? <h4><FaSwimmer/> Pływanie</h4> : null
+                                }
+                                {
+                                    activity.name==="Piłka nożna" ? <h4><BiFootball/> Piłka nożna</h4> : null
+                                }
+                                {
+                                    activity.name==="Siłownia" ? <h4><CgGym/> Siłownia</h4> : null
+                                }
+                                {
+                                    activity.name===null ? <h4> Brak aktywności</h4> : null
+                                }
                             </div>
-                            <div>
-                                <h4><MdDirectionsBike/> Rower</h4>
-                            </div>
-                            <div>
-                                <h4><FaSwimmer/> Pływanie</h4>
-                            </div>
-                            <div>
-                                <h4><BiFootball/> Piłka nożna</h4>
-                            </div>
-                            <div>
-                                <h4><CgGym/> Siłownia</h4>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </div>
                 <div className="Edition">
-                    <Link to="/EditProfile">
+                    <Link to="/editProfile">
                         <button className="Edition-button">Edycja Profilu</button>
                     </Link>
-                    <Link to="/Watched">
+                    <Link to="/watched">
                         <button className="Edition-button">Obserwowani</button>
                     </Link>
-                    <Link to="/Followers">
+                    <Link to="/followers">
                         <button className="Edition-button">Obserwujący</button>
                     </Link>
-                    <Link to="/Register">
-                        <button className="Edition-button">Wyloguj</button>
-                    </Link>
+                    <button className="Edition-button" onClick={this.logout}>Wyloguj</button>
                 </div>
             </div>
         );

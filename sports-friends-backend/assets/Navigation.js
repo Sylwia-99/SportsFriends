@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, matchPath} from 'react-router-dom';
 import Messages from './Messages';
 import NewMessage from './NewMessage';
 import ReceiverMessage from './ReceiverMessage';
@@ -28,7 +28,7 @@ class Navigation extends Component{
                         <Route path="/sendmessage" exact component={SendMessage}/>
                         <Route path="/notification" extact component={Notification}/>
                         <Route path="/yourProfile" extact component={YourProfile}/>
-                        <Route path="/profile" extact component={Profile}/>
+                        <Route path="/profile/:profileId" extact component={Profile}/>
                         <Route path="/login" extact component={Login}/>
                         <Route path="/register" extact component={Register}/>
                         <Route path="/singleChat" extact component={SingleChat}/>

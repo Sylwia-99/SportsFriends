@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Logs;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +19,21 @@ class LogsRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Logs::class);
+    }
+
+    public function addLogs(String $name, String $surname){
+        $entityManager = $this->getEntityManager();
+        $date = new DateTime();
+        $log = new Logs();
+        $log->setName($name);
+        $log->setSurname($surname);
+        $date->format('Y-m-d');
+        $log->setDatetime($date);
+        try {
+            $entityManager->persist($log);
+            $entityManager->flush();
+        } catch (ORMException $e) {
+        }
     }
 
     // /**

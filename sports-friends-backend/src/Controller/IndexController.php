@@ -3,22 +3,13 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
-    /*
-     @Route("/{ReactRouting}", name="index", defaults={"reactRouting": null})
-
-    public function index(): Response
-    {
-        return $this->render('index/index.html.twig');
-    }*/
-
     /**
-     * @Route("/", name="homePage")
+     * @Route("/", name="home_page")
      */
     public function home(): Response
     {
@@ -30,7 +21,12 @@ class IndexController extends AbstractController
      */
     public function login(): Response
     {
-        return $this->render('index/index.html.twig');
+        if(!isset($_COOKIE['user'])){
+            return $this->render('index/index.html.twig');
+        }
+        else{
+            return $this->redirectToRoute('home_page');
+        }
     }
 
     /**
@@ -42,11 +38,16 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/editProfile", name="register")
+     * @Route("/editProfile", name="edit_profil")
      */
     public function editProfile(): Response
     {
-        return $this->render('index/index.html.twig');
+        if(!isset($_COOKIE['user'])){
+            return $this->render('index/index.html.twig');
+        }
+        else{
+            return $this->redirectToRoute('home_page');
+        }
     }
 
     /**
@@ -58,7 +59,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/newmessage", name="newmessage")
+     * @Route("/newmessage", name="new_message")
      */
     public function newmessage(): Response
     {
@@ -66,7 +67,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/receivermessage", name="receivermessage")
+     * @Route("/receivermessage", name="receiver_message")
      */
     public function receivermessage(): Response
     {
@@ -74,7 +75,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/sendmessage", name="sendmessage")
+     * @Route("/sendmessage", name="send_message")
      */
     public function sendmessage(): Response
     {
@@ -90,23 +91,28 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/yourProfile", name="yourProfile")
+     * @Route("/yourProfile", name="your_profile")
      */
     public function yourProfile(): Response
     {
-        return $this->render('index/index.html.twig');
+        if(isset($_COOKIE['user'])){
+            return $this->render('index/index.html.twig');
+        }
+        else{
+            return $this->redirectToRoute('login');
+        }
     }
 
     /**
-     * @Route("/profile", name="profile")
+     * @Route("/profile/{id}", name="profile")
      */
-    public function showProfile(): Response
+    public function showProfile(int $id): Response
     {
         return $this->render('index/index.html.twig');
     }
 
     /**
-     * @Route("/singleChat", name="singleChat")
+     * @Route("/singleChat", name="single_chat")
      */
     public function singleChat(): Response
     {
@@ -118,13 +124,23 @@ class IndexController extends AbstractController
      */
     public function watched(): Response
     {
-        return $this->render('index/index.html.twig');
+        if(isset($_COOKIE['user'])){
+            return $this->render('index/index.html.twig');
+        }
+        else{
+            return $this->redirectToRoute('login');
+        }
     }
     /**
      * @Route("/followers", name="followers")
      */
     public function followers(): Response
     {
-        return $this->render('index/index.html.twig');
+        if(isset($_COOKIE['user'])){
+            return $this->render('index/index.html.twig');
+        }
+        else{
+            return $this->redirectToRoute('login');
+        }
     }
 }

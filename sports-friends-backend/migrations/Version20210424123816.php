@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210407120329 extends AbstractMigration
+final class Version20210424123816 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,16 +20,12 @@ final class Version20210407120329 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE role ADD user_id INT NOT NULL');
-        $this->addSql('ALTER TABLE role ADD CONSTRAINT FK_57698A6AA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
-        $this->addSql('CREATE INDEX IDX_57698A6AA76ED395 ON role (user_id)');
+        $this->addSql('ALTER TABLE user RENAME INDEX uniq_8d93d64989e8bdc TO IDX_8D93D64989E8BDC');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE role DROP FOREIGN KEY FK_57698A6AA76ED395');
-        $this->addSql('DROP INDEX IDX_57698A6AA76ED395 ON role');
-        $this->addSql('ALTER TABLE role DROP user_id');
+        $this->addSql('ALTER TABLE user RENAME INDEX idx_8d93d64989e8bdc TO UNIQ_8D93D64989E8BDC');
     }
 }

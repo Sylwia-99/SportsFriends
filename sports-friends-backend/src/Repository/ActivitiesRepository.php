@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Activities;
+use App\Entity\Address;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +19,30 @@ class ActivitiesRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Activities::class);
+    }
+
+    public function addActivity(String $name){
+        $entityManager = $this->getEntityManager();
+
+        $activity = new Activities();
+        $activity->setName($name);
+        try {
+            $entityManager->persist($activity);
+            $entityManager->flush();
+        } catch (ORMException $e) {
+        }
+        return $activity;
+    }
+
+    public function getAllActivities(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+            SELECT 
+                a.id,
+                a.name
+            FROM App\Entity\Activities  a 
+       ');
+        return $query->execute();
     }
 
     // /**

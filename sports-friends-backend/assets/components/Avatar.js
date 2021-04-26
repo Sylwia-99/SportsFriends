@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/Avatar.css';
 import {withRouter} from "react-router";
-import avatar from '../images/avatar.jpg';
 import axios from "axios";
 
 class Avatar extends Component{
@@ -17,7 +16,7 @@ class Avatar extends Component{
     }
 
     getUser(){
-        axios.get('http://localhost:8000/user/13').then(user => {
+        axios.get('http://localhost:8000/showCurrentUser').then(user => {
             this.setState({
                 avatar: user.data[0].avatar,
             });

@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="user")
  */
@@ -42,33 +44,36 @@ class User
     private $id_user_details;
 
     /**
-     * @ORM\OneToMany(targetEntity=Role::class, mappedBy="user")
-     */
-    private $id_role;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class)
-     * @ORM\JoinTable(name="user_follower")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="watchers")
      */
     private $followers;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class)
-     * @ORM\JoinTable(name="user_watcher")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="followers")
+     * @ORM\JoinTable(name="follower_watched",
+     *     joinColumns={@ORM\JoinColumn(name="id_user_follower", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="id_user_watcher", referencedColumnName="id")}
+     * )
      */
     private $watchers;
 
     /**
-     * @ORM\ManyToMany(targetEntity=UsersActivities::class, mappedBy="id_user")
+     * @ORM\ManyToMany(targetEntity=Activities::class, inversedBy="users")
+     * @ORM\JoinTable(name="users_activities")
      */
-    private $usersActivities;
+    private $activities;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Role::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $id_role;
 
     public function __construct()
     {
-        $this->id_role = new ArrayCollection();
-        $this->followers = new ArrayCollection();
+        $this->activities = new ArrayCollection();
         $this->watchers = new ArrayCollection();
-        $this->usersActivities = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,60 +129,66 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection|Role[]
-     */
-    public function getIdRole(): Collection
+    public function getIdRole(): ?Role
     {
         return $this->id_role;
     }
 
-    public function addIdRole(Role $idRole): self
+    public function setIdRole(Role $id_role): self
     {
-        if (!$this->id_role->contains($idRole)) {
-            $this->id_role[] = $idRole;
-            $idRole->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdRole(Role $idRole): self
-    {
-        if ($this->id_role->removeElement($idRole)) {
-            // set the owning side to null (unless already changed)
-            if ($idRole->getUser() === $this) {
-                $idRole->setUser(null);
-            }
-        }
+        $this->id_role = $id_role;
 
         return $this;
     }
 
     /**
-     * @return Collection|UsersActivities[]
+     * @return Collection|Activities[]
      */
-    public function getUsersActivities(): Collection
+    public function getUserActivities(): Collection
     {
-        return $this->usersActivities;
+        return $this->activities;
     }
 
-    public function addUsersActivity(UsersActivities $usersActivity): self
+    public function addActivity(Activities $activity)
     {
-        if (!$this->usersActivities->contains($usersActivity)) {
-            $this->usersActivities[] = $usersActivity;
-            $usersActivity->addIdUser($this);
+        if($this->activities->contains($activity)){
+            return;
         }
-
+        $this->activities[] = $activity;
         return $this;
     }
 
-    public function removeUsersActivity(UsersActivities $usersActivity): self
+    public function removeActivity(Activities $activity)
     {
-        if ($this->usersActivities->removeElement($usersActivity)) {
-            $usersActivity->removeIdUser($this);
+        if(!$this->activities->contains($activity)){
+            return;
         }
+        $this->activities->removeElement($activity);
+    }
 
+    /**
+     * @return Collection|User[]
+     */
+    public function getUserWatchers(): Collection
+    {
+        return $this->watchers;
+    }
+
+    public function addUserToWatchers(User $watchers)
+    {
+        if($this->watchers->contains($watchers)){
+            return;
+        }
+        $this->watchers[] = $watchers;
         return $this;
     }
+
+    public function removeWatcher(User $watcher)
+    {
+        if(!$this->watchers->contains($watcher)){
+            return;
+        }
+        $this->watchers->removeElement($watcher);
+    }
+
 }

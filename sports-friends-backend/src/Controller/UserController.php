@@ -3,19 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Address;
+use App\Entity\Logs;
+use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\UserDetails;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
-use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -26,31 +21,24 @@ class UserController extends AbstractController
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $entityManager = $this->getDoctrine()->getManager();
+        $address = $this->getDoctrine()
+            ->getRepository(Address::class);
 
-        dump($params);
-        $userDetails = new UserDetails();
-        $userDetails->setName($params['name']);
-        $userDetails->setSurname($params['surname']);
-        $userDetails->setAvatar('https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg');
-        $address = new Address();
-        $address->setStreet($params['street']);
-        $address->setPostalCode($params['postalCode']);
-        $address->setCity($params['city']);
-        $userDetails->setIdAddress($address);
-        $user = new User();
-        $user->setEmail($params['email']);
-        $user->setPassword($params['password']);
-        $user->setIdUserDetails($userDetails);
-        $user->setIsLogged(false);
+        $userDetails = $this->getDoctrine()
+            ->getRepository(UserDetails::class);
 
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $entityManager->persist($address);
-        $entityManager->persist($userDetails);
-        $entityManager->persist($user);
+        $user = $this->getDoctrine()
+            ->getRepository(User::class);
 
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
+        $id_role = ['id' => 2];
+        $role = $this->getDoctrine()
+            ->getRepository(Role::class)
+            ->findOneBy($id_role);
+
+        $newAddress = $address->addAddress($params['street'], $params['postalCode'], $params['city']);
+        $newUserDetails = $userDetails->addUserDatails($params['name'], $params['surname'], 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg', $newAddress);
+        $user->addUser($params['email'], $params['password'], $newUserDetails, $role);
+
         return $this->render('index/index.html.twig');
     }
 
@@ -61,33 +49,56 @@ class UserController extends AbstractController
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $entityManager = $this->getDoctrine()->getManager();
-
         $email = ['email' => $params['email']];
-        $password = ['password' => $params['password']];
 
-        dump($params);
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneBy($email);
 
+        $userDetails = $user->getIdUserDetails();
+
         if(!$user){
             return $this->render('index/index.html.twig',['messages' =>['User not exist!']]);
-
         }
-        if($user->getEmail() != $email){
+
+        if($user->getEmail() != $params['email']){
             return $this->render('index/index.html.twig',['messages' =>['User with this email not exist!']]);
         };
-        if($user->getPassword() !=$password){
+
+        if($user->getPassword() != $params['password']){
             return $this->render('index/index.html.twig',['messages' =>['Wrong password!']]);
         };
-        $user->setIsLogged(true);
-        // tell Doctrine you want to (eventually) save the User (no queries yet)
-        $entityManager->persist($user);
 
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-        return $this->render('index/index.html.twig',['messages' =>['Succesfully login!']]);
+        $name = $userDetails->getName();
+        $surname = $userDetails->getSurname();
+        $cookie_name = 'user';
+        $cookie_value = $params['email'];
+        setcookie($cookie_name, $cookie_value, time() + 3600 * 24 * 30, '/');
+
+        if(!$is_logged=$user->getIsLogged()) {
+            $this->getDoctrine()
+                ->getRepository(User::class)
+                ->loginUser($cookie_value, true);
+
+            $this->getDoctrine()
+                ->getRepository(Logs::class)
+                ->addLogs($name, $surname);
+        }
+        return $this->redirectToRoute('home_page');
+    }
+
+    /**
+     * @Route("/logoutUser", name="logout_user")
+     */
+    public function logoutUser():Response
+    {
+        if(isset($_COOKIE['user'])){
+            $this->getDoctrine()
+                ->getRepository(User::class)
+                ->loginUser($_COOKIE['user'], false);
+            setcookie('user', "", time() - 3600, '/');
+        }
+        return $this->render('index/index.html.twig');
     }
 
     /**
@@ -96,25 +107,32 @@ class UserController extends AbstractController
     public function showUser(int $id):Response
     {
         $response = new Response();
-        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->getUser($id);
 
-        $query = $entityManager->createQuery('
-            SELECT 
-                u.id,
-                u.email,
-                u.is_logged,
-                ud.name, 
-                ud.surname, 
-                ud.avatar,
-                a.postal_code,
-                a.city,
-                a.street
-            FROM App\Entity\User u 
-            LEFT JOIN App\Entity\UserDetails ud WITH u.id_user_details=ud.id 
-            LEFT JOIN App\Entity\Address a WITH ud.id_address=a.id WHERE u.id =:id
-        ')->setParameter('id', $id);
-        $result =$query->execute();
-        $response->setContent(json_encode($result));
+        $response->setContent(json_encode($user));
+        return $response;
+    }
+
+    /**
+     * @Route("/showCurrentUser", name="show_current_user")
+     */
+    public function showCurrentUser():Response
+    {
+        $response = new Response();
+        $email = ['email' => $_COOKIE['user']];
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy($email);
+
+        $id=$user->getId();
+        dump($id);
+        $userDetails = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->getUser($id);
+
+        $response->setContent(json_encode($userDetails));
         return $response;
     }
 
@@ -124,25 +142,48 @@ class UserController extends AbstractController
     public function showAllUsers(): Response
     {
         $response = new Response();
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $query = $entityManager->createQuery('
-            SELECT 
-                u.id,
-                u.email,
-                u.is_logged,
-                ud.name, 
-                ud.surname, 
-                ud.avatar,
-                a.postal_code,
-                a.city,
-                a.street
-            FROM App\Entity\User u 
-            LEFT JOIN App\Entity\UserDetails ud WITH u.id_user_details=ud.id 
-            LEFT JOIN App\Entity\Address a WITH ud.id_address=a.id
-        ');
-        $result =$query->execute();
-        $response->setContent(json_encode($result));
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->getAllUsers();
+        $response->setContent(json_encode($users));
         return $response;
+    }
+
+    /**
+     * @Route("/userActivities/{id}", name="show_user_activities")
+     */
+    public function showUserActivities(int $id):Response
+    {
+        $response = new Response();
+        $activities = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->getAllUserActivities($id);
+        dump($activities);
+        $response->setContent(json_encode($activities));
+        return $response;
+    }
+
+    /**
+     * @Route("/showUserActivities/currentUser", name="show_current_user_activities")
+     */
+    public function showCurrentUserActivities():Response
+    {
+        $response = new Response();
+        $email = ['email' => $_COOKIE['user']];
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy($email);
+
+        $id=$user->getId();
+        $activities = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->getAllUserActivities($id);
+        dump($activities);
+        $response->setContent(json_encode($activities));
+        return $response;
+    }
+
+    public function generateToken(){
+        return bin2hex(random_bytes(50));
     }
 }

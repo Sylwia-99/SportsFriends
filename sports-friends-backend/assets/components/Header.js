@@ -4,7 +4,7 @@ import Avatar from './Avatar';
 import { FiSearch } from 'react-icons/fi';
 import { FaHome, FaHeart } from 'react-icons/fa';
 import { BiMessageDetail } from 'react-icons/bi';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {withRouter} from "react-router";
 import logo from '../images/logo.png';
 

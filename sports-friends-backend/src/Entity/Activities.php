@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ActivitiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=ActivitiesRepository::class)
  * @ORM\Table(name="activities")
  */
@@ -26,13 +28,13 @@ class Activities
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Activities::class, mappedBy="id_activity")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="activities")
      */
-    private $usersActivities;
+    private $users;
 
     public function __construct()
     {
-        $this->usersActivities = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -48,33 +50,6 @@ class Activities
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UsersActivities[]
-     */
-    public function getUsersActivities(): Collection
-    {
-        return $this->usersActivities;
-    }
-
-    public function addUsersActivity(UsersActivities $usersActivity): self
-    {
-        if (!$this->usersActivities->contains($usersActivity)) {
-            $this->usersActivities[] = $usersActivity;
-            $usersActivity->addIdActivity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUsersActivity(UsersActivities $usersActivity): self
-    {
-        if ($this->usersActivities->removeElement($usersActivity)) {
-            $usersActivity->removeIdActivity($this);
-        }
 
         return $this;
     }

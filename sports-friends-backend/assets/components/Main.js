@@ -9,6 +9,8 @@ class Main extends Component{
         super(props);
         this.state = {
             users: [],
+            activities: [],
+            idUser: ''
         }
     }
 
@@ -21,16 +23,37 @@ class Main extends Component{
             this.setState({ users: users.data})
         })
     }
-    
+
+    getUserActivities = (key) => {
+        console.log(key.key)
+        console.log(this.state.idUser)
+        this.state.idUser=key.key
+        axios.get(`http://localhost:8000/userActivities/${this.state.idUser}`).then(activities => {
+            this.setState({
+                activities: activities.data
+            });
+            console.log(activities);
+        });
+    }
+    /*
+    {this.getUserActivities(user.id)}
+     {this.state.activities.map(activity =>
+         <h4>
+            {activity.name}
+         </h4>
+     )}
+     */
     render(){
         return(
         <main>
             <section>
                 {this.state.users.map(user =>
-                    <Link to={`/user/${user.id}`} className="avatar">
+                    <Link to={`/profile/${user.id}`} className="avatar">
                         <img className="avatar-image" src={user.avatar}/>
                         <h3>{user.name} {user.surname}</h3>
-                        <h4>{user.activity}</h4>
+                            <h4>
+                                {user.activity}
+                            </h4>
                     </Link>
                 )}
             </section>
