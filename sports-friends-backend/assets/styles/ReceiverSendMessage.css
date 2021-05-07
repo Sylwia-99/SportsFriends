@@ -42,25 +42,37 @@ p{
 }
 
 @media only screen and (max-width: 1200px) {
+    .Receivers, .Sends{
+        flex-direction: column;
+    }
+
     .Receiver-messages{
         margin: 0;
     }
 
     .Rec-messages-list {
-        width: 38vw;
         margin: 0.3em;
+        margin-bottom:1.5em;
         height: 70vh;
+        width: 30em;
     }
 
-    .Receiver-message {
-        width: 58vw;
-        margin: 0.3em;
-        margin-top: 19vh;
-        height: 50vh;
+    .Rec-messages-list>li{
+        width: 100em;
     }
 
     .Receiver-messages, .Receiver-message{
         font-size: 30px;
+        margin: auto;
+        height: 35em;
+    }
+
+    .Receiver-message {
+        width: 31em;
+        height: 40em;
+        position: absolute;
+        margin-block-start: 15em;
+        left: 1em;
     }
 
     ul{

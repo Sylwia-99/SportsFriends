@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Header from './components/Header';
-import './styles/YourProfile.css';
+import Header from './Header';
+import '../styles/YourProfile.css';
 import {BiFootball} from 'react-icons/bi';
 import {FaRunning, FaMapMarkerAlt, FaSwimmer} from 'react-icons/fa';
 import {MdDirectionsBike} from 'react-icons/md';
@@ -9,7 +9,7 @@ import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
 import axios from "axios";
 
-class Profile extends Component{
+class ProfileComponent extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -41,7 +41,6 @@ class Profile extends Component{
                 currentUserEmail: user.data[0].email,
                 currentUserIdRole: user.data[0].id_role
             });
-            console.log(user);
         });
     }
 
@@ -67,7 +66,6 @@ class Profile extends Component{
     }
 
     addUserToWatched = (e) =>{
-        console.log(e);
         e.preventDefault();
         axios.post(`http://localhost:8000/addNewUserToWatched/${this.state.id}`, {
                 newWatchedUser: this.state.id,
@@ -85,7 +83,6 @@ class Profile extends Component{
     };
 
     sendMessage = (e) => {
-        console.log(e);
         e.preventDefault();
         axios.post(`http://localhost:8000/createMessage`, {
             idUserSender: this.state.currentUserId.toLocaleString(),
@@ -99,7 +96,6 @@ class Profile extends Component{
     }
 
     removeUser = (e) =>{
-        console.log(e);
         e.preventDefault();
         axios.delete(`http://localhost:8000/api/users/${this.state.id}`
         ).then(function (response) {
@@ -173,4 +169,4 @@ class Profile extends Component{
     }
 }
 
-export default withMedia(withRouter(Profile));
+export default withMedia(withRouter(ProfileComponent));

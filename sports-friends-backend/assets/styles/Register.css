@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-content: center;
-    height: 100vh;
+    height: 110vh;
 }
 
 .Register{
@@ -31,14 +31,14 @@
     flex-direction: column;
     border-radius: 0 0 2em 2em ;
     height: 80vh;
-    padding: 1.5em 1.5em 0 1.5em;
+    padding: 0.5em 1.5em 0 1.5em;
 }
 
 text{
     align-self: flex-start;
     justify-content: flex-start;
     font-size: large;
-    margin: 0.5em 0 0.25em 0;
+    margin: 0.2em 0 0.1em 0;
 }
 
 input{
@@ -59,11 +59,23 @@ input{
     font-size: large;
 }
 
+.error{
+    color: #EA0B72;
+    font-size: small;
+}
+
 @media only screen and (max-width: 1200px) {
-    text, .Register-button{
-        font-size: 30px;
+    .App-log{
+        height: 130vh;
     }
 
+    .Register{
+        height: fit-content;
+    }
+
+    text, .Register-button, .error{
+        font-size: 30px;
+    }
 
     .Register-form{
         font-size: 30px;

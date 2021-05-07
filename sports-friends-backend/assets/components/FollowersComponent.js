@@ -1,29 +1,24 @@
 import React, {Component} from 'react';
-import Header from './components/Header';
-import {withRouter} from "react-router";
+import Header from './Header';
+import '../styles/Followers.css';
 import {Link} from 'react-router-dom';
+import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
 import axios from "axios";
 
-class Watched extends Component{
+class FollowersComponent extends Component{
     constructor(props){
         super(props);
         this.state = {
-            watchedUsers: [],
             followerUsers: [],
-            removeWatched: ''
+            watchedUsers: [],
+            newWatchedUser: ''
         }
     }
 
     componentDidMount() {
-        this.getWatchedUsers();
         this.getFollowerUsers();
-    }
-
-    getWatchedUsers(){
-        axios.get(`http://localhost:8000/showWatchedUsers`).then(watchedUsers => {
-            this.setState({ watchedUsers: watchedUsers.data})
-        })
+        this.getWatchedUsers();
     }
 
     getFollowerUsers(){
@@ -32,13 +27,16 @@ class Watched extends Component{
         })
     }
 
-    handleRemoveWatchedUser = (key) => {
-        console.log(key.key)
-        console.log(this.state.removeWatched)
+    getWatchedUsers(){
+        axios.get(`http://localhost:8000/showWatchedUsers`).then(watchedUsers => {
+            this.setState({ watchedUsers: watchedUsers.data})
+        })
+    }
 
-        this.state.removeWatched=key.key
-        axios.post(`http://localhost:8000/removeWatchedUser/${this.state.removeWatched}`, {
-              removeWatched: this.state.removeWatched,
+    handleAddWatchedUser = (key) => {
+        this.state.newWatchedUser=key.key
+        axios.post(`http://localhost:8000/addNewUserToWatched/${this.state.newWatchedUser}`, {
+            newWatchedUser: this.state.newWatchedUser,
         }).then(function (response) {
             console.log(response);
         }).catch(function (error) {
@@ -46,22 +44,21 @@ class Watched extends Component{
         });
     }
 
-    render()
-    {
+    render() {
         return (
             <div className="App">
                 <Header/>
                 <main>
                     <section className="Friends">
-                        {this.state.watchedUsers.map(user =>
+                        {this.state.followerUsers.map(user =>
                         <ul>
                             <li>
-                                <div className="Watched-friend" >
-                                    <Link to={`/profile/${user.id_user_watcher}`}>
+                                <div className="Watched-friend">
+                                    <Link to={`/profile/${user.id_user_follower}`}>
                                         <img className="Medium-avatar" src={user.avatar} alt={"this is avatar image"}/>
                                     </Link>
                                     <h3>{user.name} {user.surname}</h3>
-                                    <button className="Remove-friend-button" onClick={()=>this.handleRemoveWatchedUser({key:user.id_user_watcher})}>Usuń</button>
+                                    <button className="Remove-friend-button" onClick={()=>this.handleAddWatchedUser({key:user.id_user_follower})}>Obserwuj</button>
                                 </div>
                             </li>
                         </ul>
@@ -73,4 +70,4 @@ class Watched extends Component{
     }
 }
 
-export default withMedia(withRouter(Watched));
+export default withMedia(withRouter(FollowersComponent));

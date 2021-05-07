@@ -199,6 +199,18 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
+    public function changeUserPassword(String $email, String $password){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery('
+            UPDATE App\Entity\User u SET u.password=:password
+                WHERE u.email=:email
+        ')
+            ->setParameter('password', $password)
+            ->setParameter('email', $email);
+        return $query->execute();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

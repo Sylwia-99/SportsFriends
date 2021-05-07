@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
-import MessageNav from './components/MessageNav';
+import MessageNav from '../../components/MessageNav';
 import {withRouter} from "react-router";
-import Header from "./components/Header";
-import './styles/ReceiverSendMessage.css';
-import avatar from "./images/avatar.jpg";
+import Header from "../../components/Header";
+import '../../styles/ReceiverSendMessage.css';
 import axios from "axios";
-
 class SendMessage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            sentMessages: []
+            sentMessages: [],
+            recipientName: '',
+            recipientSurname: '',
+            recipientAvatar: '',
+            contents: ''
         }
     }
 
@@ -21,6 +23,15 @@ class SendMessage extends Component{
     getSentMessages(){
         axios.get(`http://localhost:8000/getUserSentMessages`).then(sentMessages => {
             this.setState({ sentMessages: sentMessages.data})
+        })
+    }
+
+    clickedMessage=(n, m, a, c)=>{
+        this.setState({
+            recipientName: n,
+            recipientSurname: m,
+            recipientAvatar: a,
+            contents: c
         })
     }
 
@@ -35,10 +46,10 @@ class SendMessage extends Component{
                             <h1>Wysłane</h1>
                             <ul className="Rec-messages-list">
                                 {
-                                    this.state.sentMessages.contents!=null ?
+                                    this.state.sentMessages!=null ?
                                         this.state.sentMessages.map(sentMessage =>
                                                 <li>
-                                                    <div className="One-friend">
+                                                    <div className="One-friend" onClick={()=>this.clickedMessage(sentMessage.name,sentMessage.surname,sentMessage.avatar,sentMessage.contents)}>
                                                         <img className="Medium-avatar" src={sentMessage.avatar}/>
                                                         <h4>{sentMessage.name} {sentMessage.surname}</h4>
                                                     </div>
@@ -53,14 +64,19 @@ class SendMessage extends Component{
                                 }
                             </ul>
                         </div>
-                        <div className='Receiver-message'>
-                            <div className="One-friend">
-                                <h4>Do:</h4>
-                                <img className="Medium-avatar" src={avatar}/>
-                                <h4>Imie Nazwisko</h4>
-                            </div>
-                            <p>tresc</p>
-                        </div>
+                        {
+                            this.state.recipientName==='' ?
+                                null
+                                :
+                                <div className='Receiver-message'>
+                                    <div className="One-friend">
+                                        <h4>Do:</h4>
+                                        <img className="Medium-avatar" src={this.state.recipientAvatar}/>
+                                        <h4>{this.state.recipientName} {this.state.recipientSurname}</h4>
+                                    </div>
+                                    <p>{this.state.contents}</p>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>

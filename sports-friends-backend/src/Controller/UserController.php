@@ -35,6 +35,19 @@ class UserController extends AbstractController
             ->getRepository(Role::class)
             ->findOneBy($id_role);
 
+        $email = ['email' => $params['email']];
+
+        $userExist = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy($email);
+
+        if($userExist){
+            throw $this->createNotFoundException('Użytkownik o taki emailu już istnieje!');
+        }
+
+        if($params['password'] != $params['confirmPassword']){
+        throw $this->createNotFoundException('Hasła się różnią!');
+        };
         $newAddress = $address->addAddress($params['street'], $params['postalCode'], $params['city']);
         $newUserDetails = $userDetails->addUserDatails($params['name'], $params['surname'], 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg', $newAddress);
         $user->addUser($params['email'], $params['password'], $newUserDetails, $role);
@@ -55,18 +68,18 @@ class UserController extends AbstractController
             ->getRepository(User::class)
             ->findOneBy($email);
 
-        $userDetails = $user->getIdUserDetails();
-
         if(!$user){
-            return $this->render('index/index.html.twig',['messages' =>['User not exist!']]);
+            throw $this->createNotFoundException('Użytkownik nie istnieje!');
         }
 
+        $userDetails = $user->getIdUserDetails();
+
         if($user->getEmail() != $params['email']){
-            return $this->render('index/index.html.twig',['messages' =>['User with this email not exist!']]);
+            throw $this->createNotFoundException('Niepoprawny Email!');
         };
 
         if($user->getPassword() != $params['password']){
-            return $this->render('index/index.html.twig',['messages' =>['Wrong password!']]);
+            throw $this->createNotFoundException('Niepoprawne Hasło!');
         };
 
         $name = $userDetails->getName();
@@ -181,6 +194,35 @@ class UserController extends AbstractController
         dump($activities);
         $response->setContent(json_encode($activities));
         return $response;
+    }
+
+    /**
+     * @Route("/changeUserPassword", name="change_user_password")
+     */
+    public function changeUserPassword(Request $request):Response
+    {
+        $params = $request->getContent();
+        $params = json_decode($params, true);
+        $email = ['email' => $_COOKIE['user']];
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy($email);
+
+        dump($params);
+        $password = $user->getPassword();
+        if($params['currentPassword'] != $password){
+            throw $this->createNotFoundException('Niepoprawne hasło!');
+        }
+
+        if($params['password'] != $params['confirmedPassword']){
+            throw $this->createNotFoundException('Hasła się różnią!');
+        };
+
+        $this->getDoctrine()
+            ->getRepository(User::class)
+            ->changeUserPassword($_COOKIE['user'] ,$params['password']);
+
+        return $this->render('index/index.html.twig');
     }
 
     public function generateToken(){

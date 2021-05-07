@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Header from './components/Header';
+import Header from '../components/Header';
 import {withRouter} from 'react-router';
-import Main from "./components/Main";
+import Main from "../components/Main";
 import { withMedia } from 'react-media-query-hoc';
 
 class Home extends Component{

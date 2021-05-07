@@ -1,20 +1,20 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import {BrowserRouter as Router, Switch, Route, matchPath} from 'react-router-dom';
-import Messages from './Messages';
-import NewMessage from './NewMessage';
-import ReceiverMessage from './ReceiverMessage';
-import SendMessage from './SendMessage';
-import Notification from './Notification';
-import YourProfile from './YourProfile';
-import Profile from './Profile';
-import Login from './Login';
-import Register from './Register';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import Messages from './pages/Messages';
+import NewMessage from './pages/subpages/NewMessage';
+import ReceiverMessage from './pages/subpages/ReceiverMessage';
+import SendMessage from './pages/subpages/SendMessage';
+import Notification from './pages/Notification';
+import YourProfile from './pages/YourProfile';
+import Profile from './pages/Profile';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import SingleChat from './SingleChat';
-import Watched from './Watched';
-import Followers from './Followers';
-import EditProfile from './EditProfile';
-import Home from "./Home";
+import Watched from './pages/Watched';
+import Followers from './pages/Followers';
+import EditProfile from './pages/EditProfile';
+import Home from "./pages/Home";
 
 class Navigation extends Component{
     render() {

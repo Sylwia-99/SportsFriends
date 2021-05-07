@@ -24,7 +24,7 @@ class Main extends Component{
         })
     }
 
-    getUserActivities = (key) => {
+    /*getUserActivities = (key) => {
         console.log(key.key)
         console.log(this.state.idUser)
         this.state.idUser=key.key
@@ -34,26 +34,21 @@ class Main extends Component{
             });
             console.log(activities);
         });
-    }
-    /*
-    {this.getUserActivities(user.id)}
-     {this.state.activities.map(activity =>
-         <h4>
-            {activity.name}
-         </h4>
-     )}
-     */
+    }*/
+
     render(){
         return(
         <main>
             <section>
                 {this.state.users.map(user =>
                     <Link to={`/profile/${user.id}`} className="avatar">
-                        <img className="avatar-image" src={user.avatar}/>
+                        <img className="avatar-image" src={user.avatar} alt={"this is avatar image"}/>
                         <h3>{user.name} {user.surname}</h3>
+                            {this.state.activities.map(activity =>
                             <h4>
-                                {user.activity}
+                                {activity.name}
                             </h4>
+                            )}
                     </Link>
                 )}
             </section>

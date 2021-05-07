@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Address;
 use App\Entity\Messages;
-use App\Entity\Role;
 use App\Entity\User;
-use App\Entity\UserDetails;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

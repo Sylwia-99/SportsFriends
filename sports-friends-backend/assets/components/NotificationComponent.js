@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import Header from './components/Header';
-import './styles/Followers.css';
-import {Link} from 'react-router-dom';
+import Header from './Header';
+import '../styles/Notification.css';
+import '../styles/Messages.css';
 import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
 import axios from "axios";
 
-class Followers extends Component{
+class NotificationComponent extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -15,7 +15,6 @@ class Followers extends Component{
             newWatchedUser: ''
         }
     }
-
     componentDidMount() {
         this.getFollowerUsers();
         this.getWatchedUsers();
@@ -34,8 +33,6 @@ class Followers extends Component{
     }
 
     handleAddWatchedUser = (key) => {
-        console.log(key.key)
-        console.log(this.state.removeWatched)
         this.state.newWatchedUser=key.key
         axios.post(`http://localhost:8000/addNewUserToWatched/${this.state.newWatchedUser}`, {
             newWatchedUser: this.state.newWatchedUser,
@@ -45,31 +42,25 @@ class Followers extends Component{
             console.log(error);
         });
     }
-
     render() {
         return (
             <div className="App">
                 <Header/>
-                <main>
-                    <section className="Friends">
-                        {this.state.followerUsers.map(user =>
-                        <ul>
-                            <li>
-                                <div className="Watched-friend">
-                                    <Link to={`/profile/${user.id_user_follower}`}>
-                                        <img className="Medium-avatar" src={user.avatar} alt={"this is avatar image"}/>
-                                    </Link>
-                                    <h3>{user.name} {user.surname}</h3>
-                                    <button className="Remove-friend-button" onClick={()=>this.handleAddWatchedUser({key:user.id_user_follower})}>Obserwuj</button>
-                                </div>
-                            </li>
-                        </ul>
-                        )}
-                    </section>
-                </main>
+                <div className="Notification">
+                    {this.state.followerUsers.map(user =>
+                        <div className="One-friend">
+                        <img className="Medium-avatar" src={user.avatar} alt={"this is avatar image"}/>
+                        <div className="Notification-option">
+                            <h3>{user.name} {user.surname} zaczął Cię obserwować</h3>
+                            <button className="Accept-button" onClick={()=>this.handleAddWatchedUser({key:user.id_user_follower})}>Obserwuj</button>
+                            <button className="Reject-button" type="submit">Odrzuć</button>
+                        </div>
+                    </div>
+                    )}
+                </div>
             </div>
-        );
+        )
     }
 }
 
-export default withMedia(withRouter(Followers));
+export default withMedia(withRouter(NotificationComponent));

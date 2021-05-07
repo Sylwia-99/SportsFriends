@@ -44,7 +44,17 @@
     font-size: large;
 }
 
-@media only screen and (max-width: 600px) {
+a.Link-register{
+    display: contents;
+}
+
+p.Messages{
+    align-self: center;
+    color: #EA0B72;
+    margin: 0;
+}
+
+@media only screen and (max-width: 1200px) {
     .Login{
         left:0;
         width: 90vw;

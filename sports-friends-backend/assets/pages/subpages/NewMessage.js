@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import MessageNav from './components/MessageNav';
+import MessageNav from '../../components/MessageNav';
 import {withRouter} from "react-router";
-import Header from "./components/Header";
-import './styles/NewMessage.css';
+import Header from "../../components/Header";
+import '../../styles/NewMessage.css';
 import axios from "axios";
 import {Link} from "react-router-dom";
 
@@ -33,7 +33,6 @@ class NewMessage extends Component{
             this.setState({
                 currentUserId: user.data[0].id,
             });
-            console.log(user);
         });
     }
 
@@ -44,7 +43,6 @@ class NewMessage extends Component{
     };
 
     sendMessage = (e) => {
-        console.log(e);
         e.preventDefault();
         axios.post(`http://localhost:8000/createMessage`, {
             idUserSender: this.state.currentUserId.toLocaleString(),

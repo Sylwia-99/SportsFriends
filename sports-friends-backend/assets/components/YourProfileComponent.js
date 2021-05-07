@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Header from './components/Header';
-import './styles/YourProfile.css';
+import Header from './Header';
+import '../styles/YourProfile.css';
 import {BiFootball} from 'react-icons/bi';
 import {FaRunning, FaMapMarkerAlt, FaSwimmer} from 'react-icons/fa';
 import {MdDirectionsBike} from 'react-icons/md';
@@ -10,7 +10,7 @@ import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
 import axios from "axios";
 
-class YourProfile extends Component{
+class YourProfileComponent extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -40,7 +40,6 @@ class YourProfile extends Component{
                 street: user.data[0].street,
                 avatar: user.data[0].avatar,
             });
-            console.log(user);
         });
     }
 
@@ -49,7 +48,6 @@ class YourProfile extends Component{
             this.setState({
                 activities: activities.data
             });
-            console.log(activities);
         });
     }
 
@@ -118,4 +116,4 @@ class YourProfile extends Component{
     }
 }
 
-export default withMedia(withRouter(YourProfile));
+export default withMedia(withRouter(YourProfileComponent));

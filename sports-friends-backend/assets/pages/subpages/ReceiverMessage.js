@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
-import MessageNav from './components/MessageNav';
+import MessageNav from '../../components/MessageNav';
 import {withRouter} from "react-router";
-import Header from "./components/Header";
-import avatar from './images/avatar.jpg';
-import './styles/ReceiverSendMessage.css';
+import Header from "../../components/Header";
+import '../../styles/ReceiverSendMessage.css';
 import axios from "axios";
 
 class ReceiverMessage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            receivedMessages: []
+            receivedMessages: [],
+            senderName: '',
+            senderSurname: '',
+            senderAvatar: '',
+            contents: ''
         }
     }
 
@@ -21,6 +24,15 @@ class ReceiverMessage extends Component{
     getReceivedMessages(){
         axios.get(`http://localhost:8000/getUserReceivedMessages`).then(receivedMessages => {
             this.setState({ receivedMessages: receivedMessages.data})
+        })
+    }
+
+    clickedMessage=(n, m, a, c)=>{
+        this.setState({
+            senderName: n,
+            senderSurname: m,
+            senderAvatar: a,
+            contents: c
         })
     }
 
@@ -38,7 +50,7 @@ class ReceiverMessage extends Component{
                                     this.state.receivedMessages.contents!=null?
                                         this.state.receivedMessages.map(receivedMessage =>
                                         <li>
-                                            <div className="One-friend">
+                                            <div className="One-friend" onClick={()=>this.clickedMessage(receivedMessage.name,receivedMessage.surname,receivedMessage.avatar,receivedMessage.contents)}>
                                                 <img className="Medium-avatar" src={receivedMessage.avatar}/>
                                                 <h4>{receivedMessage.name} {receivedMessage.surname}</h4>
                                             </div>
@@ -53,14 +65,19 @@ class ReceiverMessage extends Component{
                                 }
                             </ul>
                         </div>
-                        <div className='Receiver-message'>
-                            <div className="One-friend">
-                                <h4>Od:</h4>
-                                <img className="Medium-avatar" src={avatar}/>
-                                <h4>Imie Nazwisko</h4>
-                            </div>
-                            <p>tresc</p>
-                        </div>
+                        {
+                            this.state.senderName==='' ?
+                                null
+                                :
+                                <div className='Receiver-message'>
+                                    <div className="One-friend">
+                                        <h4>Od:</h4>
+                                        <img className="Medium-avatar" src={this.state.senderAvatar}/>
+                                        <h4>{this.state.senderName} {this.state.senderSurname}</h4>
+                                    </div>
+                                    <p>{this.state.contents}</p>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>

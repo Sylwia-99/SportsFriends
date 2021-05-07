@@ -3,12 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Activities;
-use App\Entity\Activity;
-use App\Entity\Address;
-use App\Entity\Messages;
 use App\Entity\User;
-use App\Entity\UserDetails;
-use App\Entity\UsersActivities;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,10 +62,10 @@ class ActivitiesController extends AbstractController
             ->getRepository(User::class)
             ->findOneBy($email);
 
-        $name = ['name' => $params['removeActivity']];
+        $id = ['id' => $params['removeActivity']];
         $activity = $this->getDoctrine()
             ->getRepository(Activities::class)
-            ->findOneBy($name);
+            ->findOneBy($id);
 
         $this->getDoctrine()
             ->getRepository(User::class)

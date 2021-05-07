@@ -55,6 +55,7 @@ class UserDetailsController extends AbstractController
 
         return new Response($userDetails->getName());
     }
+
     /**
      * @Route("/changeUserNameSurname", name="change_user_name_surname")
      */
@@ -66,9 +67,11 @@ class UserDetailsController extends AbstractController
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneBy($email);
-        $id = $user->getIdUserDetails();
-        $userDetails = $this->getDoctrine()
+        $id = $user->getIdUserDetails()->getId();
+        $this->getDoctrine()
             ->getRepository(UserDetails::class)
             ->changeUserNameSurname($id,$params['name'], $params['surname']);
+
+        return $this->render('index/index.html.twig');
     }
 }

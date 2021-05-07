@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'c958ced70262a0fcdbc490d3cb633f3879d62b47',
+    'reference' => 'dfcc241e067fafa144a2b44130b0fa208f822b4f',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'c958ced70262a0fcdbc490d3cb633f3879d62b47',
+      'reference' => 'dfcc241e067fafa144a2b44130b0fa208f822b4f',
     ),
     'api-platform/core' => 
     array (
@@ -922,12 +922,12 @@ private static $installed = array (
     ),
     'symfony/security-bundle' => 
     array (
-      'pretty_version' => 'v5.2.5',
-      'version' => '5.2.5.0',
+      'pretty_version' => 'v5.2.6',
+      'version' => '5.2.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e6b7c0cc8f0ef361c7dd5cb8d048863addea26e5',
+      'reference' => '26550782d6e6db6fbfd7702ae0ccef7964c3535d',
     ),
     'symfony/security-core' => 
     array (

@@ -20,7 +20,6 @@ class Avatar extends Component{
             this.setState({
                 avatar: user.data[0].avatar,
             });
-            console.log(user);
         });
     }
     render(){
