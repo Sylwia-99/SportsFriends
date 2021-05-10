@@ -143,4 +143,12 @@ class IndexController extends AbstractController
             return $this->redirectToRoute('login');
         }
     }
+
+    /**
+     * @Route("/search", name="search")
+     */
+    public function search(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
 }

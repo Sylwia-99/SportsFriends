@@ -150,7 +150,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/showUsers", name="show_all_users")
+     * @Route("/showUsers/", name="show_all_users")
      */
     public function showAllUsers(): Response
     {
@@ -158,6 +158,28 @@ class UserController extends AbstractController
         $users = $this->getDoctrine()
             ->getRepository(User::class)
             ->getAllUsers();
+        $response->setContent(json_encode($users));
+        return $response;
+    }
+
+    /**
+     * @Route("/showSearchedUsers/{nameSurname}", name="show_searched_users")
+     */
+    public function showSearchedUsers(String $nameSurname): Response
+    {
+        $splitNameSurname = explode(" ", $nameSurname);
+        if(isset($splitNameSurname[1])){
+            $name=$splitNameSurname[0];
+            $surname=$splitNameSurname[1];
+        }else{
+            $name=$nameSurname;
+            $surname=$nameSurname;
+        }
+
+        $response = new Response();
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->getSearchedUsers($name, $surname);
         $response->setContent(json_encode($users));
         return $response;
     }

@@ -15,6 +15,7 @@ import Watched from './pages/Watched';
 import Followers from './pages/Followers';
 import EditProfile from './pages/EditProfile';
 import Home from "./pages/Home";
+import Search from "./pages/Search";
 
 class Navigation extends Component{
     render() {
@@ -35,6 +36,7 @@ class Navigation extends Component{
                         <Route path="/watched" extact component={Watched}/>
                         <Route path="/followers" extact component={Followers}/>
                         <Route path="/editProfile" extact component={EditProfile}/>
+                        <Route path="/search" extact component={Search}/>
                         <Route path="/" extact component={Home}/>
                     </Switch>
                 </Router>

@@ -94,6 +94,22 @@ class UserRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function getSearchedUsers(String $name, String $surname){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+            SELECT 
+                u.id,
+                ud.name,
+                ud.surname, 
+                ud.avatar
+            FROM App\Entity\User u 
+            LEFT JOIN App\Entity\UserDetails ud WITH u.id_user_details=ud.id 
+            WHERE ud.name LIKE ?1 OR ud.surname LIKE ?2
+        ')->setParameter(1, '%'.$name.'%')
+            ->setParameter(2, '%'.$surname.'%');
+        return $query->execute();
+    }
+
     public function addUserActivity(User $user, Activities $activity){
         $entityManager = $this->getEntityManager();
         $user->addActivity($activity);

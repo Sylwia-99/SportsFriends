@@ -20,6 +20,9 @@ class Avatar extends Component{
             this.setState({
                 avatar: user.data[0].avatar,
             });
+        }).catch(err => {
+            console.log(err);
+            location.href = '/login';
         });
     }
     render(){
