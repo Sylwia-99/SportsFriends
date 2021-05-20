@@ -22,6 +22,12 @@ select.Receiver{
 .Message-input{
     height: 50vh;
     text-align: start;
+    border-radius: 2em;
+}
+
+textarea{
+    box-sizing: border-box;
+    padding: 1em;
 }
 
 .Send{

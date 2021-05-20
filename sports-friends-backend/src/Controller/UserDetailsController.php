@@ -57,21 +57,43 @@ class UserDetailsController extends AbstractController
     }
 
     /**
-     * @Route("/changeUserNameSurname", name="change_user_name_surname")
+     * @Route("/api/changeUserNameSurname/{id}", name="change_user_name_surname")
      */
-    public function changeNameSurname(Request $request):Response
+    public function changeNameSurname(Request $request, int $id):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $email = ['email' => $_COOKIE['user']];
+
+        $name = $params['body']['name'];
+        $surname = $params['body']['surname'];
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findOneBy($email);
-        $id = $user->getIdUserDetails()->getId();
+            ->find($id);
+        $idUserDetails = $user->getIdUserDetails()->getId();
+
         $this->getDoctrine()
             ->getRepository(UserDetails::class)
-            ->changeUserNameSurname($id,$params['name'], $params['surname']);
+            ->changeUserNameSurname($idUserDetails,$name, $surname);
 
         return $this->render('index/index.html.twig');
     }
+
+    /**
+     * @Route("/api/changeUserAvatar/{id}", name="change_user_avatar")
+     */
+    public function changeUserAvatar(Request $request, int $id):Response
+    {
+        $params = $request->getContent();
+        $params = json_decode($params, true);
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+        $idUserDetails = $user->getIdUserDetails()->getId();
+        /*$this->getDoctrine()
+            ->getRepository(UserDetails::class)
+            ->changeUserAvatar($idUserDetails,$params['avatar']);*/
+
+        return $this->render('index/index.html.twig');
+    }
+
 }

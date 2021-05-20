@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../styles/Header.css';
 import Avatar from './Avatar';
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiLogIn } from 'react-icons/fi';
 import { FaHome, FaHeart } from 'react-icons/fa';
 import { BiMessageDetail } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
@@ -9,14 +9,18 @@ import {withRouter} from "react-router";
 import logo from '../images/logo.png';
 import SearchInput from "./SearchInput";
 import SearchResult from "./SearchResult";
-import axios from "axios";
+import {Api} from '../apiHandler/apiHandler';
 
 class Header extends Component{
-    state = {
-        value:'',
-        users:[],
-        click:false,
-        err:''
+    constructor(props){
+        super(props);
+        this.state = {
+            value: '',
+            users: [],
+            click: false,
+            err: '',
+            avatar: ''
+        }
     }
 
     handleInputChange = (e) => {
@@ -27,41 +31,32 @@ class Header extends Component{
 
     handleValueSubmit = (e) => {
         e.preventDefault();
-        axios.get(`http://localhost:8000/showSearchedUsers/${this.state.value}`)
-            .then(users => {
+        Api.showUser(this.state.value).then( response =>{
+            if(response.status === 200) {
                 this.setState({
                     err: false,
-                    users: users.data,
+                    users: response.data,
                     click: true
-                })
+                });
+            }
+        }).catch(err => {
+            console.log(err);
+            this.setState({
+                err: true,
+                name: state.value
             })
-            .catch(err => {
-                console.log(err);
-                this.setState({
-                    err: true,
-                    name: state.value
-                })
-            })
+        });
     }
-    /*componentDidUpdate(prevProps, prevState){
-        if(this.state.value.length === 0 ) return;
-        if(prevState.value !== this.state.value){
-            axios.get(`http://localhost:8000/showSearchedUsers/${this.state.value}`)
-                .then(users => {
-                    this.setState({
-                        err: false,
-                        users: users.data
-                    })
-                })
-                .catch(err => {
-                    console.log(err);
-                    this.setState({
-                        err: true,
-                        name: state.value
-                    })
-                })
-        }
-    }*/
+
+    componentDidMount(){
+        Api.currentUser().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    avatar: response.data[0].avatar,
+                });
+            }
+        })
+    }
 
     render() {
         return (
@@ -83,7 +78,11 @@ class Header extends Component{
                     <Link to="/"><FaHome/></Link>
                     <Link to="/messages"><BiMessageDetail/></Link>
                     <Link to="/notification"><FaHeart/></Link>
-                    <Link to="/yourProfile"><Avatar/></Link>
+                    {this.state.avatar === '' ?
+                        <Link to="/login"><FiLogIn/></Link>
+                        :
+                        <Link to="/yourProfile"><Avatar/></Link>
+                    }
                 </div>
             </header>
         )

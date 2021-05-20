@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository", repositoryClass=UserRepository::class)
  * @ORM\Table(name="user")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -65,10 +65,10 @@ class User
     private $activities;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="json")
      */
-    private $id_role;
+    private $roles = [];
+
 
     public function __construct()
     {
@@ -94,10 +94,10 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /*public function getPassword(): ?string
     {
         return $this->password;
-    }
+    }*/
 
     public function setPassword(string $password): self
     {
@@ -126,18 +126,6 @@ class User
     public function setIdUserDetails(UserDetails $id_user_details): self
     {
         $this->id_user_details = $id_user_details;
-
-        return $this;
-    }
-
-    public function getIdRole(): ?Role
-    {
-        return $this->id_role;
-    }
-
-    public function setIdRole(Role $id_role): self
-    {
-        $this->id_role = $id_role;
 
         return $this;
     }
@@ -190,5 +178,60 @@ class User
             return;
         }
         $this->watchers->removeElement($watcher);
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles():array
+    {
+        $roles = $this->roles;
+        //ROLE_ADMIN->id_role=1
+        //ROLE_USER->id_role=2
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+        // not needed for apps that do not check user passwords
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

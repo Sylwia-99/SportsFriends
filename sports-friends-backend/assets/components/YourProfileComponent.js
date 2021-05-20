@@ -8,12 +8,13 @@ import {CgGym} from 'react-icons/cg';
 import {Link} from 'react-router-dom';
 import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
-import axios from "axios";
+import {Api} from '../apiHandler/apiHandler';
 
 class YourProfileComponent extends Component{
     constructor(props){
         super(props);
         this.state = {
+            id: '',
             user: '',
             email: '',
             name: '',
@@ -31,33 +32,46 @@ class YourProfileComponent extends Component{
     }
 
     getUser(){
-        axios.get('http://localhost:8000/showCurrentUser').then(user => {
-            this.setState({
-                email: user.data[0].email,
-                name: user.data[0].name,
-                surname: user.data[0].surname,
-                city: user.data[0].city,
-                street: user.data[0].street,
-                avatar: user.data[0].avatar,
-            });
-        });
+        Api.currentUser().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    id:  response.data[0].id,
+                    email: response.data[0].email,
+                    name: response.data[0].name,
+                    surname: response.data[0].surname,
+                    city: response.data[0].city,
+                    street: response.data[0].street,
+                    avatar: response.data[0].avatar,
+                });
+            }
+        })
     }
 
     getUserActivities(){
-        axios.get('http://localhost:8000/showUserActivities/currentUser').then(activities => {
-            this.setState({
-                activities: activities.data
-            });
+        Api.currentUserActivities().then( response =>{
+            if(response.status === 200) {
+                this.setState({
+                    activities: response.data
+                });
+            }
         });
     }
 
     logout(){
-        axios.post(`http://localhost:8000/logoutUser`, {
+        Api.logout().then( response =>{
+            if(response.status === 200){
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                localStorage.removeItem('id');
+                localStorage.removeItem('roles');
+                console.log('wylogowano');
+            }
         }).then(() => location.href = '/login')
             .catch(function (error) {
-            console.log(error);
-        });
+                console.log(error);
+            });
     }
+
     render() {
         return (
             <div className="App">
@@ -75,7 +89,7 @@ class YourProfileComponent extends Component{
                         <hr/>
                         <div className="Activities">
                             {this.state.activities.map(activity =>
-                            <div>
+                            <div key={activity.id}>
                                 {
                                     activity.name==="Bieganie" ? <h4><FaRunning/> Bieganie</h4> : null
                                 }

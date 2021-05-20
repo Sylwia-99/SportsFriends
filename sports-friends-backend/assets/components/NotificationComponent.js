@@ -4,7 +4,7 @@ import '../styles/Notification.css';
 import '../styles/Messages.css';
 import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
-import axios from "axios";
+import {Api} from "../apiHandler/apiHandler";
 
 class NotificationComponent extends Component{
     constructor(props){
@@ -21,23 +21,31 @@ class NotificationComponent extends Component{
     }
 
     getFollowerUsers(){
-        axios.get(`http://localhost:8000/showFollowerUsers`).then(followerUsers => {
-            this.setState({ followerUsers: followerUsers.data})
-        })
+        Api.followers().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    followerUsers: response.data,
+                });
+            }
+        });
     }
 
     getWatchedUsers(){
-        axios.get(`http://localhost:8000/showWatchedUsers`).then(watchedUsers => {
-            this.setState({ watchedUsers: watchedUsers.data})
-        })
+        Api.watchers().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    watchedUsers: response.data,
+                });
+            }
+        });
     }
 
     handleAddWatchedUser = (key) => {
         this.state.newWatchedUser=key.key
-        axios.post(`http://localhost:8000/addNewUserToWatched/${this.state.newWatchedUser}`, {
-            newWatchedUser: this.state.newWatchedUser,
-        }).then(function (response) {
-            console.log(response);
+        Api.newWatchedUser(this.state.newWatchedUser).then( response =>{
+            if(response.status === 200){
+                console.log('Dodano obserwującego');
+            }
         }).catch(function (error) {
             console.log(error);
         });

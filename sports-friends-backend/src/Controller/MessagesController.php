@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MessagesController extends AbstractController
 {
     /**
-     * @Route("/createMessage", name="add_message")
+     * @Route("/api/createMessage", name="add_message")
      */
     public function createMessage(Request $request):Response
     {
@@ -23,8 +23,8 @@ class MessagesController extends AbstractController
         $message = $this->getDoctrine()
         ->getRepository(Messages::class);
 
-        $idUserSender = ['id' => $params['idUserSender']];
-        $idUserRecipient = ['id' => $params['idUserRecipient']];
+        $idUserSender = ['id' => $params['body']['idUserSender']];
+        $idUserRecipient = ['id' => $params['body']['idUserRecipient']];
 
         $userSender = $this->getDoctrine()
             ->getRepository(User::class)
@@ -34,36 +34,36 @@ class MessagesController extends AbstractController
             ->getRepository(User::class)
             ->findOneBy($idUserRecipient);
 
-        $message->addMessage($userSender, $userRecipient, $params['contents']);
+        $message->addMessage($userSender, $userRecipient, $params['body']['contents']);
 
         return $this->render('index/index.html.twig');
     }
 
     /**
-     * @Route("/getUserReceivedMessages", name="get_received_messages")
+     * @Route("/api/getUserReceivedMessages/{id}", name="get_received_messages")
      */
-    public function getUserReceivedMessages():Response
+    public function getUserReceivedMessages(int $id):Response
     {
         $response = new Response();
 
         $messages = $this->getDoctrine()
             ->getRepository(Messages::class)
-            ->getReceivedMessages();
+            ->getReceivedMessages($id);
 
         $response->setContent(json_encode($messages));
         return $response;
     }
 
     /**
-     * @Route("/getUserSentMessages", name="get_sent_messages")
+     * @Route("/api/getUserSentMessages/{id}", name="get_sent_messages")
      */
-    public function getUserSentMessages():Response
+    public function getUserSentMessages(int $id):Response
     {
         $response = new Response();
 
         $messages = $this->getDoctrine()
             ->getRepository(Messages::class)
-            ->getSentMessages();
+            ->getSentMessages($id);
 
         $response->setContent(json_encode($messages));
         return $response;

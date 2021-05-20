@@ -8,14 +8,15 @@ import {CgGym} from 'react-icons/cg';
 import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
 import axios from "axios";
+import {Api} from "../apiHandler/apiHandler";
 
 class ProfileComponent extends Component{
     constructor(props){
         super(props);
         this.state = {
-            currentUserId: '',
+            currentUserId: localStorage.getItem('id'),
             currentUserEmail: '',
-            currentUserIdRole: '',
+            currentUserRole: localStorage.getItem('roles'),
             email: '',
             name: '',
             surname: '',
@@ -35,42 +36,46 @@ class ProfileComponent extends Component{
     }
 
     getCurrentUser(){
-        axios.get('http://localhost:8000/showCurrentUser').then(user => {
-            this.setState({
-                currentUserId: user.data[0].id,
-                currentUserEmail: user.data[0].email,
-                currentUserIdRole: user.data[0].id_role
-            });
-        });
+        Api.currentUser().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    currentUserEmail: response.data[0].email,
+                });
+            }
+        })
     }
 
     getUser(){
-        axios.get(`http://localhost:8000/user/${this.state.id}`).then(user => {
-            this.setState({
-                email: user.data[0].email,
-                name: user.data[0].name,
-                surname: user.data[0].surname,
-                city: user.data[0].city,
-                street: user.data[0].street,
-                avatar: user.data[0].avatar,
-            });
+        Api.user(this.state.id).then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    email: response.data[0].email,
+                    name: response.data[0].name,
+                    surname: response.data[0].surname,
+                    city: response.data[0].city,
+                    street: response.data[0].street,
+                    avatar: response.data[0].avatar,
+                });
+            }
         });
     }
 
     getUserActivities(){
-        axios.get(`http://localhost:8000/userActivities/${this.state.id}`).then(activities => {
-            this.setState({
-                activities: activities.data
-            });
+        Api.userActivities(this.state.id).then( response =>{
+            if(response.status === 200) {
+                this.setState({
+                    activities: response.data
+                });
+            }
         });
     }
 
     addUserToWatched = (e) =>{
         e.preventDefault();
-        axios.post(`http://localhost:8000/addNewUserToWatched/${this.state.id}`, {
-                newWatchedUser: this.state.id,
-        }).then(function (response) {
-            console.log(response);
+        Api.newWatchedUser(this.state.id).then( response =>{
+            if(response.status === 200){
+                console.log('Dodano obserwującego');
+            }
         }).catch(function (error) {
             console.log(error);
         });
@@ -97,13 +102,28 @@ class ProfileComponent extends Component{
 
     removeUser = (e) =>{
         e.preventDefault();
-        axios.delete(`http://localhost:8000/api/users/${this.state.id}`
+        Api.removeUser(this.state.id).then( response =>{
+            if(response.status === 200) {
+                alert('Usunięto użytkownika');
+            }
+        });
+    }
+
+    /*removeUser = (e) =>{
+        e.preventDefault();
+        const config = {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        };
+        axios.delete(`http://localhost:8000/api/users/${this.state.id}`,
+            config
         ).then(function (response) {
             console.log(response);
         }).catch(function (error) {
             console.log(error);
         });
-    }
+    }*/
 
     render() {
         return (
@@ -125,7 +145,7 @@ class ProfileComponent extends Component{
                         <hr/>
                         <div className="Activities">
                             {this.state.activities.map(activity =>
-                            <div>
+                            <div key={activity.id}>
                                     {
                                         activity.name==="Bieganie" ? <h4><FaRunning/> Bieganie</h4> : null
                                     }
@@ -162,7 +182,7 @@ class ProfileComponent extends Component{
                     </form>
                 </div>
                 {
-                    this.state.currentUserIdRole === 1 ? <button className="Remove-User" onClick={this.removeUser}>Usuń użytkownika</button> : null
+                    this.state.currentUserRole === 'ROLE_ADMIN,ROLE_USER' ? <button className="Remove-User" onClick={this.removeUser}>Usuń użytkownika</button> : null
                 }
             </div>
         );

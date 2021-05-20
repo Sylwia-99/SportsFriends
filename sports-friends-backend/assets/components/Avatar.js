@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../styles/Avatar.css';
 import {withRouter} from "react-router";
-import axios from "axios";
+import {Api} from '../apiHandler/apiHandler';
 
 class Avatar extends Component{
     constructor(props){
@@ -12,24 +12,19 @@ class Avatar extends Component{
     }
 
     componentDidMount() {
-        this.getUser();
-    }
-
-    getUser(){
-        axios.get('http://localhost:8000/showCurrentUser').then(user => {
-            this.setState({
-                avatar: user.data[0].avatar,
-            });
-        }).catch(err => {
-            console.log(err);
-            location.href = '/login';
-        });
+        Api.currentUser().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    avatar: response.data[0].avatar,
+                });
+            }
+        })
     }
     render(){
-    return (
-        <img className="small-avatar" src={this.state.avatar} alt={"this is avatar image"}/>
-    )
-}
+        return (
+            <img className="small-avatar" src={this.state.avatar} alt={"this is avatar image"}/>
+            )
+    }
 }
 
 export default withRouter(Avatar);

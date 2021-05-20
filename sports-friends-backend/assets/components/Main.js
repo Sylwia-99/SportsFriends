@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import axios from "axios";
 import '../styles/Main.css';
 import {Link} from 'react-router-dom';
 import {withRouter} from "react-router";
+import {Api} from "../apiHandler/apiHandler";
 
 class Main extends Component{
     constructor(props){
@@ -19,9 +19,13 @@ class Main extends Component{
     }
 
     getUsers(){
-        axios.get(`http://localhost:8000/showUsers`).then(users => {
-            this.setState({ users: users.data})
-        })
+        Api.users().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    users: response.data
+                });
+            }
+        });
     }
 
     /*getUserActivities = (key) => {
@@ -41,7 +45,7 @@ class Main extends Component{
         <main>
             <section>
                 {this.state.users.map(user =>
-                    <Link to={`/profile/${user.id}`} className="avatar">
+                    <Link key={user.id} to={`/profile/${user.id}`} className="avatar">
                         <img className="avatar-image" src={user.avatar} alt={"this is avatar image"}/>
                         <h3>{user.name} {user.surname}</h3>
                             {this.state.activities.map(activity =>

@@ -3,7 +3,7 @@ import '../styles/Register.css';
 import {withRouter} from "react-router";
 import logo from "../images/logo.png";
 import { withMedia } from 'react-media-query-hoc';
-import axios from "axios";
+import {Api} from "../apiHandler/apiHandler";
 
 class RegisterForm extends Component{
     constructor(props){
@@ -163,17 +163,19 @@ class RegisterForm extends Component{
                 street: this.state.values.street
             }});
         if(this.handleValidation()){
-            axios.post(`http://localhost:8000/createUser`, {
-                email: this.state.values.email,
-                name:this.state.values.name,
-                surname: this.state.values.surname,
-                password: this.state.values.password,
-                confirmPassword: this.state.values.confirmPassword,
-                postalCode: this.state.values.postalCode,
-                city: this.state.values.city,
-                street: this.state.values.street
-            }).then(function (response) {
-                console.log(response);
+            Api.register(
+                this.state.values.email,
+                this.state.values.name,
+                this.state.values.surname,
+                this.state.values.password,
+                this.state.values.confirmPassword,
+                this.state.values.postalCode,
+                this.state.values.city,
+                this.state.values.street
+            ).then( response =>{
+                if(response.status === 200){
+                    console.log('Registered new user');
+                }
             }).catch( (error) => {
                 if(error.response){
                     this.setState({values:{

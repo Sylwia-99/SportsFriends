@@ -3,7 +3,7 @@ import MessageNav from '../../components/MessageNav';
 import {withRouter} from "react-router";
 import Header from "../../components/Header";
 import '../../styles/ReceiverSendMessage.css';
-import axios from "axios";
+import {Api} from "../../apiHandler/apiHandler";
 
 class ReceiverMessage extends Component{
     constructor(props){
@@ -22,9 +22,13 @@ class ReceiverMessage extends Component{
     }
 
     getReceivedMessages(){
-        axios.get(`http://localhost:8000/getUserReceivedMessages`).then(receivedMessages => {
-            this.setState({ receivedMessages: receivedMessages.data})
-        })
+        Api.receivedMessages().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    receivedMessages: response.data
+                });
+            }
+        });
     }
 
     clickedMessage=(n, m, a, c)=>{
@@ -51,7 +55,7 @@ class ReceiverMessage extends Component{
                                         this.state.receivedMessages.map(receivedMessage =>
                                         <li>
                                             <div className="One-friend" onClick={()=>this.clickedMessage(receivedMessage.name,receivedMessage.surname,receivedMessage.avatar,receivedMessage.contents)}>
-                                                <img className="Medium-avatar" src={receivedMessage.avatar}/>
+                                                <img className="Medium-avatar" src={receivedMessage.avatar} alt="this is avatar"/>
                                                 <h4>{receivedMessage.name} {receivedMessage.surname}</h4>
                                             </div>
                                             <p>{receivedMessage.contents}</p>
@@ -72,7 +76,7 @@ class ReceiverMessage extends Component{
                                 <div className='Receiver-message'>
                                     <div className="One-friend">
                                         <h4>Od:</h4>
-                                        <img className="Medium-avatar" src={this.state.senderAvatar}/>
+                                        <img className="Medium-avatar" src={this.state.senderAvatar} alt="this is avatar"/>
                                         <h4>{this.state.senderName} {this.state.senderSurname}</h4>
                                     </div>
                                     <p>{this.state.contents}</p>

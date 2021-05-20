@@ -42,15 +42,8 @@ class MessagesRepository extends ServiceEntityRepository
         return $message;
     }
 
-    public function getSentMessages(){
+    public function getSentMessages(int $id){
         $entityManager = $this->getEntityManager();
-        $email = ['email' => $_COOKIE['user']];
-
-        $user =$entityManager ->getRepository(User::class)
-            ->findOneBy($email);
-
-        $id = $user->getId();
-
         $query = $entityManager->createQuery('
             SELECT 
                 u.id,
@@ -68,15 +61,8 @@ class MessagesRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function getReceivedMessages(){
+    public function getReceivedMessages(int $id){
         $entityManager = $this->getEntityManager();
-        $email = ['email' => $_COOKIE['user']];
-
-        $user =$entityManager ->getRepository(User::class)
-            ->findOneBy($email);
-
-        $id = $user->getId();
-
         $query = $entityManager->createQuery('
             SELECT 
                 u.id,

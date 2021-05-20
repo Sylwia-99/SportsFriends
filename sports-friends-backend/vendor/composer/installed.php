@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'dfcc241e067fafa144a2b44130b0fa208f822b4f',
+    'reference' => '8e8db4c28aa4a837fa916ae95f0c9255b6c26eeb',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'dfcc241e067fafa144a2b44130b0fa208f822b4f',
+      'reference' => '8e8db4c28aa4a837fa916ae95f0c9255b6c26eeb',
     ),
     'api-platform/core' => 
     array (
@@ -200,6 +200,15 @@
       ),
       'reference' => '5d7b8d04ed3393b4b59968ca1e906fb7186d81e8',
     ),
+    'firebase/php-jwt' => 
+    array (
+      'pretty_version' => 'v5.2.1',
+      'version' => '5.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
+    ),
     'friendsofphp/proxy-manager-lts' => 
     array (
       'pretty_version' => 'v1.0.3',
@@ -236,6 +245,33 @@
       ),
       'reference' => '6cccbddfcfc742eb02158d6137ca5687d92cee32',
     ),
+    'lcobucci/clock' => 
+    array (
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '353d83fe2e6ae95745b16b3d911813df6a05bfb3',
+    ),
+    'lcobucci/jwt' => 
+    array (
+      'pretty_version' => '4.1.4',
+      'version' => '4.1.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '71cf170102c8371ccd933fa4df6252086d144de6',
+    ),
+    'lexik/jwt-authentication-bundle' => 
+    array (
+      'pretty_version' => 'v2.11.3',
+      'version' => '2.11.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9358649d03ba41e1c98effa0a6e39c0317cceeec',
+    ),
     'monolog/monolog' => 
     array (
       'pretty_version' => '2.2.0',
@@ -244,6 +280,15 @@
       array (
       ),
       'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
+    ),
+    'namshi/jose' => 
+    array (
+      'pretty_version' => '7.2.3',
+      'version' => '7.2.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '89a24d7eb3040e285dd5925fcad992378b82bcff',
     ),
     'nelmio/cors-bundle' => 
     array (
@@ -816,6 +861,15 @@
       array (
       ),
       'reference' => '5232de97ee3b75b0360528dae24e73db49566ab1',
+    ),
+    'symfony/polyfill-php56' => 
+    array (
+      'pretty_version' => 'v1.20.0',
+      'version' => '1.20.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '54b8cd7e6c1643d78d011f3be89f3ef1f9f4c675',
     ),
     'symfony/polyfill-php72' => 
     array (

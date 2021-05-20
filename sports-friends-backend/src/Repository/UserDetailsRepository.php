@@ -49,6 +49,18 @@ class UserDetailsRepository extends ServiceEntityRepository
             ->setParameter('id', $id);
         return $query->execute();
     }
+
+    public function changeUserAvatar(int $id,String $avatar){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery('
+            UPDATE App\Entity\UserDetails u SET u.avatar=:avatar
+                WHERE u.id=:id
+        ')
+            ->setParameter('avatar', $avatar)
+            ->setParameter('id', $id);
+        return $query->execute();
+    }
     // /**
     //  * @return UserDetails[] Returns an array of UserDetails objects
     //  */

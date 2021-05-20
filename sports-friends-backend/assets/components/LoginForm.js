@@ -3,8 +3,8 @@ import '../styles/Login.css';
 import {withRouter} from "react-router";
 import logo from '../images/logo.png';
 import { withMedia } from 'react-media-query-hoc';
-import axios from "axios";
 import {Link} from "react-router-dom";
+import {Api} from "../apiHandler/apiHandler";
 
 class LoginForm extends Component{
     constructor(props){
@@ -14,7 +14,8 @@ class LoginForm extends Component{
                 email: '',
                 password: '',
                 errorMessage: ''
-            }
+            },
+            token: ''
         }
     }
 
@@ -25,17 +26,19 @@ class LoginForm extends Component{
     };
 
     handleSubmit = (e) => {
-        console.log(e);
         e.preventDefault();
 
         this.setState({values:{
             errorMessage: ''
         }});
-        axios.post(`http://localhost:8000/loginUser`, {
-            email: this.state.values.email,
-            password: this.state.values.password,
-        }).then(function (response) {
-            console.log(response);
+        Api.login(this.state.values.email, this.state.values.password).then( response =>{
+                if(response.status === 200){
+                    console.log(response.data.token);
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('id', response.data.user.id);
+                    localStorage.setItem('roles', response.data.roles);
+                    this.setState({token: response.data.token});
+                }
         }).catch( (error) =>{
             if(error.response){
                 console.log(error.response.data.detail);
@@ -46,7 +49,7 @@ class LoginForm extends Component{
                     }});
             }
         }).then(()=>{
-            if(this.state.values.errorMessage===''){
+            if(this.state.token){
                 location.href = '/';
             }
         });
@@ -72,6 +75,7 @@ class LoginForm extends Component{
                             type="text"
                             value={values.email}
                             onChange={this.handleChange("email")}
+                            required autoFocus
                         />
                         <text>Hasło</text>
                         <input
@@ -79,6 +83,7 @@ class LoginForm extends Component{
                             type="password"
                             value={values.password}
                             onChange={this.handleChange("password")}
+                            required
                         />
                         <button className="Login-button" type="submit">Zaloguj się</button>
                     </form>

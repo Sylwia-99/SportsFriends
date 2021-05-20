@@ -3,7 +3,7 @@ import MessageNav from '../../components/MessageNav';
 import {withRouter} from "react-router";
 import Header from "../../components/Header";
 import '../../styles/ReceiverSendMessage.css';
-import axios from "axios";
+import {Api} from "../../apiHandler/apiHandler";
 class SendMessage extends Component{
     constructor(props){
         super(props);
@@ -21,9 +21,13 @@ class SendMessage extends Component{
     }
 
     getSentMessages(){
-        axios.get(`http://localhost:8000/getUserSentMessages`).then(sentMessages => {
-            this.setState({ sentMessages: sentMessages.data})
-        })
+        Api.sentMessages().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    sentMessages: response.data
+                });
+            }
+        });
     }
 
     clickedMessage=(n, m, a, c)=>{

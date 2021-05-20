@@ -3,7 +3,7 @@ import Header from './Header';
 import {withRouter} from "react-router";
 import {Link} from 'react-router-dom';
 import { withMedia } from 'react-media-query-hoc';
-import axios from "axios";
+import {Api} from "../apiHandler/apiHandler";
 
 class Watched extends Component{
     constructor(props){
@@ -21,24 +21,31 @@ class Watched extends Component{
     }
 
     getWatchedUsers(){
-        axios.get(`http://localhost:8000/showWatchedUsers`).then(watchedUsers => {
-            this.setState({ watchedUsers: watchedUsers.data})
-        })
+        Api.watchers().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    watchedUsers: response.data,
+                });
+            }
+        });
     }
 
     getFollowerUsers(){
-        axios.get(`http://localhost:8000/showFollowerUsers`).then(followerUsers => {
-            this.setState({ followerUsers: followerUsers.data})
-        })
+        Api.followers().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    followerUsers: response.data,
+                });
+            }
+        });
     }
 
     handleRemoveWatchedUser = (key) => {
-
         this.state.removeWatched=key.key
-        axios.post(`http://localhost:8000/removeWatchedUser/${this.state.removeWatched}`, {
-              removeWatched: this.state.removeWatched,
-        }).then(function (response) {
-            console.log(response);
+        Api.removeWatchedUser(this.state.removeWatched).then( response =>{
+            if(response.status === 200){
+                console.log('Usunięto obserwowanego użytkownika');
+            }
         }).catch(function (error) {
             console.log(error);
         });
@@ -52,7 +59,7 @@ class Watched extends Component{
                 <main>
                     <section className="Friends">
                         {this.state.watchedUsers.map(user =>
-                        <ul>
+                        <ul key={user.id}>
                             <li>
                                 <div className="Watched-friend" >
                                     <Link to={`/profile/${user.id_user_watcher}`}>

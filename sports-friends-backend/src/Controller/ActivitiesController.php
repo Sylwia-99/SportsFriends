@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ActivitiesController extends AbstractController
 {
     /**
-     * @Route("/addActivity", name="add_activity")
+     * @Route("/api/addActivity", name="add_activity")
      */
     public function addActivity(Request $request):Response
     {
@@ -27,18 +27,17 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/addUserActivity", name="add_user_activity")
+     * @Route("/api/addUserActivity/{id}", name="add_user_activity")
      */
-    public function addUserActivity(Request $request):Response
+    public function addUserActivity(Request $request, int $id):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $email = ['email' => $_COOKIE['user']];
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findOneBy($email);
+            ->find($id);
 
-        $name = ['name' => $params['addActivity']];
+        $name = ['name' => $params['body']['addActivity']];
         $activity = $this->getDoctrine()
             ->getRepository(Activities::class)
             ->findOneBy($name);
@@ -51,21 +50,21 @@ class ActivitiesController extends AbstractController
     }
 
     /**
-     * @Route("/removeUserActivity", name="remove_user_activity")
+     * @Route("/api/removeUserActivity/{id}", name="remove_user_activity")
      */
-    public function removeUserActivity(Request $request):Response
+    public function removeUserActivity(Request $request, int $id):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $email = ['email' => $_COOKIE['user']];
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findOneBy($email);
+            ->find($id);
 
-        $id = ['id' => $params['removeActivity']];
+        dump($params);
+        $idActivity = ['id' => $params['body']['removeActivity']];
         $activity = $this->getDoctrine()
             ->getRepository(Activities::class)
-            ->findOneBy($id);
+            ->findOneBy($idActivity);
 
         $this->getDoctrine()
             ->getRepository(User::class)

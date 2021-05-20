@@ -3,12 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Activities;
-use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\UserDetails;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,15 +25,15 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function addUser(String $email, String $password, UserDetails $userDetails, Role $role):User{
+    public function addUser(String $email, String $password, UserDetails $userDetails, UserPasswordEncoderInterface $encoder):User{
         $entityManager = $this->getEntityManager();
 
         $user = new User();
         $user->setEmail($email);
-        $user->setPassword($password);
+        $user->setPassword($encoder->encodePassword($user, $password));
         $user->setIdUserDetails($userDetails);
         $user->setIsLogged(false);
-        $user->setIdRole($role);
+        //$user->setRoles(array('ROLE_ADMIN'));
         try {
             $entityManager->persist($user);
             $entityManager->flush();
@@ -58,7 +60,7 @@ class UserRepository extends ServiceEntityRepository
                 u.id,
                 u.email,
                 u.is_logged,
-                r.id as id_role,
+                u.roles,
                 ud.name, 
                 ud.surname, 
                 ud.avatar,
@@ -68,7 +70,6 @@ class UserRepository extends ServiceEntityRepository
             FROM App\Entity\User u 
             LEFT JOIN App\Entity\UserDetails ud WITH u.id_user_details=ud.id 
             LEFT JOIN App\Entity\Address a WITH ud.id_address=a.id
-            LEFT JOIN App\Entity\Role r WITH u.id_role=r.id
             WHERE u.id =:id
         ')->setParameter('id', $id);
         return $query->execute();
@@ -215,16 +216,30 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
-    public function changeUserPassword(String $email, String $password){
+    public function changeUserPassword(String $email, String $password, UserPasswordEncoderInterface $encoder){
         $entityManager = $this->getEntityManager();
+        $email = ['email' => $email];
+        $user =$entityManager ->getRepository(User::class)
+            ->findOneBy($email);
 
         $query = $entityManager->createQuery('
             UPDATE App\Entity\User u SET u.password=:password
                 WHERE u.email=:email
         ')
-            ->setParameter('password', $password)
+            ->setParameter('password', $encoder->encodePassword($user, $password))
             ->setParameter('email', $email);
         return $query->execute();
+    }
+
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
+
+        $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
     }
 
     // /**

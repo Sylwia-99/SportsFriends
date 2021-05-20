@@ -3,12 +3,13 @@ import Header from './Header';
 import '../styles/EditProfile.css';
 import {withRouter} from "react-router";
 import { withMedia } from 'react-media-query-hoc';
-import axios from "axios";
+import {Api} from "../apiHandler/apiHandler";
 
 class EditProfileComponent extends Component{
     constructor(props){
         super(props);
         this.state = {
+            id: localStorage.getItem('id'),
             values:{
                 avatar: '',
                 name: '',
@@ -29,7 +30,10 @@ class EditProfileComponent extends Component{
                 surname: '',
                 errorMessage: ''
             },
-            errors:{}
+            errors:{},
+            file:{
+                selectedFile: null
+            }
         }
     }
 
@@ -87,7 +91,6 @@ class EditProfileComponent extends Component{
                 errors["password"] = "Hasła się różnią";
             }
         }
-
         this.setState({errors: errors});
         return formIsValid;
     }
@@ -102,7 +105,6 @@ class EditProfileComponent extends Component{
                 errors["password"] = "Hasło musi zawierać:Małe i Duże litery, liczby i minimum 8 znaków";
             }
         }
-
         this.setState({
             changePassword: { ...this.state.changePassword, [input]: e.target.value},
             errors: errors
@@ -135,8 +137,10 @@ class EditProfileComponent extends Component{
 
     handleAddSubmitActivity = (e) => {
         e.preventDefault();
-        axios.post(`http://localhost:8000/addUserActivity`, {
-            addActivity: this.state.values.addActivity,
+        Api.addUserActivity(this.state.values.addActivity).then( response =>{
+            if(response.status === 200){
+                alert('Dodano nową aktywność');
+            }
         }).then(function (response) {
             console.log(response);
         }).catch(function (error) {
@@ -146,9 +150,10 @@ class EditProfileComponent extends Component{
 
     handleRemoveSubmitActivity = (e) => {
         e.preventDefault();
-
-        axios.post(`http://localhost:8000/removeUserActivity`, {
-            removeActivity: this.state.values.removeActivity
+        Api.removeUserActivity(this.state.values.removeActivity).then( response =>{
+            if(response.status === 200){
+                alert('Usunięto aktywność');
+            }
         }).then(function (response) {
             console.log(response);
         }).catch(function (error) {
@@ -164,11 +169,10 @@ class EditProfileComponent extends Component{
                 surname: this.state.changeNameSurname.surname
             }});
         if(this.handleValidationNameSurname()){
-            axios.post(`http://localhost:8000/changeUserNameSurname`, {
-                name: this.state.changeNameSurname.name,
-                surname: this.state.changeNameSurname.surname
-            }).then(function (response) {
-                console.log(response);
+            Api.changeNameSurname(this.state.changeNameSurname.name, this.state.changeNameSurname.surname).then( response =>{
+                if(response.status === 200){
+                    console.log('Zmieniono imie, nazwisko');
+                }
             }).catch( (error) =>{
                 if(error.response){
                     this.setState({changeNameSurname:{
@@ -196,10 +200,10 @@ class EditProfileComponent extends Component{
                 confirmedPassword: this.state.changePassword.confirmedPassword
             }});
         if(this.handleValidationPassword()){
-            axios.post(`http://localhost:8000/changeUserPassword`, {
-                currentPassword: this.state.changePassword.currentPassword,
-                password: this.state.changePassword.password,
-                confirmedPassword: this.state.changePassword.confirmedPassword
+            Api.changePassword(this.state.changePassword.currentPassword, this.state.changePassword.password, this.state.changePassword.confirmedPassword).then( response =>{
+                if(response.status === 200){
+                    console.log('Zmieniono hasło');
+                }
             }).then(function (response) {
                 console.log(response);
             }).catch( (error) =>{
@@ -227,33 +231,61 @@ class EditProfileComponent extends Component{
     }
 
     getUser(){
-        axios.get('http://localhost:8000/showCurrentUser').then(user => {
-            this.setState({
-                email: user.data[0].email,
-                name: user.data[0].name,
-                surname: user.data[0].surname,
-                city: user.data[0].city,
-                street: user.data[0].street,
-                avatar: user.data[0].avatar,
-            });
-        });
+        Api.currentUser().then( response =>{
+            if(response.status === 200){
+                this.setState({
+                    email: response.data[0].email,
+                    name: response.data[0].name,
+                    surname: response.data[0].surname,
+                    city: response.data[0].city,
+                    street: response.data[0].street,
+                    avatar: response.data[0].avatar,
+                });
+            }
+        })
     }
 
     getUserActivities(){
-        axios.get('http://localhost:8000/showUserActivities/currentUser').then(activities => {
-            this.setState({
-                values: {activities: activities.data}
-            });
+        Api.currentUserActivities().then( response =>{
+            if(response.status === 200) {
+                this.setState({
+                    values: {activities: response.data}
+                });
+            }
         });
     }
 
     getActivities(){
-        axios.get('http://localhost:8000/api/activities').then(allActivities => {
-            this.setState({
-                values: {allActivities: allActivities.data}
-            });
+        Api.activities().then( response =>{
+            if(response.status === 200) {
+                this.setState({
+                    values: {activities: response.data}
+                });
+            }
         });
     }
+
+    /*fileSelectedHandler = (e) =>{
+        this.setState({
+            file: {selectedFile:e.target.files[0]}
+        });
+    }
+
+    fileUploadHandler = (e) =>{
+        axios.post(`http://localhost:8000/api/changeUserAvatar/${this.state.id}`, {
+           avatar: this.state.file.selectedFile.name
+        }).then(function (response){
+            console.log('dziala');
+        }).catch( (error) =>{
+            if(error.response) {
+                console.log(error);
+            }
+        }).then(()=>{
+            if (this.state.changePassword.errorMessage === '') {
+                alert('Avatar został zmieniony');
+            }
+        });
+    }*/
 
     render() {
         const {values,changePassword, changeNameSurname} = this.state;
@@ -263,9 +295,13 @@ class EditProfileComponent extends Component{
                 <div className="Edit-information">
                     <div className="Edit-image">
                         <h3>Edytuj zdjęcie profilowe</h3>
-                        <form>
+                        <form >
                             <img className="Big-avatar" src={this.state.avatar} alt={"this is avatar image"}/>
-                            <button className="Edit-image-button" type="submit">Zmien zdjęcie profilowe</button>
+                            <input
+                                type="file"
+                                //onChange={this.fileSelectedHandler}
+                            />
+                            <button className="Edit-image-button" type="button" /*onClick={this.fileUploadHandler}*/>Zmien zdjęcie profilowe</button>
                         </form>
                     </div>
                     <div className="Edit-name-surname">
@@ -329,17 +365,17 @@ class EditProfileComponent extends Component{
                         <form onSubmit={this.handleRemoveSubmitActivity}>
                             <select
                                 value={values.removeActivity}
-                                onChange={this.handleChange("removeActivity")}
+                                onClick={this.handleChange("removeActivity")}
                             >
                                 {values.activities.map((activity) =>
-                                    <option
+                                    <option key={activity.id}
                                         value={activity.id}
                                     >
                                         {activity.name}
                                     </option>
                                 )}
                             </select>
-                            <button className="Save-button" type="submit">Usuń</button>
+                            <button className="Save-button" type="button">Usuń</button>
                         </form>
                     </div>
                     <div className="Add-activities">
@@ -347,7 +383,7 @@ class EditProfileComponent extends Component{
                         <form onSubmit={this.handleAddSubmitActivity}>
                             <select
                                 value={values.addActivity}
-                                onChange={this.handleChange("addActivity")}
+                                onClick={this.handleChange("addActivity")}
                             >
                                 <option value="Bieganie">Bieganie</option>
                                 <option value="Rower">Rower</option>

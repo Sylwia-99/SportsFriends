@@ -7,7 +7,7 @@ import Navigation from "./Navigation";
 import { MediaQueryProvider } from 'react-media-query-hoc';
 
 
-const App =  (props) =>{
+const App =  () =>{
         return(
             <MediaQueryProvider>
             <BrowserRouter>
