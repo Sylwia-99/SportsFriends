@@ -1,14 +1,10 @@
-import React, {Component} from 'react';
-import {withRouter} from "react-router";
-import { withMedia } from 'react-media-query-hoc';
+import React from 'react';
 import YourProfileComponent from "../components/YourProfileComponent";
-class YourProfile extends Component{
-    render() {
-        return (
-            <>
-                <YourProfileComponent/>
-            </>
-        );
-    }
+const YourProfile = () =>{
+    return (
+        <>
+            <YourProfileComponent/>
+        </>
+    );
 }
-export default withMedia(withRouter(YourProfile));
+export default YourProfile;

@@ -11,12 +11,9 @@
 }
 
 .Receiver-message{
-    background-color: white;
-    width: 40vw;
-    height: 60vh;
-    border-radius: 1em;
-    box-shadow: 0 0 10px 1px #2a907f;
-    margin-block-start: 1em;
+    width: 38vw;
+    height: auto;
+    margin-left: 1em;
 }
 
 .Receiver-message > p, .Receiver-message > h2, .Receiver-message >h4 {
@@ -27,18 +24,60 @@ p{
     margin: 1em;
 }
 
-.Rec-messages-list{
+.Rec-messages{
     height: 70vh;
     overflow: auto;
+    background-color: white;
+    box-shadow: 0 0 10px 1px #2a907f;
+    border-radius: 2em;
+    width: -webkit-fill-available;
 }
 
-.Rec-messages-list>li{
-    border-bottom: 0.01em solid #2a907f;
-    width: 33vw;
+.Rec-messages-list{
+    height: 10em;
+    box-shadow: none;
+    border-bottom: 0.01em solid;
+    border-radius: 0;
+    cursor: pointer;
+    margin: 0;
+}
+
+.Rec-messages-list > li{
+    width: 30vw;
+    margin: 0;
+}
+
+.Statement{
+    display: flex;
+    justify-content: center;
+    font-size: xx-large;
+}
+
+.Whole-message{
+    height: 70vh;
+    border-radius: 1em;
+    background-color: white;
+    box-shadow: 0 0 10px 1px #2a907f;
+    background-color: white;
 }
 
 .One-friend{
     margin-left: 1em;
+}
+
+.Rec-messages-list:hover{
+    background-color: #abc1bd;
+    transition: background-color 0.2ms;
+}
+
+.Rowback{
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -50,7 +89,7 @@ p{
         margin: 0;
     }
 
-    .Rec-messages-list {
+    .Rec-messages{
         margin: 0.3em;
         margin-bottom:1.5em;
         height: 70vh;
@@ -69,13 +108,9 @@ p{
 
     .Receiver-message {
         width: 31em;
-        height: 40em;
+        height: 45em;
         position: absolute;
-        margin-block-start: 15em;
+        margin-block-start: 10em;
         left: 1em;
-    }
-
-    ul{
-        padding: 0;
     }
 }

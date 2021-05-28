@@ -106,6 +106,14 @@ export class Api{
         });
     }
 
+    static changeAvatar(fd){
+        return axios.post(`${apiUrl}/changeUserAvatar/${id.id}`, fd
+        ).then( response  => {
+            //this.checkStatus(response);
+            return response;
+        });
+    }
+
     static changePassword(currentPassword, password, confirmedPassword){
         return this.post(`/api/changeUserPassword/${id.id}`,{
             currentPassword: currentPassword,

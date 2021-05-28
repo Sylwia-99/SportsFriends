@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Messages;
 use App\Entity\User;
+use App\Repository\MessagesRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,42 +16,31 @@ class MessagesController extends AbstractController
     /**
      * @Route("/api/createMessage", name="add_message")
      */
-    public function createMessage(Request $request):Response
+    public function createMessage(Request $request, UserRepository $userRepository, MessagesRepository $messagesRepository):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
 
-        dump($params);
-        $message = $this->getDoctrine()
-        ->getRepository(Messages::class);
-
         $idUserSender = ['id' => $params['body']['idUserSender']];
         $idUserRecipient = ['id' => $params['body']['idUserRecipient']];
 
-        $userSender = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($idUserSender);
+        $userSender = $userRepository->findOneBy($idUserSender);
+        $userRecipient = $userRepository->findOneBy($idUserRecipient);
 
-        $userRecipient = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($idUserRecipient);
+        $messagesRepository->addMessage($userSender, $userRecipient, $params['body']['contents']);
 
-        $message->addMessage($userSender, $userRecipient, $params['body']['contents']);
-
-        return $this->render('index/index.html.twig');
+        $response = new Response();
+        $response->setContent(json_encode('Message has sent'));
+        return $response;
     }
 
     /**
      * @Route("/api/getUserReceivedMessages/{id}", name="get_received_messages")
      */
-    public function getUserReceivedMessages(int $id):Response
+    public function getUserReceivedMessages(int $id, MessagesRepository $messagesRepository):Response
     {
         $response = new Response();
-
-        $messages = $this->getDoctrine()
-            ->getRepository(Messages::class)
-            ->getReceivedMessages($id);
-
+        $messages = $messagesRepository->getReceivedMessages($id);
         $response->setContent(json_encode($messages));
         return $response;
     }
@@ -57,14 +48,10 @@ class MessagesController extends AbstractController
     /**
      * @Route("/api/getUserSentMessages/{id}", name="get_sent_messages")
      */
-    public function getUserSentMessages(int $id):Response
+    public function getUserSentMessages(int $id, MessagesRepository $messagesRepository):Response
     {
         $response = new Response();
-
-        $messages = $this->getDoctrine()
-            ->getRepository(Messages::class)
-            ->getSentMessages($id);
-
+        $messages = $messagesRepository->getSentMessages($id);
         $response->setContent(json_encode($messages));
         return $response;
     }

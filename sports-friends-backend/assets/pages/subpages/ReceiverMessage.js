@@ -1,92 +1,101 @@
-import React, {Component} from 'react';
-import MessageNav from '../../components/MessageNav';
-import {withRouter} from "react-router";
+import React, {useEffect, useState} from 'react';
+import MessageNav from '../../components/message/MessageNav';
 import Header from "../../components/Header";
 import '../../styles/ReceiverSendMessage.css';
 import {Api} from "../../apiHandler/apiHandler";
+import Message from "../../components/message/Message";
+import {BsArrowLeft} from "react-icons/bs";
 
-class ReceiverMessage extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            receivedMessages: [],
-            senderName: '',
-            senderSurname: '',
-            senderAvatar: '',
-            contents: ''
-        }
-    }
+const ReceiverMessage = () =>{
+    const[receivedMessages, setReceivedMessages] = useState([]);
+    const[sender, setSender] = useState({
+        senderName: '',
+        senderSurname: '',
+        senderAvatar: '',
+        contents: '',
+        clicked: false
+    })
 
-    componentDidMount() {
-        this.getReceivedMessages();
-    }
+    useEffect(() =>{
+        getReceivedMessages();
+    }, [])
 
-    getReceivedMessages(){
+
+    function getReceivedMessages(){
         Api.receivedMessages().then( response =>{
             if(response.status === 200){
-                this.setState({
-                    receivedMessages: response.data
-                });
+                if(response.data === []){
+                    console.log(response.data);
+                }else{
+                    setReceivedMessages(response.data);
+                }
             }
         });
     }
 
-    clickedMessage=(n, m, a, c)=>{
-        this.setState({
-            senderName: n,
-            senderSurname: m,
-            senderAvatar: a,
-            contents: c
-        })
+    const clickedMessage = (n, m, a, c, tf) =>{
+        import(`../../../src/uploads/${a}`)
+            .then(({default: url}) =>{
+                setSender({
+                    senderName: n,
+                    senderSurname: m,
+                    senderAvatar: url,
+                    contents: c,
+                    clicked: tf
+                })
+            })
     }
-
-    render() {
-        return (
-            <div className="App">
-                <Header/>
-                <div className="Messages">
-                    <MessageNav/>
-                    <div className="Receivers">
-                        <div className='Receiver-messages'>
-                            <h1>Odebrane</h1>
-                            <ul className="Rec-messages-list">
-                                {
-                                    this.state.receivedMessages.contents!=null?
-                                        this.state.receivedMessages.map(receivedMessage =>
-                                        <li>
-                                            <div className="One-friend" onClick={()=>this.clickedMessage(receivedMessage.name,receivedMessage.surname,receivedMessage.avatar,receivedMessage.contents)}>
-                                                <img className="Medium-avatar" src={receivedMessage.avatar} alt="this is avatar"/>
-                                                <h4>{receivedMessage.name} {receivedMessage.surname}</h4>
-                                            </div>
-                                            <p>{receivedMessage.contents}</p>
-                                        </li>)
-                                        :
-                                        <li>
-                                            <div className="One-friend">
-                                                <h4>Brak wiadomości</h4>
-                                            </div>
-                                        </li>
-                                }
-                            </ul>
+    return (
+        <div className="App">
+            <Header/>
+            <div className="Messages">
+                <MessageNav/>
+                <div className="Receivers">
+                    <div className='Receiver-messages'>
+                        <h1>Odebrane</h1>
+                        <div className="Rec-messages">
+                            {
+                                receivedMessages.length!==0 ?
+                                    receivedMessages.map((receivedMessage, i) => {
+                                        return (<Message
+                                            key={i}
+                                            contents={receivedMessage.contents}
+                                            name={receivedMessage.name}
+                                            surname={receivedMessage.surname}
+                                            avatar={receivedMessage.avatar}
+                                            onClick={() => clickedMessage(receivedMessage.name, receivedMessage.surname, receivedMessage.avatar, receivedMessage.contents, true)}
+                                        />)
+                                    }) :
+                                        <div className="Statement">
+                                            <h4>Brak wiadomości</h4>
+                                        </div>
+                            }
                         </div>
-                        {
-                            this.state.senderName==='' ?
-                                null
-                                :
-                                <div className='Receiver-message'>
+                    </div>
+                    {
+                        sender.clicked===false ?
+                            null
+                            :
+                            <div className='Receiver-message'>
+                                <BsArrowLeft
+                                    className="Rowback"
+                                    onClick={()=>setSender({clicked: false})}
+                                />
+                                <div className="Whole-message">
                                     <div className="One-friend">
                                         <h4>Od:</h4>
-                                        <img className="Medium-avatar" src={this.state.senderAvatar} alt="this is avatar"/>
-                                        <h4>{this.state.senderName} {this.state.senderSurname}</h4>
+                                        <span>
+                                            <img className="Medium-avatar" src={sender.senderAvatar} alt="this is avatar"/>
+                                        </span>
+                                        <h4>{sender.senderName} {sender.senderSurname}</h4>
                                     </div>
-                                    <p>{this.state.contents}</p>
+                                    <p>{sender.contents}</p>
                                 </div>
-                        }
-                    </div>
+                            </div>
+                    }
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-export default withRouter(ReceiverMessage);
+export default ReceiverMessage;

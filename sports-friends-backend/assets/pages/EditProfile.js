@@ -1,16 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import EditProfileComponent from '../components/EditProfileComponent';
-import {withRouter} from "react-router";
-import { withMedia } from 'react-media-query-hoc';
 
-class EditProfile extends Component{
-    render() {
-        return (
+const EditProfile = () =>{
+    return (
         <>
             <EditProfileComponent/>
         </>
-        )
-    }
+    );
 }
 
-export default withMedia(withRouter(EditProfile));
+export default EditProfile;

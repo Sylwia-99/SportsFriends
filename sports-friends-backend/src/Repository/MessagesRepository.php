@@ -56,7 +56,7 @@ class MessagesRepository extends ServiceEntityRepository
             LEFT JOIN App\Entity\Messages m WITH u.id=m.id_user_sender
             LEFT JOIN App\Entity\User uu WITH uu.id =m.id_user_recipient
             LEFT JOIN App\Entity\UserDetails ud WITH ud.id=uu.id_user_details
-            WHERE u.id =:id
+            WHERE u.id =:id AND m.created_at IS NOT NULL
         ')->setParameter('id', $id);
         return $query->execute();
     }
@@ -75,7 +75,7 @@ class MessagesRepository extends ServiceEntityRepository
             LEFT JOIN App\Entity\Messages m WITH u.id=m.id_user_recipient
             LEFT JOIN App\Entity\User uu WITH uu.id =m.id_user_sender
             LEFT JOIN App\Entity\UserDetails ud WITH ud.id=uu.id_user_details
-            WHERE u.id =:id
+            WHERE u.id =:id AND m.created_at IS NOT NULL
         ')->setParameter('id', $id);
         return $query->execute();
     }

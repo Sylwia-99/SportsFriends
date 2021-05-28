@@ -32,10 +32,16 @@
 }
 
 .avatar-image-search{
-    width: 7em;
-    height: 7em;
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
     border-radius: 100em;
     border: 0.1em solid  #EA0B72;
+}
+
+span.search{
+    width: 7em;
+    height: 7em;
 }
 
 .Search-header{
@@ -43,7 +49,7 @@
     grid-template-columns: repeat(10, 1fr);
     background-color: #04C9A8;
     box-shadow: 1px -1px 10px;
-    }
+}
 
 .Search-header>.search{
     grid-column: 2/10;
@@ -51,6 +57,15 @@
 
 .Search-header>.search>.search-input, .Search-header>.search>.search-button{
     visibility: visible;
+}
+
+#phone-result{
+    height: 100vh;
+}
+
+.Rowback-search{
+    font-size: 5em;
+    color: #04C9A8;
 }
 
 

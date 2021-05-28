@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,57 +13,48 @@ class FollowerWatcherController extends AbstractController
     /**
      * @Route("/api/addNewUserToWatched/{id}", name="add_user_to_watched")
      */
-    public function addNewUserToWatched(int $id):Response
+    public function addNewUserToWatched(UserRepository $userRepository, int $id):Response
     {
-        $email = ['email' => $_COOKIE['user']];
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($email);
+        $username = $this->getUser()->getUsername();
+        $email = ['email' => $username];
+        $user = $userRepository->findOneBy($email);
 
         $idWatch = ['id' => $id];
-        $newWatch = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($idWatch);
+        $newWatch = $userRepository->findOneBy($idWatch);
 
-        $this->getDoctrine()
-            ->getRepository(User::class)
-            ->addWatchedUser($user, $newWatch);
+        $userRepository->addWatchedUser($user, $newWatch);
 
-        return $this->render('index/index.html.twig');
+        $response = new Response();
+        $response->setContent(json_encode('Dodano użytkownika do obserwowanych'));
+        return $response;
     }
 
     /**
      * @Route("/api/removeWatchedUser/{id}", name="remove_watched_user")
      */
-    public function removeWatchedUser(int $id):Response
+    public function removeWatchedUser(UserRepository $userRepository, int $id):Response
     {
-        $email = ['email' => $_COOKIE['user']];
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($email);
+        $username = $this->getUser()->getUsername();
+        $email = ['email' => $username];
+        $user = $userRepository->findOneBy($email);
 
         $id = ['id' => $id];
-        $watcher = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($id);
+        $watcher = $userRepository->findOneBy($id);
 
-        $this->getDoctrine()
-            ->getRepository(User::class)
-            ->removeWatchedUser($user, $watcher);
+        $userRepository->removeWatchedUser($user, $watcher);
 
-        return $this->render('index/index.html.twig');
+        $response = new Response();
+        $response->setContent(json_encode('Usunięto Użytkownika z obserwowanych'));
+        return $response;
     }
 
     /**
      * @Route("/api/showWatchedUsers/{id}", name="show_watched_users")
      */
-    public function showWatchedUsers(int $id):Response
+    public function showWatchedUsers(UserRepository $userRepository, int $id):Response
     {
         $response = new Response();
-
-        $watchers = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getAllWatchedUsers($id);
+        $watchers = $userRepository->getAllWatchedUsers($id);
         $response->setContent(json_encode($watchers));
 
         return $response;
@@ -71,13 +63,10 @@ class FollowerWatcherController extends AbstractController
     /**
      * @Route("/api/showFollowerUsers/{id}", name="show_follower_users")
      */
-    public function showFollowerUsers(int $id):Response
+    public function showFollowerUsers(UserRepository $userRepository, int $id):Response
     {
         $response = new Response();
-
-        $followers = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getAllFollowerUsers($id);
+        $followers = $userRepository->getAllFollowerUsers($id);
         $response->setContent(json_encode($followers));
 
         return $response;

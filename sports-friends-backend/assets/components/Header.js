@@ -1,39 +1,37 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../styles/Header.css';
-import Avatar from './Avatar';
 import { FiSearch, FiLogIn } from 'react-icons/fi';
 import { FaHome, FaHeart } from 'react-icons/fa';
 import { BiMessageDetail } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import {withRouter} from "react-router";
 import logo from '../images/logo.png';
-import SearchInput from "./SearchInput";
-import SearchResult from "./SearchResult";
+import SearchInput from "./search/SearchInput";
+import SearchResult from "./search/SearchResult";
 import {Api} from '../apiHandler/apiHandler';
 
-class Header extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            value: '',
-            users: [],
-            click: false,
-            err: '',
-            avatar: ''
-        }
-    }
+const Header = () =>{
+    const[user, setUser] = useState({
+        avatar: ''
+    });
 
-    handleInputChange = (e) => {
-        this.setState({
+    const[users, setUsers] = useState({
+        users: [],
+        click: false,
+        err: '',
+        value: ''
+    });
+
+    const handleInputChange = (e) =>{
+        e.preventDefault();
+        setUsers({
             value: e.target.value
         });
-    };
+    }
 
-    handleValueSubmit = (e) => {
-        e.preventDefault();
-        Api.showUser(this.state.value).then( response =>{
+    const handleValueSubmit = () =>{
+        Api.showUser(users.value).then( response =>{
             if(response.status === 200) {
-                this.setState({
+                setUsers({
                     err: false,
                     users: response.data,
                     click: true
@@ -41,52 +39,59 @@ class Header extends Component{
             }
         }).catch(err => {
             console.log(err);
-            this.setState({
+            setUsers({
                 err: true,
-                name: state.value
+                //name: state.value
             })
         });
     }
 
-    componentDidMount(){
+    useEffect(() =>{
         Api.currentUser().then( response =>{
             if(response.status === 200){
-                this.setState({
-                    avatar: response.data[0].avatar,
-                });
+                import(`../../src/uploads/${response.data[0].avatar}`)
+                    .then(({default: url}) =>{
+                        setUser({
+                            avatar: url,
+                        });
+                    }
+                )
             }
         })
-    }
+    },[]);
 
-    render() {
-        return (
-            <header className="App-header">
-                <img src={logo} alt={"this is a logo image"}/>
-                <SearchInput
-                    value={this.state.value}
-                    change={this.handleInputChange}
-                    submit={this.handleValueSubmit}
+
+    return (
+    <header className="App-header">
+        <img src={logo} alt={"this is a logo image"}/>
+        <SearchInput
+            value={users.value}
+            change={handleInputChange}
+            submit={handleValueSubmit}
+        />
+        {
+            !users.click ? null :
+                <SearchResult
+                    users={users}
                 />
-                {
-                    !this.state.click ? null :
-                    <SearchResult
-                    users={this.state}
-                    />
-                }
-                <div className="icons">
-                    <Link to="/search" className="search-icon"><FiSearch/></Link>
-                    <Link to="/"><FaHome/></Link>
-                    <Link to="/messages"><BiMessageDetail/></Link>
-                    <Link to="/notification"><FaHeart/></Link>
-                    {this.state.avatar === '' ?
-                        <Link to="/login"><FiLogIn/></Link>
-                        :
-                        <Link to="/yourProfile"><Avatar/></Link>
-                    }
-                </div>
-            </header>
-        )
-    }
+        }
+        <div className="icons">
+            <Link to="/search" className="search-icon"><FiSearch/></Link>
+            <Link to="/"><FaHome/></Link>
+            <Link to="/messages"><BiMessageDetail/></Link>
+            <Link to="/notification"><FaHeart/></Link>
+            {user.avatar === '' ?
+                <Link to="/login"><FiLogIn/></Link>
+                :
+                    <Link to="/yourProfile">
+                    <span className="small">
+                    <img className="small-avatar" src={user.avatar} alt={"this is avatar image"}/>
+                    </span>
+                    </Link>
+            }
+        </div>
+    </header>
+    )
 }
 
-export default withRouter(Header);
+export default Header;

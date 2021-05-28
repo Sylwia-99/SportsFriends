@@ -4,7 +4,7 @@
 }
 
 .nav-message-links{
-    color: #04C9A8;
+    color: white;
 }
 
 li{
@@ -12,10 +12,17 @@ li{
     margin-top: 3em;
 }
 
+li.nav-item:hover{
+    transform: scale(1.05);
+    color: whitesmoke;
+    transition: transform 0.2ms;
+}
+
 .nav-menu-message{
     display: grid;
-    grid-template-rows: repeat(6, 8vh);
+    grid-template-rows: repeat(9, 9vh);
     margin: 1em;
+    background-color: #2a907f;
 }
 
 @media only screen and (max-width: 1200px){
@@ -27,7 +34,8 @@ li{
     .nav-menu-message{
         display: flex;
         font-size: 30px;
-        width: 88vw;
+        width: 90vw;
+        margin: 1em;
     }
 
     .nav-item{

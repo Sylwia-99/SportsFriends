@@ -1,64 +1,43 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../styles/Main.css';
-import {Link} from 'react-router-dom';
-import {withRouter} from "react-router";
 import {Api} from "../apiHandler/apiHandler";
+import User from "./User";
 
-class Main extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            users: [],
-            activities: [],
-            idUser: ''
-        }
-    }
+const Main = () =>{
+    const [users, setUsers] = useState([]);
 
-    componentDidMount() {
-        this.getUsers();
-    }
+    useEffect(() =>{
+        getUsers();
+    }, [])
 
-    getUsers(){
+    function getUsers(){
         Api.users().then( response =>{
             if(response.status === 200){
-                this.setState({
-                    users: response.data
-                });
+                setUsers(response.data);
             }
         });
     }
 
-    /*getUserActivities = (key) => {
-        console.log(key.key)
-        console.log(this.state.idUser)
-        this.state.idUser=key.key
-        axios.get(`http://localhost:8000/userActivities/${this.state.idUser}`).then(activities => {
-            this.setState({
-                activities: activities.data
-            });
-            console.log(activities);
-        });
-    }*/
-
-    render(){
-        return(
+    return(
         <main>
             <section>
-                {this.state.users.map(user =>
-                    <Link key={user.id} to={`/profile/${user.id}`} className="avatar">
-                        <img className="avatar-image" src={user.avatar} alt={"this is avatar image"}/>
-                        <h3>{user.name} {user.surname}</h3>
-                            {this.state.activities.map(activity =>
-                            <h4>
-                                {activity.name}
-                            </h4>
-                            )}
-                    </Link>
+                {users.map((user, i) =>{
+                        return(<User
+                            key={i}
+                            id={user.id}
+                            avatar={user.avatar}
+                            name={user.name}
+                            surname={user.surname}
+                            className="avatar"
+                            classNameSpan="main"
+                            classNameImg="avatar-image"
+                        />)
+                    }
                 )}
             </section>
         </main>
     )
-    }
+
 }
 
-export default withRouter(Main);
+export default Main;

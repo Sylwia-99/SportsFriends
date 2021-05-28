@@ -24,11 +24,18 @@
     box-shadow: 0 0 20px 5px #2a907f;
 }
 
-.Big-avatar{
+span.big{
     width: 10rem;
     height: 10rem;
+}
+
+.Big-avatar{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 100%;
     box-shadow: 0 0 20px 2px #000000;
+    margin: auto;
 }
 
 .AboutMe{
@@ -120,7 +127,6 @@ form.Send-message-form{
     width: -webkit-fill-available;
     border-radius: 2em;
     background-color: transparent;
-    color: white;
     border: none;
 }
 
@@ -192,7 +198,7 @@ button.Remove-User{
         font-size: 30px;
     }
 
-    .Big-avatar {
+    span.big{
         width: 10em;
         height: 10em;
     }

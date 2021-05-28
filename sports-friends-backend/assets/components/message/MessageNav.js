@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { NavLink} from 'react-router-dom';
-import '../styles/MessageNav.css';
+import '../../styles/MessageNav.css';
 import {withRouter} from "react-router";
 
 class MessageNav extends Component{

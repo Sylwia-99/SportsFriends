@@ -1,15 +1,11 @@
-import React, {Component} from 'react';
-import {withRouter} from "react-router";
-import { withMedia } from 'react-media-query-hoc';
+import React from 'react';
 import NotificationComponent from "../components/NotificationComponent";
-class Notification extends Component{
-    render() {
-        return (
-            <>
-              <NotificationComponent/>
-            </>
-        )
-    }
+const Notification = () => {
+    return (
+        <>
+            <NotificationComponent/>
+        </>
+    )
 }
 
-export default withMedia(withRouter(Notification));
+export default Notification;

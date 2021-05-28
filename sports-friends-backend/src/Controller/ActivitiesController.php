@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Activities;
 use App\Entity\User;
+use App\Repository\ActivitiesRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,77 +16,60 @@ class ActivitiesController extends AbstractController
     /**
      * @Route("/api/addActivity", name="add_activity")
      */
-    public function addActivity(Request $request):Response
+    public function addActivity(Request $request, ActivitiesRepository $activitiesRepository):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-
-        $activity = $this->getDoctrine()
-            ->getRepository(Activities::class);
         $name = $params['name'];
-        $activity->addActivity($name);
+        $activitiesRepository->addActivity($name);
         return $this->render('index/index.html.twig');
     }
 
     /**
      * @Route("/api/addUserActivity/{id}", name="add_user_activity")
      */
-    public function addUserActivity(Request $request, int $id):Response
+    public function addUserActivity(Request $request, UserRepository $userRepository, ActivitiesRepository $activitiesRepository, int $id):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($id);
+        $user = $userRepository->find($id);
 
         $name = ['name' => $params['body']['addActivity']];
-        $activity = $this->getDoctrine()
-            ->getRepository(Activities::class)
-            ->findOneBy($name);
+        $activity = $activitiesRepository->findOneBy($name);
 
-        $this->getDoctrine()
-            ->getRepository(User::class)
-            ->addUserActivity($user, $activity);
+        $userRepository->addUserActivity($user, $activity);
 
-        return $this->render('index/index.html.twig');
+        $response = new Response();
+        $response->setContent(json_encode("User's activity has added"));
+        return $response;
     }
 
     /**
      * @Route("/api/removeUserActivity/{id}", name="remove_user_activity")
      */
-    public function removeUserActivity(Request $request, int $id):Response
+    public function removeUserActivity(Request $request, UserRepository $userRepository, ActivitiesRepository $activitiesRepository, int $id):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($id);
+        $user = $userRepository->find($id);
 
-        dump($params);
         $idActivity = ['id' => $params['body']['removeActivity']];
-        $activity = $this->getDoctrine()
-            ->getRepository(Activities::class)
-            ->findOneBy($idActivity);
+        $activity = $activitiesRepository->findOneBy($idActivity);
 
-        $this->getDoctrine()
-            ->getRepository(User::class)
-            ->removeUserActivity($user, $activity);
+        $userRepository->removeUserActivity($user, $activity);
 
-        return $this->render('index/index.html.twig');
+        $response = new Response();
+        $response->setContent(json_encode("User's activity has removed"));
+        return $response;
     }
 
     /**
      * @Route("/getAllActivities", name="get_all_activities")
      */
-    public function getAllActivities():Response
+    public function getAllActivities(ActivitiesRepository $activitiesRepository):Response
     {
         $response = new Response();
-
-        $activities = $this->getDoctrine()
-            ->getRepository(Activities::class)
-            ->getAllActivities();
-
-        dump($activities);
+        $activities = $activitiesRepository->getAllActivities();
         $response->setContent(json_encode($activities));
         return $response;
     }

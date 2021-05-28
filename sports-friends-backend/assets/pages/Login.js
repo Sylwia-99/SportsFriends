@@ -1,16 +1,13 @@
-import React, {Component} from 'react';
-import {withRouter} from "react-router";
-import { withMedia } from 'react-media-query-hoc';
+import React from 'react';
 import LoginForm from "../components/LoginForm";
 
-class Login extends Component{
-    render() {
-        return (
-            <>
-               <LoginForm/>
-            </>
-        )
-    }
+const Login = () =>{
+    return (
+        <>
+            <LoginForm/>
+        </>
+    );
+
 }
 
-export default withMedia(withRouter(Login));
+export default Login;

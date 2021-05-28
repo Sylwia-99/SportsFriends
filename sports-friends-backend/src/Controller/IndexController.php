@@ -21,12 +21,8 @@ class IndexController extends AbstractController
      */
     public function login(): Response
     {
-        if(!isset($_COOKIE['user'])){
-            return $this->render('index/index.html.twig');
-        }
-        else{
-            return $this->redirectToRoute('home_page');
-        }
+
+        return $this->render('index/index.html.twig');
     }
 
     /**
@@ -42,12 +38,7 @@ class IndexController extends AbstractController
      */
     public function editProfile(): Response
     {
-        if(!isset($_COOKIE['user'])){
-            return $this->render('index/index.html.twig');
-        }
-        else{
-            return $this->redirectToRoute('home_page');
-        }
+        return $this->render('index/index.html.twig');
     }
 
     /**
@@ -95,18 +86,13 @@ class IndexController extends AbstractController
      */
     public function yourProfile(): Response
     {
-        if(isset($_COOKIE['user'])){
-            return $this->render('index/index.html.twig');
-        }
-        else{
-            return $this->redirectToRoute('login');
-        }
+        return $this->render('index/index.html.twig');
     }
 
     /**
      * @Route("/profile/{id}", name="profile")
      */
-    public function showProfile(int $id): Response
+    public function showProfile(): Response
     {
         return $this->render('index/index.html.twig');
     }
@@ -124,24 +110,14 @@ class IndexController extends AbstractController
      */
     public function watched(): Response
     {
-        if(isset($_COOKIE['user'])){
-            return $this->render('index/index.html.twig');
-        }
-        else{
-            return $this->redirectToRoute('login');
-        }
+        return $this->render('index/index.html.twig');
     }
     /**
      * @Route("/followers", name="followers")
      */
     public function followers(): Response
     {
-        if(isset($_COOKIE['user'])){
-            return $this->render('index/index.html.twig');
-        }
-        else{
-            return $this->redirectToRoute('login');
-        }
+        return $this->render('index/index.html.twig');
     }
 
     /**

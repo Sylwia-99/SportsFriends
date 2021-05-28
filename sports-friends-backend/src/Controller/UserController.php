@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +15,10 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{id}", name="show_user")
      */
-    public function showUser(int $id):Response
+    public function showUser(UserRepository $userRepository, int $id):Response
     {
         $response = new Response();
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getUser($id);
+        $user = $userRepository->getUser($id);
 
         $response->setContent(json_encode($user));
         return $response;
@@ -28,12 +27,10 @@ class UserController extends AbstractController
     /**
      * @Route("/api/user/{id}", name="show_current_user")
      */
-    public function showCurrentUser(int $id):Response
+    public function showCurrentUser(UserRepository $userRepository, int $id):Response
     {
         $response = new Response();
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getUser($id);
+        $user = $userRepository->getUser($id);
         $response->setContent(json_encode($user));
         return $response;
     }
@@ -41,12 +38,10 @@ class UserController extends AbstractController
     /**
      * @Route("/users", name="show_all_users")
      */
-    public function showAllUsers(): Response
+    public function showAllUsers(UserRepository $userRepository): Response
     {
         $response = new Response();
-        $users = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getAllUsers();
+        $users = $userRepository->getAllUsers();
         $response->setContent(json_encode($users));
         return $response;
     }
@@ -54,7 +49,7 @@ class UserController extends AbstractController
     /**
      * @Route("/showSearchedUsers/{nameSurname}", name="show_searched_users")
      */
-    public function showSearchedUsers(String $nameSurname): Response
+    public function showSearchedUsers(UserRepository $userRepository, String $nameSurname): Response
     {
         $splitNameSurname = explode(" ", $nameSurname);
         if(isset($splitNameSurname[1])){
@@ -66,9 +61,7 @@ class UserController extends AbstractController
         }
 
         $response = new Response();
-        $users = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getSearchedUsers($name, $surname);
+        $users =$userRepository->getSearchedUsers($name, $surname);
         $response->setContent(json_encode($users));
         return $response;
     }
@@ -76,12 +69,10 @@ class UserController extends AbstractController
     /**
      * @Route("/api/userActivities/{id}", name="show__current_user_activities")
      */
-    public function showCurrentUserActivities(int $id):Response
+    public function showCurrentUserActivities(UserRepository $userRepository, int $id):Response
     {
         $response = new Response();
-        $activities = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getAllUserActivities($id);
+        $activities = $userRepository->getAllUserActivities($id);
         $response->setContent(json_encode($activities));
         return $response;
     }
@@ -89,12 +80,10 @@ class UserController extends AbstractController
     /**
      * @Route("/userActivities/{id}", name="show_user_activities")
      */
-    public function showUserActivities(int $id):Response
+    public function showUserActivities(UserRepository $userRepository, int $id):Response
     {
         $response = new Response();
-        $activities = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->getAllUserActivities($id);
+        $activities = $userRepository->getAllUserActivities($id);
         $response->setContent(json_encode($activities));
         return $response;
     }
@@ -102,13 +91,11 @@ class UserController extends AbstractController
     /**
      * @Route("/api/changeUserPassword/{id}", name="change_user_password")
      */
-    public function changeUserPassword(Request $request, int $id, UserPasswordEncoderInterface $encoder):Response
+    public function changeUserPassword(Request $request, UserRepository $userRepository, int $id, UserPasswordEncoderInterface $encoder):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($id);
+        $user =$userRepository->find($id);
         $email = $user->getEmail();
 
         $currentPassword = $params['body']['currentPassword'];
@@ -123,10 +110,10 @@ class UserController extends AbstractController
             throw $this->createNotFoundException('Hasła się różnią!');
         };
 
-        $this->getDoctrine()
-            ->getRepository(User::class)
-            ->changeUserPassword($email ,$password, $encoder);
+        $userRepository->changeUserPassword($email ,$password, $encoder);
 
-        return $this->render('index/index.html.twig');
+        $response = new Response();
+        $response->setContent(json_encode('Password has changed'));
+        return $response;
     }
 }

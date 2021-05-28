@@ -1,7 +1,7 @@
 .App-header{
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    background-color: #04C9A8;
+    background-color: #04c9a8;
     box-shadow: 1px -1px 10px;
 }
 
@@ -46,14 +46,44 @@ img{
 }
 
 .icons{
-    grid-column: 9/13;
+    grid-column: 8/14;
     align-self: center;
 }
 
 .icons > a{
-    margin: 0.2em;
+    margin: 0.3em;
     color: white;
-    font-size: 2.5em;
+    font-size: 2.7em;
+}
+
+.icons > a :hover{
+    opacity: 0.9;
+    transition: opacity 0.2ms;
+}
+
+.icons > a > span :hover{
+    transform: scale(1.1);
+    transition: transform 0.2ms;
+}
+
+.small-avatar{
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+
+    border-radius: 100%;
+    display: inherit;
+    box-shadow: 0 0 20px 5px #2a907f;
+}
+
+span.small{
+    width: 0.95em;
+    height: 0.95em;
+}
+
+button.search-button{
+    opacity: 1;
+    transition: opacity 0.2ms;
 }
 
 @media only screen and (max-width: 1300px) {

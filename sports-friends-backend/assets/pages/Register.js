@@ -1,16 +1,13 @@
-import React, {Component} from 'react';
-import {withRouter} from "react-router";
-import { withMedia } from 'react-media-query-hoc';
+import React from 'react';
 import RegisterForm from "../components/RegisterForm";
 
-class Register extends Component{
-    render() {
-        return (
-            <>
-               <RegisterForm/>
-            </>
-        )
-    }
+const Register = () =>{
+    return (
+        <>
+            <RegisterForm/>
+        </>
+    )
+
 }
 
-export default withMedia(withRouter(Register));
+export default Register;

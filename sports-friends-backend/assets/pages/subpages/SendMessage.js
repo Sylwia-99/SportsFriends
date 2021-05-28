@@ -1,91 +1,99 @@
-import React, {Component} from 'react';
-import MessageNav from '../../components/MessageNav';
-import {withRouter} from "react-router";
+import React, {useEffect, useState} from 'react';
+import MessageNav from '../../components/message/MessageNav';
 import Header from "../../components/Header";
 import '../../styles/ReceiverSendMessage.css';
 import {Api} from "../../apiHandler/apiHandler";
-class SendMessage extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            sentMessages: [],
-            recipientName: '',
-            recipientSurname: '',
-            recipientAvatar: '',
-            contents: ''
-        }
-    }
+import Message from "../../components/message/Message";
+import {BsArrowLeft} from 'react-icons/bs';
 
-    componentDidMount() {
-        this.getSentMessages();
-    }
+const SendMessage = () =>{
+    const[sentMessages, setSentMessages] = useState([]);
+    const[recipient, setRecipient] = useState({
+        senderName: '',
+        senderSurname: '',
+        senderAvatar: '',
+        contents: '',
+        clicked:false
+    })
 
-    getSentMessages(){
+    useEffect(() =>{
+        getSentMessages();
+    }, [])
+
+    function getSentMessages(){
         Api.sentMessages().then( response =>{
             if(response.status === 200){
-                this.setState({
-                    sentMessages: response.data
-                });
+                if(response.data !== []){
+                    setSentMessages( response.data);
+                }
             }
         });
     }
 
-    clickedMessage=(n, m, a, c)=>{
-        this.setState({
-            recipientName: n,
-            recipientSurname: m,
-            recipientAvatar: a,
-            contents: c
-        })
+    const clickedMessage=(n, m, a, c, tf)=>{
+        import(`../../../src/uploads/${a}`)
+            .then(({default: url}) =>{
+                setRecipient({
+                    recipientName: n,
+                    recipientSurname: m,
+                    recipientAvatar: url,
+                    contents: c,
+                    clicked: tf
+                })
+            })
     }
-
-    render() {
-        return (
-            <div className="App">
-                <Header/>
-                <div className="Messages">
-                    <MessageNav/>
-                    <div className="Sends">
-                        <div className='Receiver-messages'>
-                            <h1>Wysłane</h1>
-                            <ul className="Rec-messages-list">
-                                {
-                                    this.state.sentMessages!=null ?
-                                        this.state.sentMessages.map(sentMessage =>
-                                                <li>
-                                                    <div className="One-friend" onClick={()=>this.clickedMessage(sentMessage.name,sentMessage.surname,sentMessage.avatar,sentMessage.contents)}>
-                                                        <img className="Medium-avatar" src={sentMessage.avatar}/>
-                                                        <h4>{sentMessage.name} {sentMessage.surname}</h4>
-                                                    </div>
-                                                    <p>{sentMessage.contents}</p>
-                                                </li>)
-                                        :
-                                        <li>
-                                            <div className="One-friend">
-                                                <h4>Brak wiadomości</h4>
-                                            </div>
-                                        </li>
-                                }
-                            </ul>
+    return (
+        <div className="App">
+            <Header/>
+            <div className="Messages">
+                <MessageNav/>
+                <div className="Sends">
+                    <div className='Receiver-messages'>
+                        <h1>Wysłane</h1>
+                        <div className="Rec-messages">
+                            {
+                                sentMessages.length!==0 ?
+                                    sentMessages.map((sentMessage, i) => {
+                                        return (<Message
+                                                key={i}
+                                                contents={sentMessage.contents}
+                                                name={sentMessage.name}
+                                                surname={sentMessage.surname}
+                                                avatar={sentMessage.avatar}
+                                                onClick={()=>clickedMessage(sentMessage.name, sentMessage.surname, sentMessage.avatar, sentMessage.contents, true)}
+                                            />)
+                                    }) :
+                                    <div className="Statement">
+                                        <h4>Brak wiadomości</h4>
+                                    </div>
+                            }
                         </div>
-                        {
-                            this.state.recipientName==='' ?
-                                null
-                                :
-                                <div className='Receiver-message'>
+                    </div>
+                    {
+                        recipient.clicked===false ?
+                            null
+                            :
+                            <div className='Receiver-message'>
+                                <BsArrowLeft
+                                    className="Rowback"
+                                    onClick={()=>setRecipient({clicked: false})}
+                                />
+                                <div className="Whole-message">
                                     <div className="One-friend">
                                         <h4>Do:</h4>
-                                        <img className="Medium-avatar" src={this.state.recipientAvatar}/>
-                                        <h4>{this.state.recipientName} {this.state.recipientSurname}</h4>
+                                        <span>
+                                            <img className="Medium-avatar" src={recipient.recipientAvatar}/>
+                                        </span>
+                                        <h4>{recipient.recipientName} {recipient.recipientSurname}</h4>
+
                                     </div>
-                                    <p>{this.state.contents}</p>
+                                    <p>{recipient.contents}</p>
                                 </div>
-                        }
-                    </div>
+                            </div>
+                    }
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-export default withRouter(SendMessage);
+export default SendMessage;

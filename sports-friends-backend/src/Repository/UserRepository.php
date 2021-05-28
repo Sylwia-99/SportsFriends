@@ -187,7 +187,7 @@ class UserRepository extends ServiceEntityRepository
             LEFT JOIN follower_watched fw ON u.id=fw.id_user_follower
             LEFT JOIN user uu ON uu.id =fw.id_user_watcher
             LEFT JOIN user_details ud ON uu.id_user_details_id = ud.id 
-            WHERE u.id=:id
+            WHERE u.id=:id AND fw.id_user_watcher IS NOT NULL
         ';
         $stmt = $entityManager->prepare($query);
         $stmt->execute(['id' => $id]);
@@ -208,7 +208,7 @@ class UserRepository extends ServiceEntityRepository
                      LEFT JOIN follower_watched fw ON u.id=fw.id_user_watcher
                      LEFT JOIN user uu ON uu.id =fw.id_user_follower
                      LEFT JOIN user_details ud ON uu.id_user_details_id = ud.id
-            WHERE u.id=:id
+            WHERE u.id=:id AND fw.id_user_follower IS NOT NULL
         ';
         $stmt = $entityManager->prepare($query);
         $stmt->execute(['id' => $id]);

@@ -1,16 +1,12 @@
-import React, {Component} from 'react';
-import {withRouter} from "react-router";
-import { withMedia } from 'react-media-query-hoc';
+import React from 'react';
 import FollowersComponent from "../components/FollowersComponent";
 
-class Followers extends Component{
-    render() {
-        return (
-            <>
-                <FollowersComponent/>
-            </>
-        );
-    }
+const Followers = () =>{
+    return (
+        <>
+            <FollowersComponent/>
+        </>
+    );
 }
 
-export default withMedia(withRouter(Followers));
+export default Followers;

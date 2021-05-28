@@ -6,6 +6,10 @@ use App\Entity\Address;
 use App\Entity\Logs;
 use App\Entity\User;
 use App\Entity\UserDetails;
+use App\Repository\AddressRepository;
+use App\Repository\LogsRepository;
+use App\Repository\UserDetailsRepository;
+use App\Repository\UserRepository;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +22,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/createUser", name="add_user")
      */
-    public function createUser(Request $request, UserPasswordEncoderInterface $encoder):Response
+    public function createUser(Request $request, AddressRepository $addressRepository, UserDetailsRepository $userDetailsRepository, UserRepository $userRepository, UserPasswordEncoderInterface $encoder):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
@@ -30,20 +34,10 @@ class SecurityController extends AbstractController
         $email = $params['body']['email'];
         $password = $params['body']['password'];
         $confirmPassword = $params['body']['confirmPassword'];
-        $address = $this->getDoctrine()
-            ->getRepository(Address::class);
-
-        $userDetails = $this->getDoctrine()
-            ->getRepository(UserDetails::class);
-
-        $user = $this->getDoctrine()
-            ->getRepository(User::class);
 
         $userEmail = ['email' => $params['body']['email']];
 
-        $userExist = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($userEmail);
+        $userExist = $userRepository->findOneBy($userEmail);
 
         if($userExist){
             throw $this->createNotFoundException('Użytkownik o taki emailu już istnieje!');
@@ -52,24 +46,22 @@ class SecurityController extends AbstractController
         if($password != $confirmPassword){
             throw $this->createNotFoundException('Hasła się różnią!');
         };
-        $newAddress = $address->addAddress($street, $postalCode, $city);
-        $newUserDetails = $userDetails->addUserDatails($name, $surname, 'https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg', $newAddress);
-        $user->addUser($email, $password, $newUserDetails, $encoder);
+        $newAddress = $addressRepository->addAddress($street, $postalCode, $city);
+        $newUserDetails = $userDetailsRepository->addUserDatails($name, $surname, 'picture.jpg', $newAddress);
+        $userRepository->addUser($email, $password, $newUserDetails, $encoder);
         return $this->render('index/index.html.twig');
     }
 
     /**
      * @Route("/loginUser", name="login_user")
      */
-    public function loginUser(Request $request, UserPasswordEncoderInterface $encoder)
+    public function loginUser(Request $request, UserRepository $userRepository, LogsRepository $logsRepository, UserPasswordEncoderInterface $encoder)
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
         $email = ['email' => $params['body']['email']];
 
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy($email);
+        $user = $userRepository->findOneBy($email);
 
         if(!$user){
             throw $this->createNotFoundException('Użytkownik nie istnieje!');
@@ -87,18 +79,11 @@ class SecurityController extends AbstractController
 
         $name = $userDetails->getName();
         $surname = $userDetails->getSurname();
-        $cookie_name = 'user';
-        $cookie_value = $params['body']['email'];
-        setcookie($cookie_name, $cookie_value, time() + 3600 * 24 * 30, '/');
 
         if(!$is_logged=$user->getIsLogged()) {
-            $this->getDoctrine()
-                ->getRepository(User::class)
-                ->loginUser($cookie_value, true);
+            $userRepository->loginUser($user->getEmail(), true);
 
-            $this->getDoctrine()
-                ->getRepository(Logs::class)
-                ->addLogs($name, $surname);
+            $logsRepository->addLogs($name, $surname);
         }
 
         $payload = [
@@ -119,31 +104,14 @@ class SecurityController extends AbstractController
     /**
      * @Route("/api/logoutUser", name="logout_user")
      */
-    public function logoutUser():Response
+    public function logoutUser(UserRepository $userRepository):Response
     {
-        if(isset($_COOKIE['user'])){
-            $this->getDoctrine()
-                ->getRepository(User::class)
-                ->loginUser($_COOKIE['user'], false);
-            setcookie('user', "", time() - 3600, '/');
-
-            /*$email = ['email' => $_COOKIE['user']];
-            $user=$this->getDoctrine()
-                ->getRepository(User::class)
-                ->findOneBy($email);
-
-            $payload = [
-                'user' => $user->getUsername(),
-                'exp' => (new \DateTime())->modify('+5 days')->getTimestamp(),
-            ];
-            $jwt = JWT::encode($payload, $this->getParameter('jwt_secret'), 'HS256');
-            return $this->json([
-                'message' => 'logout success! ',
-                'token' => sprintf('Bearer %s', $jwt),
-
-            ]);*/
-        }
-        return $this->render('index/index.html.twig');
+        $username = $this->getUser()->getUsername();
+        $userRepository->loginUser($username, false);
+        session_destroy();
+        $response = new Response();
+        $response->setContent(json_encode('Pomyślne wylogowanie'));
+        return $response;
     }
 
 }

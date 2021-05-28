@@ -14,7 +14,7 @@
     color: #04C9A8;
 }
 
-.Accept-button{
+.Accept-button, .Accept-info{
     font-size: 1em;
     height: 2.5em;
     width: 15vw;
@@ -24,6 +24,17 @@
     border: none;
     margin-right: 1em;
     box-shadow: 5px 4px 11px 1px #000000;
+}
+
+.Accept-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: text;
+}
+
+.Accept-info:hover{
+    opacity: 1;
 }
 
 .Reject-button{
@@ -38,6 +49,12 @@
     box-shadow: 5px 4px 11px 1px #000000;
 }
 
+.Notification>h4{
+    display: flex;
+    justify-content: center;
+    font-size: xx-large;
+}
+
 @media only screen and (max-width: 1200px) {
     .Notification{
         font-size: 30px;
@@ -46,7 +63,7 @@
         text-align: initial;
     }
 
-    .Accept-button, .Reject-button{
+    .Accept-button,.Accept-info, .Reject-button{
         width: 10em;
     }
 

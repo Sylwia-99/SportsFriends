@@ -16,7 +16,6 @@ import Followers from './pages/Followers';
 import EditProfile from './pages/EditProfile';
 import Home from "./pages/Home";
 import Search from "./pages/Search";
-import {Api} from "./apiHandler/apiHandler";
 
 const ProtectedRoute = ({component: Component, auth, ...rest}) => {
     return (
@@ -54,9 +53,9 @@ class Navigation extends Component{
                             <ProtectedRoute path="/sendmessage" auth={this.state.auth} exact component={SendMessage}/>
                             <ProtectedRoute path="/notification" auth={this.state.auth} extact component={Notification}/>
                             <ProtectedRoute path="/yourProfile" auth={this.state.auth} extact component={YourProfile}/>
-                            <ProtectedRoute path="/profile/:profileId" auth={this.state.auth} extact component={Profile}/>
+                            <ProtectedRoute path="/profile/:id" auth={this.state.auth} extact component={Profile}/>
                             <Route path="/login" auth={this.state.auth} extact component={Login}/>
-                            <ProtectedRoute path="/register" auth={this.state.auth} extact component={Register}/>
+                            <Route path="/register" auth={this.state.auth} extact component={Register}/>
                             <ProtectedRoute path="/singleChat" auth={this.state.auth} extact component={SingleChat}/>
                             <ProtectedRoute path="/watched" auth={this.state.auth} extact component={Watched}/>
                             <ProtectedRoute path="/followers" auth={this.state.auth} extact component={Followers}/>
