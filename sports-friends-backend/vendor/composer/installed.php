@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '8e8db4c28aa4a837fa916ae95f0c9255b6c26eeb',
+    'reference' => '2510671532c543e883a761b9bfd9d3f703fbbbf6',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '8e8db4c28aa4a837fa916ae95f0c9255b6c26eeb',
+      'reference' => '2510671532c543e883a761b9bfd9d3f703fbbbf6',
     ),
     'api-platform/core' => 
     array (
@@ -467,6 +467,24 @@
       ),
       'reference' => '430d14c01836b77c28092883d195a43ce413ee32',
     ),
+    'swiftmailer/swiftmailer' => 
+    array (
+      'pretty_version' => 'v6.2.7',
+      'version' => '6.2.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '15f7faf8508e04471f666633addacf54c0ab5933',
+    ),
+    'symfony/amqp-messenger' => 
+    array (
+      'pretty_version' => 'v5.2.7',
+      'version' => '5.2.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2dbdde5e095c1ee8df84560db5bdd4e7e48cbeac',
+    ),
     'symfony/asset' => 
     array (
       'pretty_version' => 'v5.2.4',
@@ -572,6 +590,15 @@
       array (
       ),
       'reference' => '9e2c53f3e8f8a6ccecd80de5c2c8b71beeca7fc8',
+    ),
+    'symfony/doctrine-messenger' => 
+    array (
+      'pretty_version' => 'v5.2.7',
+      'version' => '5.2.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f5544cd4a5d06ffb75a09c6cde099d22cd0e1255',
     ),
     'symfony/dom-crawler' => 
     array (
@@ -748,6 +775,15 @@
       array (
       ),
       'reference' => 'a395a85aa4ded6c1fa3da118d60329b64b6c2acd',
+    ),
+    'symfony/messenger' => 
+    array (
+      'pretty_version' => 'v5.2.10',
+      'version' => '5.2.10.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd74d976c7652c2252713e9d1c38e8dbfdfc11d80',
     ),
     'symfony/mime' => 
     array (
@@ -941,6 +977,15 @@
       ),
       'reference' => 'fd6bb40190b1719abbe831be09adf38e0744d5f5',
     ),
+    'symfony/redis-messenger' => 
+    array (
+      'pretty_version' => 'v5.2.7',
+      'version' => '5.2.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '70c0adb4edd401ed97fbe88568e16381c13a69d2',
+    ),
     'symfony/routing' => 
     array (
       'pretty_version' => 'v5.2.4',
@@ -1037,6 +1082,15 @@
       array (
       ),
       'reference' => '4e78d7d47061fa183639927ec40d607973699609',
+    ),
+    'symfony/swiftmailer-bundle' => 
+    array (
+      'pretty_version' => 'v3.5.2',
+      'version' => '3.5.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6b72355549f02823a2209180f9c035e46ca3f178',
     ),
     'symfony/translation' => 
     array (

@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Address;
-use App\Entity\Logs;
-use App\Entity\User;
-use App\Entity\UserDetails;
+use App\Message\UserRegistered;
 use App\Repository\AddressRepository;
 use App\Repository\LogsRepository;
 use App\Repository\UserDetailsRepository;
@@ -14,6 +11,7 @@ use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -22,7 +20,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/createUser", name="add_user")
      */
-    public function createUser(Request $request, AddressRepository $addressRepository, UserDetailsRepository $userDetailsRepository, UserRepository $userRepository, UserPasswordEncoderInterface $encoder):Response
+    public function createUser(Request $request, AddressRepository $addressRepository, UserDetailsRepository $userDetailsRepository, UserRepository $userRepository, UserPasswordEncoderInterface $encoder, MessageBusInterface $bus):Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
@@ -49,6 +47,10 @@ class SecurityController extends AbstractController
         $newAddress = $addressRepository->addAddress($street, $postalCode, $city);
         $newUserDetails = $userDetailsRepository->addUserDatails($name, $surname, 'picture.jpg', $newAddress);
         $userRepository->addUser($email, $password, $newUserDetails, $encoder);
+
+        $user=$userRepository->findOneBy($userEmail);
+        $bus->dispatch(new UserRegistered($user));
+
         return $this->render('index/index.html.twig');
     }
 
@@ -107,7 +109,9 @@ class SecurityController extends AbstractController
     public function logoutUser(UserRepository $userRepository):Response
     {
         $username = $this->getUser()->getUsername();
+        dump($username);
         $userRepository->loginUser($username, false);
+        dump($userRepository);
         session_destroy();
         $response = new Response();
         $response->setContent(json_encode('Pomyślne wylogowanie'));
