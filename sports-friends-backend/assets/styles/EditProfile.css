@@ -24,6 +24,7 @@
 
 .Edit-image-buttons{
     display: flex;
+    justify-content: center;
 }
 
 span.big{
@@ -70,9 +71,8 @@ select{
     border-radius: 2em;
     border: none;
     margin: 1em;
-    padding: 0 0 0 4em;
+    padding: 0 4.5em 0 4.5em;
     box-shadow: 5px 4px 11px 1px #000000;
-
 }
 
 option{
@@ -107,6 +107,55 @@ input[type="file"]::-ms-browse {
     justify-content: center;
     display: flex;
     cursor: pointer;
+}
+
+.Mymodal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    background: #fff;
+    overflow: auto;
+    outline: none;
+    padding: 3rem 5rem;
+    text-align: center;
+    width: 15em;
+}
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.Modal-button{
+    background-color: #04C9A8;
+    box-shadow: 5px 4px 11px 1px #000000;
+    color: white;
+    border: none;
+    padding: 0.8em;
+    width: 10em;
+    margin-top: 2em;
+    cursor: pointer;
+    border-radius: 1rem;
+}
+
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+
+.Myoverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 @media only screen and (max-width: 1200px) {

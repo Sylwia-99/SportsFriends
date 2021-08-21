@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import {Api} from "../../apiHandler/apiHandler";
+import MyModal from "../MyModal";
+
 const AddActivity = props =>{
     const {register, handleSubmit, formState:{ errors }} = useForm();
     const [errorMessage,setErrorMessage] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const onSubmit = formData => {
         Api.addUserActivity(formData.addActivity).then( response =>{
             if(response.status === 200){
-                alert('Dodano aktywność');
+                setIsOpen(!isOpen);
             }
         }).then(function (response) {
             console.log(response);
@@ -19,8 +22,14 @@ const AddActivity = props =>{
         });
     }
 
+    const clickOk  = () => {
+        setIsOpen(!isOpen);
+        location.href = '/yourProfile';
+    }
+
     return (
         <div className="Add-activities">
+            <MyModal isOpen={isOpen} onClick={()=>clickOk()} message={"Pomyślnie dodano aktywność"}/>
             <h3>Dodaj aktywność</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage==='' ?

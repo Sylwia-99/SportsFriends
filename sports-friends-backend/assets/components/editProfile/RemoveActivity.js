@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {useForm} from "react-hook-form";
 import {Api} from "../../apiHandler/apiHandler";
+import MyModal from "../MyModal";
 const RemoveActivity = props =>{
     const {register, handleSubmit, formState:{ errors }} = useForm();
     const [errorMessage,setErrorMessage] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const onSubmit = formData => {
         Api.removeUserActivity(formData.removeActivity).then( response =>{
             if(response.status === 200){
-                alert('Usunięto aktywność');
+                setIsOpen(!isOpen);
             }
         }).then(function (response) {
             console.log(response);
@@ -21,6 +23,7 @@ const RemoveActivity = props =>{
 
     return (
         <div className="Remove-activities">
+            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={"Pomyślnie usunieto aktywność"}/>
             <h3>Usuń aktywność</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage==='' ?
@@ -28,7 +31,7 @@ const RemoveActivity = props =>{
                     :
                     <p className="Messages">{errorMessage}</p>
                 }
-                <select
+                <select className="custom-select"
                     name="removeActivity"
                     {...register("removeActivity",{
                         required: "To pole jest wymagane"

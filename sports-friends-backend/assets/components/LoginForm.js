@@ -4,7 +4,6 @@ import logo from '../images/logo.png';
 import {Link} from "react-router-dom";
 import {Api} from "../apiHandler/apiHandler";
 import {useForm} from "react-hook-form";
-import {useHistory} from "react-router";
 
 const LoginForm = () =>{
     const {register, handleSubmit, formState:{ errors }} = useForm();

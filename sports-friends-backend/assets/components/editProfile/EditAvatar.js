@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import {Api} from "../../apiHandler/apiHandler";
+import {useForm} from "react-hook-form";
+import MyModal from "../MyModal";
 const EditAvatar = props =>{
+    const { handleSubmit } = useForm();
+
     const [selectedFile, setSelectedFile] = useState();
     const [errorMessage,setErrorMessage] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const fileSelectedHandler = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -13,7 +18,7 @@ const EditAvatar = props =>{
         fd.append('avatar', selectedFile);
         Api.changeAvatar(fd).then( response =>{
             if(response.status === 200) {
-                alert('Avatar został zmieniony');
+                setIsOpen(!isOpen);
             }
         }).then(function (response) {
             console.log(response);
@@ -24,10 +29,16 @@ const EditAvatar = props =>{
         });
     }
 
+    const clickOk  = () => {
+        setIsOpen(!isOpen);
+        location.href = '/yourProfile';
+    }
+
     return (
         <div className="Edit-image">
+            <MyModal isOpen={isOpen} onClick={()=>clickOk()} message={"Pomyślnie zmieniono zdjęcie profilowe"}/>
             <h3>Edytuj zdjęcie profilowe</h3>
-            <form onSubmit={fileUploadHandler}>
+            <form onSubmit={handleSubmit(fileUploadHandler)}>
                 {errorMessage==='' ?
                     null
                     :
@@ -38,6 +49,7 @@ const EditAvatar = props =>{
                 </span>
                 <div className="Edit-image-buttons">
                     <input
+                        className="choose-file-button"
                         type="file"
                         onChange={fileSelectedHandler}
                     />
@@ -45,7 +57,7 @@ const EditAvatar = props =>{
                         className="Edit-image-button"
                         type="submit"
                     >
-                        Zmien zdjęcie profilowe
+                        Zmień zdjęcie profilowe
                     </button>
                 </div>
             </form>

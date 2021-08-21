@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Api} from "../../apiHandler/apiHandler";
 import {useForm} from "react-hook-form";
+import MyModal from "../MyModal";
 
 const EditNameSurname = props =>{
-    const {register, handleSubmit, formState:{ errors }} = useForm();
+    const {register, handleSubmit, formState:{ errors }, reset } = useForm();
     const [errorMessage,setErrorMessage] = useState('');
+    const [userChange, setUserChange] = useState({name: '', surname: ''});
+    const [isOpen, setIsOpen] = useState(false);
 
     const onSubmit = formData => {
         Api.changeNameSurname(formData.name, formData.surname)
@@ -18,15 +21,19 @@ const EditNameSurname = props =>{
             }
         }).then(()=>{
             if (errorMessage === '') {
-                alert('Imie i nazwisko zostało zmieniowe');
+                setIsOpen(!isOpen);
+                setUserChange({name: formData.name, surname: formData.surname});
+                reset({name:''});
             }
         });
     }
 
     return (
         <div className="Edit-name-surname">
+            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={"Imię i nazwisko zostało zmienione"}/>
             <h3>Edytuj Imię i Nazwisko</h3>
-            <h2 id="name">{props.name} {props.surname}</h2>
+            {(userChange?.name || userChange?.surname) && <h2 id="name">{userChange.name} {userChange.surname}</h2> }
+            {!userChange?.name && <h2 id="name">{props.name} {props.surname}</h2> }
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input
                     placeholder="Imię"

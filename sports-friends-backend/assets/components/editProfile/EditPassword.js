@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
 import {Api} from "../../apiHandler/apiHandler";
 import {useForm} from "react-hook-form";
+import MyModal from "../MyModal";
 
 const EditPassword = props =>{
-    const {register, handleSubmit, formState:{ errors }} = useForm();
+    const {register, handleSubmit, formState:{ errors }, reset} = useForm();
     const [errorMessage,setErrorMessage] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const onSubmit = formData =>{
        Api.changePassword(formData.currentPassword, formData.password, formData.confirmedPassword).then( response =>{
            if(response.status === 200){
-               alert('Hasło zostało zmieniowe');
+               setIsOpen(!isOpen);
+               reset({name:''});
            }
        }).catch( (error) =>{
            if(error.response){
@@ -20,6 +23,7 @@ const EditPassword = props =>{
 
     return (
         <div className="Edit-password">
+            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={"Hasło zostało zmienione"}/>
             <h3>Zmień hasło</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage==='' ?

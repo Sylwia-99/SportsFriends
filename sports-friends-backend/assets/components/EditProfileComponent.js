@@ -19,9 +19,9 @@ const EditProfileComponent = () =>{
 
     const [avatar, setAvatar] = useState();
 
-    const [activities, setActivities] =useState( []);
+    const [activities, setActivities] = useState( []);
 
-    const [allActivities, setAllActivities] =useState([]);
+    const [allActivities, setAllActivities] = useState([]);
 
     useEffect(() =>{
         getUser();
