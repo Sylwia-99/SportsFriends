@@ -1,0 +1,30 @@
+.conversation-container{
+    display: flex;
+    -webkit-box-align: start;
+    align-items: flex-start;
+    width: fit-content;
+}
+
+.conversation-content{
+    -webkit-box-flex: 1;
+    flex: 1;
+}
+
+.conversation-data-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.one-friend{
+    display: flex;
+    align-items: center;
+}
+
+.medium-avatar{
+    width: 4em;
+    height: 4em;
+    border-radius: 100%;
+    margin: 0.5em;
+}
+

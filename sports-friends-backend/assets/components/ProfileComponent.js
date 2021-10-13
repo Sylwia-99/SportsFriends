@@ -4,6 +4,7 @@ import '../styles/YourProfile.css';
 import { FaMapMarkerAlt} from 'react-icons/fa';
 import {Api} from "../apiHandler/apiHandler";
 import Activity from "./Activity";
+import {addMessage, setLastMessage} from "./actions/conversation";
 
 const ProfileComponent = (props) =>{
     const [currentUser, setCurrentUser] = useState({
@@ -26,6 +27,10 @@ const ProfileComponent = (props) =>{
 
     const [message, setMessage] = useState({
         contents: ''
+    })
+
+    const [conversation, setConversation] = useState({
+        id: null
     })
 
     const [isWatched, setIsWatched] = useState({
@@ -114,10 +119,16 @@ const ProfileComponent = (props) =>{
     }
 
     function sendMessage (){
-        Api.newMessage(props.id, message.contents).then( response =>{
-            if(response.status === 200){
-                console.log('Wysłano wiadomość');
-            }
+        Api.createConversation(props.id).then(response => {
+            setConversation({id: response.data.id})
+            console.log(response.data.id)
+            Api.sendMessage(message.contents, conversation.id).then(({data}) => {
+                //dispatch(setLastMessage(data, conversation.id));
+                //return dispatch(addMessage(data, conversation))
+            });
+            setMessage({
+                contents: ''
+            });
         }).catch(function (error) {
             console.log(error);
         });
@@ -164,7 +175,7 @@ const ProfileComponent = (props) =>{
                 </div>
             </div>
             <div className="Send-message-profile">
-                <form className="Send-message-form" onSubmit={sendMessage}>
+                <form action="#" className="Send-message-form">
                     <input
                         className="Send-input"
                         name="contents"
@@ -172,7 +183,13 @@ const ProfileComponent = (props) =>{
                         value={message.contents}
                         onChange={handleChange}
                     />
-                    <button className="Send-button" type="submit">Wyślij</button>
+                    <button
+                        className="Send-button"
+                        type="button"
+                        onClick={sendMessage}
+                    >
+                        Wyślij
+                    </button>
                 </form>
             </div>
             {

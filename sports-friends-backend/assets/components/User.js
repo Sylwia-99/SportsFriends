@@ -27,15 +27,15 @@ const User =  (props) =>{
     },[]);
 
     return (
-        <Link key={props.key} to={`/profile/${props.id}`} className={props.className}>
+        <Link to={`/profile/${props.id}`} className={props.className}>
                         <span className={props.classNameSpan}>
                             <img className={props.classNameImg} src={avatar} alt={"this is avatar image"}/>
                         </span>
             <h3>{props.name} {props.surname}</h3>
                 <div className="User-activities">
                     {
-                        activities.map((activity) =>{
-                            return(<h4 >{activity.name} </h4>)
+                        activities.map((activity, index) =>{
+                            return(<h4 key={index}>{activity.name} </h4>)
                         })
                     }
                 </div>

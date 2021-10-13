@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user/{id}", name="show_user")
+     * @Route("api/user/{id}", name="show_user")
      */
     public function showUser(UserRepository $userRepository, int $id):Response
     {
@@ -23,6 +23,21 @@ class UserController extends AbstractController
         $response->setContent(json_encode($user));
         return $response;
     }
+
+    /**
+     * @Route("/userFromEmail/{email}", name="show_user")
+     */
+    public function userFromEmail(UserRepository $userRepository, String $email):Response
+    {
+        $response = new Response();
+        $userId = $userRepository->findOneBy(['email' => $email])->getId();
+        $user = $userRepository->getUser($userId);
+
+        $response->setContent(json_encode($user));
+        return $response;
+    }
+
+
 
     /**
      * @Route("/api/user/{id}", name="show_current_user")

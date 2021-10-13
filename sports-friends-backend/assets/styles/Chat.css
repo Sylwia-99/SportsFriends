@@ -1,0 +1,9 @@
+.conversations-container{
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.conversations-content{
+    display: flex;
+}

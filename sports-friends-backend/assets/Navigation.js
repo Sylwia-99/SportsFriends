@@ -16,6 +16,7 @@ import Followers from './pages/Followers';
 import EditProfile from './pages/EditProfile';
 import Home from "./pages/Home";
 import Search from "./pages/Search";
+import Chat from './pages/Chat'
 
 const ProtectedRoute = ({component: Component, auth, ...rest}) => {
     return (
@@ -30,6 +31,7 @@ const ProtectedRoute = ({component: Component, auth, ...rest}) => {
         />
     )
 }
+
 class Navigation extends Component{
     state = {
         auth: false,
@@ -47,21 +49,22 @@ class Navigation extends Component{
             <div className="root">
                     <Router>
                         <Switch>
-                            <ProtectedRoute path="/messages" auth={this.state.auth} extact component={Messages}/>
-                            <ProtectedRoute path="/newmessage" auth={this.state.auth} exact component={NewMessage}/>
-                            <ProtectedRoute path="/receivermessage" auth={this.state.auth}  exact component={ReceiverMessage}/>
-                            <ProtectedRoute path="/sendmessage" auth={this.state.auth} exact component={SendMessage}/>
-                            <ProtectedRoute path="/notification" auth={this.state.auth} extact component={Notification}/>
-                            <ProtectedRoute path="/yourProfile" auth={this.state.auth} extact component={YourProfile}/>
-                            <ProtectedRoute path="/profile/:id" auth={this.state.auth} extact component={Profile}/>
+                            <Route path="/messages" auth={this.state.auth} extact component={Messages}/>
+                            <Route path="/newmessage" auth={this.state.auth} exact component={NewMessage}/>
+                            <Route path="/receivermessage" auth={this.state.auth}  exact component={ReceiverMessage}/>
+                            <Route path="/sendmessage" auth={this.state.auth} exact component={SendMessage}/>
+                            <Route path="/notification" auth={this.state.auth} extact component={Notification}/>
+                            <Route path="/yourProfile" auth={this.state.auth} extact component={YourProfile}/>
+                            <Route path="/profile/:id" auth={this.state.auth} extact component={Profile}/>
                             <Route path="/login" auth={this.state.auth} extact component={Login}/>
                             <Route path="/register" auth={this.state.auth} extact component={Register}/>
-                            <ProtectedRoute path="/singleChat" auth={this.state.auth} extact component={SingleChat}/>
-                            <ProtectedRoute path="/watched" auth={this.state.auth} extact component={Watched}/>
-                            <ProtectedRoute path="/followers" auth={this.state.auth} extact component={Followers}/>
-                            <ProtectedRoute path="/editProfile" auth={this.state.auth} extact component={EditProfile}/>
-                            <ProtectedRoute path="/search" auth={this.state.auth} extact component={Search}/>
-                            <Route path="/" extact component={Home}/>
+                            <Route path="/singleChat" auth={this.state.auth} extact component={SingleChat}/>
+                            <Route path="/watched" auth={this.state.auth} extact component={Watched}/>
+                            <Route path="/followers" auth={this.state.auth} extact component={Followers}/>
+                            <Route path="/editProfile" auth={this.state.auth} extact component={EditProfile}/>
+                            <Route path="/search" auth={this.state.auth} extact component={Search}/>
+                            <Route path="/chat"  auth={this.state.auth} extact component={Chat}/>
+                            <Route path="/"  extact component={Home}/>
                         </Switch>
                     </Router>
             </div>

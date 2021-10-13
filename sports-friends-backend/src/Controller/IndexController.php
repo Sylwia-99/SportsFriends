@@ -2,7 +2,13 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Token;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -126,5 +132,44 @@ class IndexController extends AbstractController
     public function search(): Response
     {
         return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("chat/conversation/{id}", name="get_conversation")
+     */
+    public function getConversation(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/chat", name="conversation_page")
+     */
+    public function conversations(UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find(1);
+        $username = $user->getUsername();
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('mercure_secret_key'));
+        $token = $config->builder()
+            ->withClaim('mercure', ['subscribe' => [sprintf("/%s", $username)]])
+            ->getToken($config->signer(), $config->signingKey())
+        ;
+
+        $response = $this->render('index/index.html.twig');
+        $response->headers->setCookie(
+            new Cookie(
+                'mercureAuthorization',
+                $token->toString(),
+                (new \DateTime())
+                ->add(new \DateInterval('PT2H')),
+                './well-known/mercure',
+                null,
+                false,
+                true,
+                false,
+                'strict'
+            )
+        );
+        return $response;
     }
 }

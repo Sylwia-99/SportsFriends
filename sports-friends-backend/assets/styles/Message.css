@@ -1,0 +1,50 @@
+.message-container{
+    margin: 1rem 0;
+    overflow: auto;
+    display: flex;
+    justify-content: end;
+}
+
+.not-mine-container{
+    margin: 1rem 0;
+    overflow: auto;
+    display: flex;
+    justify-content: start;
+}
+
+.message-content{
+    background-color: #04c9a8;
+    color: white;
+    font-weight: 600;
+    font-size: large;
+    max-width: 20rem;
+    min-width: fit-content;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    position: relative;
+}
+
+
+.not-mine{
+    position: inherit;
+    background-color: #04c9a82e;
+    color: #2a907f;
+}
+
+.date-content{
+    display: flex;
+    justify-content: end;
+    margin-right: 1.5rem;
+}
+
+.small-date{
+    margin: 0;
+    font-size: small;
+    color: cadetblue;
+}
+
+.not-mine-date{
+    justify-content: start;
+    margin-left: 1.5rem;
+    margin-right: 0;
+}

@@ -78,7 +78,7 @@ const Header = () =>{
         <div className="icons">
             <Link to="/search" className="search-icon"><FiSearch/></Link>
             <Link to="/"><FaHome/></Link>
-            <Link to="/messages"><BiMessageDetail/></Link>
+            <Link to="/chat"><BiMessageDetail/></Link>
             <Link to="/notification"><FaHeart/></Link>
             {user.avatar === '' ?
                 <Link to="/login"><FiLogIn/></Link>
@@ -87,7 +87,7 @@ const Header = () =>{
                     <span className="small">
                     <img className="small-avatar" src={user.avatar} alt={"this is avatar image"}/>
                     </span>
-                    </Link>
+                </Link>
             }
         </div>
     </header>

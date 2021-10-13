@@ -6,7 +6,7 @@
 parameters:
     jwt_secret: SOME_SECRET
     upload_directory: '%kernel.project_dir%/src/uploads'
-
+    mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
 services:
     # default configuration for services in *this* file
     _defaults:

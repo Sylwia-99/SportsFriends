@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const apiUrl = "http://localhost:8000"
 const config = {
     headers: {
@@ -40,6 +41,16 @@ export class Api{
             });
     }
 
+    static getWithHeaders(url){
+        return axios.get(apiUrl + url, config)
+            .then(response =>{
+                return {
+                    response: response,
+                    headers: response.headers
+                }
+            });
+    }
+
     static register(email, name, surname, password, confirmPassword, postalCode, city, street){
         return this.post("/createUser",{
             email: email,
@@ -69,7 +80,11 @@ export class Api{
     }
 
     static user(id) {
-        return this.get(`/user/${id}`);
+        return this.get(`/api/user/${id}`);
+    }
+
+    static userFromEmail(email) {
+        return this.get(`/userFromEmail/${email}`);
     }
 
     static users() {
@@ -182,6 +197,36 @@ export class Api{
 
     static sentMessages(){
         return this.get(`/api/getUserSentMessages/${id.id}`,{
+            config
+        });
+    }
+
+    static createConversation(otherUser){
+        return this.post(`/api/newConversation/${id.id}`,{
+            otherUser: otherUser,
+            config
+        });
+    }
+
+    static getConversations = () => {
+        return this.getWithHeaders(`/api/getConversations/${id.id}`,{
+            config
+        }).then(res=>{
+            return res;
+        });
+    }
+
+    static getMessages(conversationId){
+        const id = localStorage.getItem('id');
+        return this.get(`/messages/${conversationId}/${id}`,{
+            config
+        });
+    }
+
+    static sendMessage(content, id){
+        return this.post(`/api/newMessage/${id}`,{
+            content: content,
+            myId: localStorage.getItem('id'),
             config
         });
     }

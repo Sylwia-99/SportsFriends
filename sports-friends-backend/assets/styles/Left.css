@@ -1,0 +1,8 @@
+.left-container{
+    height: 35rem;
+    background-color: white;
+    border-radius: 1rem;
+    margin: 3rem;
+    width: 25rem;
+    overflow: auto;
+}

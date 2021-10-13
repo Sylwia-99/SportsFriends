@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '2510671532c543e883a761b9bfd9d3f703fbbbf6',
+    'reference' => '0aa9ac7bc0ce59876e2735394a01ea925ddcadef',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '2510671532c543e883a761b9bfd9d3f703fbbbf6',
+      'reference' => '0aa9ac7bc0ce59876e2735394a01ea925ddcadef',
     ),
     'api-platform/core' => 
     array (
@@ -256,12 +256,12 @@
     ),
     'lcobucci/jwt' => 
     array (
-      'pretty_version' => '4.1.4',
-      'version' => '4.1.4.0',
+      'pretty_version' => '4.1.5',
+      'version' => '4.1.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '71cf170102c8371ccd933fa4df6252086d144de6',
+      'reference' => 'fe2d89f2eaa7087af4aa166c6f480ef04e000582',
     ),
     'lexik/jwt-authentication-bundle' => 
     array (
@@ -775,6 +775,24 @@
       array (
       ),
       'reference' => 'a395a85aa4ded6c1fa3da118d60329b64b6c2acd',
+    ),
+    'symfony/mercure' => 
+    array (
+      'pretty_version' => 'v0.5.3',
+      'version' => '0.5.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '52b074d0c9bc303605bcd053563a8c67ed9ca55a',
+    ),
+    'symfony/mercure-bundle' => 
+    array (
+      'pretty_version' => 'v0.3.2',
+      'version' => '0.3.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'afa9865ed7e29aa88f33f10c2ff750fb83973e8d',
     ),
     'symfony/messenger' => 
     array (

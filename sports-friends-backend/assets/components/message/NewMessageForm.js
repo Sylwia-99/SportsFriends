@@ -23,6 +23,7 @@ const NewMessageForm = () =>{
 
     const onSubmit = formData => {
         Api.newMessage(formData.userRecipientId, formData.contents).then( response =>{
+            console.log(formData.userRecipientId)
             if(response.status === 200){
                 console.log('Wysłano wiadomość');
             }
