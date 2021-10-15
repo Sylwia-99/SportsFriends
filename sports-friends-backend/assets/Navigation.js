@@ -17,6 +17,7 @@ import EditProfile from './pages/EditProfile';
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Chat from './pages/Chat'
+import {Api} from "./apiHandler/apiHandler";
 
 const ProtectedRoute = ({component: Component, auth, ...rest}) => {
     return (
@@ -35,12 +36,39 @@ const ProtectedRoute = ({component: Component, auth, ...rest}) => {
 class Navigation extends Component{
     state = {
         auth: false,
+        user: {
+            id: '',
+            user: '',
+            email: '',
+            name: '',
+            surname: '',
+            city: '',
+            street: '',
+        },
+        avatar: null,
     };
 
     componentDidMount() {
         const loggedUser = localStorage.getItem('id')
         if (loggedUser) {
             this.setState({auth:true});
+            Api.currentUser().then( response =>{
+                if(response.status === 200){
+                    this.setState({user:{
+                        id:  response.data[0].id,
+                        email: response.data[0].email,
+                        name: response.data[0].name,
+                        surname: response.data[0].surname,
+                        city: response.data[0].city,
+                        street: response.data[0].street,
+                    }});
+                    import(`../src/uploads/${response.data[0].avatar}`)
+                        .then(({default: url}) =>{
+                                this.setState({ avatar: url});
+                            }
+                        )
+                }
+            });
         }
     }
 
@@ -63,7 +91,8 @@ class Navigation extends Component{
                             <Route path="/followers" auth={this.state.auth} extact component={Followers}/>
                             <Route path="/editProfile" auth={this.state.auth} extact component={EditProfile}/>
                             <Route path="/search" auth={this.state.auth} extact component={Search}/>
-                            <Route path="/chat"  auth={this.state.auth} extact component={Chat}/>
+                            <Route path="/chat/:id"  auth={this.state.auth}  extact component={(props) =>
+                                <Chat {...props} user={this.state.user}/> }/>
                             <Route path="/"  extact component={Home}/>
                         </Switch>
                     </Router>

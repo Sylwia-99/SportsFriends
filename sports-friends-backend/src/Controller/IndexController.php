@@ -135,7 +135,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("chat/conversation/{id}", name="get_conversation")
+     * @Route("chat/{userId}/conversation/{id}", name="get_conversation")
      */
     public function getConversation(): Response
     {
@@ -143,19 +143,24 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/chat", name="conversation_page")
+     * @Route("/chat/{id}", name="conversation_page")
      */
-    public function conversations(UserRepository $userRepository): Response
+    public function conversations(UserRepository $userRepository, int $id): Response
     {
-        $user = $userRepository->find(1);
-        $username = $user->getUsername();
+        $user = $userRepository->find($id);
+        $email = $user->getEmail();
+        dump($email);
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('mercure_secret_key'));
+
         $token = $config->builder()
-            ->withClaim('mercure', ['subscribe' => [sprintf("/%s", $username)]])
+            ->withClaim('mercure', ['subscribe' => [sprintf("/%s", $email)]])
             ->getToken($config->signer(), $config->signingKey())
         ;
+        dump($token);
 
         $response = $this->render('index/index.html.twig');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
         $response->headers->setCookie(
             new Cookie(
                 'mercureAuthorization',

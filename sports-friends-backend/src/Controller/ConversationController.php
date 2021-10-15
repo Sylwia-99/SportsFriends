@@ -42,7 +42,6 @@ class ConversationController extends AbstractController
         );
 
         if($conversation != null){
-            dump($conversation);
             return $this->json([
                 'id' => $conversation['conversationId']
             ], Response::HTTP_CREATED, [], []);

@@ -56,9 +56,11 @@ export const addMessage = (data, id) =>{
 }*/
 
 export const fetchConversations = () => async (dispatch) => {
+    console.log('działa');
     Api.getConversations().then( ({response}) => {
         const hubUrl = response.headers['link'].match(/<([^>]+)>;\s+rel=(?:mercure|"[^"]*mercure[^"]*")/)[1];
         dispatch(setHubUrl(hubUrl));
+        console.log('działa', response.data);
         return dispatch(setConversations(response.data))
     });
 }

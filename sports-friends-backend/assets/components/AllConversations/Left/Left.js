@@ -14,15 +14,23 @@ class Left extends React.Component {
     }
 
     componentDidMount() {
+
         this.props.fetchConversations().then(() => {
-            let url = new URL(this.props.hubUrl).toString();
-            url.searchParams.append('topic', `/conversations/${this.props.username}`);
-            const eventSource = new EventSource(url, {
-                withCredentials: true
+
+            let email = this.props.email;
+
+            let hubUrl  = 'http://localhost:3000/.well-known/mercure';
+            const hub = new URL(hubUrl, window.origin);
+            hub.searchParams.append('topic', `/getConversations/${email}`);
+
+            const eventSource = new EventSource(hub.toString(), {
+                withCredentials: true,
             });
+
 
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data);
+                console.log('data',data);
                 this.props.setLastMessage(data, data.conversation.id);
             }
         });

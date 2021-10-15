@@ -49,14 +49,14 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("api/newMessage/{id}", name="newMessage")
+     * @Route("api/newMessage/{id}", name="newMessage", methods={"POST"})
      */
     public function newMessage(Request $request, int $id, ConversationRepository $conversationRepository, UserRepository $userRepository, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager, SerializerInterface $serializer, HubInterface $hub): Response
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
         $myId = $params['body']['myId'];
-        // TODO: put everything back
+
         $user = $userRepository->findOneBy(['id' => $myId]);
         $conversation = $conversationRepository->findOneBy(['id' => $id]);
         $recipient = $participantRepository->findParticipantByConversationIdAndUserId(
@@ -90,11 +90,11 @@ class MessageController extends AbstractController
         ]);
         $update = new Update(
             [
-                sprintf('/conversations/%s', $conversation->getId()),
-                sprintf('/conversations/%s', $recipient->getUser()->getEmail()),
+                sprintf('/getConversations/%s', $conversation->getId()),
+                sprintf('/getConversations/%s', $recipient->getUser()->getEmail()),
             ],
             $messageSerialized
-            ,true, $recipient->getUser()->getUsername()
+            ,true, $recipient->getUser()->getEmail()
             /*[
 
                 sprintf("/%s", $recipient->getUser()->getUsername())

@@ -6,6 +6,7 @@ import {Api} from "../../../apiHandler/apiHandler";
 class Conversation extends React.Component {
     state = {
         avatar: null,
+        id: null,
     }
 
     componentDidMount() {
@@ -18,14 +19,15 @@ class Conversation extends React.Component {
                 import(`../../../../src/uploads/${response.data[0].avatar}`)
                     .then(({default: url}) =>{
                         this.setState({avatar : url});
-                    })
+                    });
+                this.setState({id : response.data[0].id});
             }
         });
     }
 
     render() {
         return (
-            <NavLink to={"/chat/conversation/" + this.props.conversation.conversationId }>
+            <NavLink to={`/chat/${this.state.id}/conversation/` + this.props.conversation.conversationId }>
                 <div className="conversation-container">
                     <div className="one-friend">
                         <img className="medium-avatar" src={this.state.avatar}/>
