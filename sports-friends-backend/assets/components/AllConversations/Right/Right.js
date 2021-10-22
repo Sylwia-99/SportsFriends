@@ -15,7 +15,8 @@ class Right extends React.Component {
 
         this.bodyRef = React.createRef();
         this.state = {
-            _conversationIndex: -1
+            _conversationIndex: -1,
+            eventSource: null
         }
     }
 
@@ -27,7 +28,7 @@ class Right extends React.Component {
         if(this.state._conversationIndex != -1
             && this.props.items[this.state._conversationIndex].messages?.length
             && prevProps.items[this.state._conversationIndex].messages?.length){
-            this.scrollDown();
+                this.scrollDown();
         }
     }
 
@@ -38,14 +39,41 @@ class Right extends React.Component {
         this.setState({
             _conversationIndex: _conversationIndex
         });
-        this.props.fetchMessages(this.props.match.params.id)
-            .then(() =>{
-                this.scrollDown();
-            });
+        if (this.props.items[_conversationIndex].messages == undefined) {
+            this.props.fetchMessages(this.props.match.params.id)
+                .then(() => {
+                    this.scrollDown();
+                    if (this.state.eventSource === null) {
+                        let hubUrl = this.props.hubUrl;
+                        const hub = new URL(hubUrl);
+                        hub.searchParams.append('topic', `/getConversations/${this.props.match.params.id}`)
+                        this.state.eventSource = new EventSource(hub, {
+                            withCredentials: true,
+                            headers: {
+                                mercureAuthorization: localStorage.getItem('mercureAuthorization')
+                            }
+                        });
+
+                        this.state.eventSource.onmessage = (event) => {
+                            const data = JSON.parse(event.data);
+                            console.log('right', data);
+                            this.props.addMessage(data, data.conversation.id);
+                        }
+                    }
+
+                });
+        } else {
+            this.scrollDown();
+        }
     }
 
     componentWillUnmount() {
-        console.log('unmount');
+        if (this.state.eventSource instanceof EventSource) {
+            this.state.eventSource.close();
+            this.setState({
+                eventSource: null
+            })
+        }
     }
 
     render() {
@@ -53,14 +81,15 @@ class Right extends React.Component {
             <div className="right-container">
                 <div className="right-content" ref={this.bodyRef}>
                     {
-                        this.state._conversationIndex !== -1 ?
-                        this.props.items[this.state._conversationIndex].messages
-                            ?.map((message, index) => {
-                                return(
-                                    <Message message={message} key={index} />
-                            )
-                            })
-                            : ''
+                        this.state._conversationIndex !== -1
+                        && this.props.items != undefined
+                        && this.props.items[this.state._conversationIndex].messages != undefined
+                            ? this.props.items[this.state._conversationIndex].messages
+                                ?.map((message, index) => {
+                                    return(
+                                        <Message message={message} key={index} />
+                                    )
+                                }) : ''
                     }
                 </div>
 

@@ -11,7 +11,6 @@ const User =  (props) =>{
             if(response.status === 200){
                 if(response.data !== []){
                     setActivities(response.data);
-                    console.log(response.data)
                 }
             }
         });

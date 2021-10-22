@@ -16,6 +16,7 @@ const LoginForm = () =>{
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('id', response.data.user.id);
                     localStorage.setItem('roles', response.data.roles);
+                    localStorage.setItem('mercureAuthorization', response.data.mercureAuthorization);
                     location.href = '/';
                 }
         }).catch( (error) =>{

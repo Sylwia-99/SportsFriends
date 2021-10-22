@@ -9,6 +9,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -135,7 +136,15 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("chat/{userId}/conversation/{id}", name="get_conversation")
+     * @Route("/chat", name="chat_page")
+     */
+    public function getChat(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/chat/conversation/{id}", name="get_conversation")
      */
     public function getConversation(): Response
     {
@@ -145,21 +154,18 @@ class IndexController extends AbstractController
     /**
      * @Route("/chat/{id}", name="conversation_page")
      */
-    public function conversations(UserRepository $userRepository, int $id): Response
+    public function conversations(UserRepository $userRepository, int $id,Request $request): Response
     {
         $user = $userRepository->find($id);
         $email = $user->getEmail();
-        dump($email);
+
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('mercure_secret_key'));
 
         $token = $config->builder()
             ->withClaim('mercure', ['subscribe' => [sprintf("/%s", $email)]])
             ->getToken($config->signer(), $config->signingKey())
         ;
-        dump($token);
-
         $response = $this->render('index/index.html.twig');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
 
         $response->headers->setCookie(
             new Cookie(
@@ -175,6 +181,12 @@ class IndexController extends AbstractController
                 'strict'
             )
         );
+
+        //$response->headers->set('Access-Control-Allow-Origin', 'localhost:3000');
+        //$response->headers->set('Access-Control-Allow-Credentials', true);
+        //$response->headers->set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        //$response = $this->render('index/index.html.twig');
+
         return $response;
     }
 }

@@ -21,6 +21,7 @@ const RegisterForm = () =>{
         ).then( response =>{
             if(response.status === 200){
                 console.log('Registered new user');
+                location.href = '/login';
             }
         }).catch( (error) => {
             if(error.response){

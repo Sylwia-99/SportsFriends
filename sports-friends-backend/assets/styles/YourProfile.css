@@ -125,9 +125,14 @@ form.Send-message-form{
     font-size: 1em;
     height: 2.5em;
     width: -webkit-fill-available;
-    border-radius: 2em;
+    border-radius: 2em 0 0 2em;
     background-color: transparent;
     border: none;
+    -webkit-appearance: none;
+}
+
+input:focus-visible{
+    outline: none;
 }
 
 .Send-button{
@@ -187,6 +192,13 @@ button.Remove-User{
     align-items: center;
     border: none;
     border-radius: 1em;
+}
+
+input:-internal-autofill-selected {
+    border: none;
+    background-image: none !important;
+    background-color: transparent !important;
+    color: black !important;
 }
 
 @media only screen and (max-width: 1200px) {

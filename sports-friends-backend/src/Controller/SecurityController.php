@@ -8,6 +8,10 @@ use App\Repository\LogsRepository;
 use App\Repository\UserDetailsRepository;
 use App\Repository\UserRepository;
 use Firebase\JWT\JWT;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Token;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,11 +99,19 @@ class SecurityController extends AbstractController
 
         $jwt = JWT::encode($payload, $this->getParameter('jwt_secret'), 'HS256');
 
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('mercure_secret_key'));
+        $tokenEmail = $user->getEmail();
+        $token = $config->builder()
+            ->withClaim('mercure', ['subscribe' => [sprintf("/%s", $tokenEmail)]])
+            ->getToken($config->signer(), $config->signingKey())
+        ;
+
         return $this->json([
             'message' => 'success!',
             'token' => sprintf('Bearer %s', $jwt),
             'user' => $user,
-            'roles' => $user->getRoles()
+            'roles' => $user->getRoles(),
+            'mercureAuthorization' => $token->toString()
         ]);
     }
 

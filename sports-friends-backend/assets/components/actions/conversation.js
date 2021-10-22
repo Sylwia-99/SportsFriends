@@ -47,48 +47,20 @@ export const addMessage = (data, id) =>{
     }
 }
 
-/*export const fetchConversations = () => dispatch =>{
-    return fetch(`/getConversations/47`)
-        .then(data => data.json())
-        .then( data =>{
-            return dispatch(setConversations(data))
-        });
-}*/
-
 export const fetchConversations = () => async (dispatch) => {
-    console.log('działa');
+
     Api.getConversations().then( ({response}) => {
         const hubUrl = response.headers['link'].match(/<([^>]+)>;\s+rel=(?:mercure|"[^"]*mercure[^"]*")/)[1];
         dispatch(setHubUrl(hubUrl));
-        console.log('działa', response.data);
         return dispatch(setConversations(response.data))
     });
 }
-   /* return fetch(`/getConversations/47`)
-        .then(data => {
-            const hubUrl = data.headers.get('Link').match(/<([^>]+)>;\s+rel=(?:mercure|"[^"]*mercure[^"]*")/)[1];
-
-            dispatch(setHubUrl(hubUrl))
-            console.log(data);
-            return data.json()
-        })
-        .then(data => {
-            console.log(data);
-            return dispatch(setConversations(data))
-        });
-}*/
 
 export const fetchMessages = (id) => async (dispatch) => {
     Api.getMessages(id).then(({data}) => {
         return dispatch(setMessages(data, id))
     });
 }
-        /*return fetch(`/messages/${id}`)
-            .then(data => data.json())
-            .then( data =>{
-                return dispatch(setMessages(data, id))
-            });
-}*/
 
 export const sendMessage = (content, id) => async (dispatch) => {
     Api.sendMessage(content, id).then(({data}) => {
@@ -96,15 +68,3 @@ export const sendMessage = (content, id) => async (dispatch) => {
         return dispatch(addMessage(data, id))
     });
 }
-    /*let formData = new FormData();
-    formData.append('content', content);
-    return fetch(`/newMessage/${id}`, {
-        body: formData,
-        method: 'POST'
-    })
-        .then(data => data.json())
-        .then( data =>{
-            dispatch(setLastMessage(data, id));
-            return dispatch(addMessage(data, id))
-        });
-}*/

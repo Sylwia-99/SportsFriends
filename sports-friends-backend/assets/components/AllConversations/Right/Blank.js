@@ -4,9 +4,7 @@ class Blank extends React.Component {
 
     render() {
         return (
-            <div className="blank-content">
-
-            </div>
+            <div className="blank-content"/>
         );
     }
 }

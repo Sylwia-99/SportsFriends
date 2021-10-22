@@ -80,7 +80,7 @@ const Header = () =>{
         <div className="icons">
             <Link to="/search" className="search-icon"><FiSearch/></Link>
             <Link to="/"><FaHome/></Link>
-                <Link to={`/chat/${UserId}`}><BiMessageDetail/></Link>
+                <Link to="/chat"><BiMessageDetail/></Link>
             <Link to="/notification"><FaHeart/></Link>
             {user.avatar === '' ?
                 <Link to="/login"><FiLogIn/></Link>

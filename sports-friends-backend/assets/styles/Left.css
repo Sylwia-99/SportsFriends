@@ -5,4 +5,14 @@
     margin: 3rem;
     width: 25rem;
     overflow: auto;
+    box-shadow: 0 0 20px 5px #2a907f;
+}
+
+.no-conversations-info{
+    margin: 1rem;
+}
+
+.no-conversations-info > h3, h2 {
+    color: #2a907f;
+    text-align: center;
 }

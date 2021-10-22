@@ -1,13 +1,15 @@
 .right-container{
     height: 35rem;
     border-radius: 1rem;
-    width: 67rem;
+    width: 100%;
+    margin-right: 3rem;
 }
 
 .right-content{
     height: 25.6rem;
     background-color: white;
-    margin: 3rem 3rem 3rem 0;
+    margin: 3rem 0 3rem 0;
     border-radius: 1rem;
     overflow: auto;
+    box-shadow: 0 0 20px 5px #2a907f;
 }

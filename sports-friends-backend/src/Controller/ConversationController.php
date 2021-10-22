@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Fig\Link\Link;
+use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -76,7 +77,7 @@ class ConversationController extends AbstractController
     }
 
     /**
-     * @Route("/api/getConversations/{id}", name="getConversations")
+     * @Route("api/getConversations/{id}", name="getConversations")
      */
     public function getConversations(Request $request, int $id, UserRepository $userRepository, ConversationRepository $conversationRepository, EntityManagerInterface $entityManagerInterface): Response
     {
@@ -85,6 +86,8 @@ class ConversationController extends AbstractController
 
         $hubUrl = $this->getParameter('mercure.default_hub');
         $this->addLink($request, new Link('mercure', $hubUrl));
+
+        dump($hubUrl);
         return $this->json($conversations);
     }
 }

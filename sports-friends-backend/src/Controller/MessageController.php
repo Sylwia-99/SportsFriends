@@ -93,8 +93,10 @@ class MessageController extends AbstractController
                 sprintf('/getConversations/%s', $conversation->getId()),
                 sprintf('/getConversations/%s', $recipient->getUser()->getEmail()),
             ],
-            $messageSerialized
-            ,true, $recipient->getUser()->getEmail()
+            $messageSerialized,
+            false,
+            //sprintf('/%s', $recipient->getUser()->getEmail())
+            $recipient->getUser()->getEmail()
             /*[
 
                 sprintf("/%s", $recipient->getUser()->getUsername())

@@ -29,10 +29,6 @@ const ProfileComponent = (props) =>{
         contents: ''
     })
 
-    const [conversation, setConversation] = useState({
-        id: null
-    })
-
     const [isWatched, setIsWatched] = useState({
         isWatched: false
     })
@@ -121,10 +117,9 @@ const ProfileComponent = (props) =>{
     function sendMessage (){
         Api.createConversation(props.id).then(response => {
             setConversation({id: response.data.id})
-            console.log(response.data.id)
-            Api.sendMessage(message.contents, conversation.id).then(({data}) => {
-                //dispatch(setLastMessage(data, conversation.id));
-                //return dispatch(addMessage(data, conversation))
+            Api.sendMessage(message.contents, response.data.id).then(({data}) => {
+                dispatch(setLastMessage(data, conversation.id));
+                return dispatch(addMessage(data, conversation))
             });
             setMessage({
                 contents: ''

@@ -26,3 +26,27 @@ button:hover{
     opacity: 0.8;
     transition: opacity 0.2ms;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 1rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #2a907f;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #2a907f;
+    border-radius: 1rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #247466;
+}
+

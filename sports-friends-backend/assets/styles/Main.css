@@ -48,6 +48,16 @@ span.main{
     margin: 0 0 0 0.6em;
 }
 
+.no-users{
+    display: flex;
+    justify-content: center;
+    margin-block-start: 3rem;
+}
+
+.no-users__information{
+    color: #04c9a8;
+}
+
 @media only screen and (max-width: 1200px) {
     section{
         gap: 0.2em;

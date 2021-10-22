@@ -8,10 +8,17 @@ import Header from "../components/Header";
 import store from "../store";
 import {Provider} from "react-redux";
 import * as actionCreators from "../components/actions/conversation";
+import {Api} from "../apiHandler/apiHandler";
 
 const Chat = (props) => {
     useEffect(() =>{
         store.dispatch(actionCreators.setEmail(props.user.email));
+
+        Api.chat().then( response =>{
+            if(response.status === 200){
+                console.log('dziala')
+            }
+        });
     },[]);
 
 
@@ -24,10 +31,10 @@ const Chat = (props) => {
                     <Left {...props} email={props.user.email}/>
                     <Switch>
                         <Route
-                            path="/chat/:id/conversation/:id" component={(props) =>
+                            path="/chat/conversation/:id" component={(props) =>
                             <Right {...props} key={props.match.params.id}/> }
                         />
-                        <Route path="/chat/:id" component={Blank} exact />
+                        <Route path="/chat" component={Blank} exact />
                     </Switch>
                 </div>
             </div>

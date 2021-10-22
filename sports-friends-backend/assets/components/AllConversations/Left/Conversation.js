@@ -27,7 +27,7 @@ class Conversation extends React.Component {
 
     render() {
         return (
-            <NavLink to={`/chat/${this.state.id}/conversation/` + this.props.conversation.conversationId }>
+            <NavLink to={`/chat/conversation/` + this.props.conversation.conversationId }>
                 <div className="conversation-container">
                     <div className="one-friend">
                         <img className="medium-avatar" src={this.state.avatar}/>

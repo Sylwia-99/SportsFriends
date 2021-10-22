@@ -91,7 +91,7 @@ class Navigation extends Component{
                             <Route path="/followers" auth={this.state.auth} extact component={Followers}/>
                             <Route path="/editProfile" auth={this.state.auth} extact component={EditProfile}/>
                             <Route path="/search" auth={this.state.auth} extact component={Search}/>
-                            <Route path="/chat/:id"  auth={this.state.auth}  extact component={(props) =>
+                            <Route path="/chat"  auth={this.state.auth}  extact component={(props) =>
                                 <Chat {...props} user={this.state.user}/> }/>
                             <Route path="/"  extact component={Home}/>
                         </Switch>

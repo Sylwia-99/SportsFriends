@@ -3,7 +3,8 @@ import axios from "axios";
 const apiUrl = "http://localhost:8000"
 const config = {
     headers: {
-        Authorization: localStorage.getItem('token')
+        Authorization: localStorage.getItem('token'),
+        mercureAuthorization: localStorage.getItem('mercureAuthorization')
     }
 }
 const id = {id: localStorage.getItem('id')};
@@ -204,6 +205,12 @@ export class Api{
     static createConversation(otherUser){
         return this.post(`/api/newConversation/${id.id}`,{
             otherUser: otherUser,
+            config
+        });
+    }
+
+    static chat(){
+        return this.get(`/chat/${id.id}`,{
             config
         });
     }
