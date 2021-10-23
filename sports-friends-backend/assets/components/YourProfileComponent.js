@@ -10,48 +10,17 @@ import {Link} from 'react-router-dom';
 import {Api} from '../apiHandler/apiHandler';
 import Activity from "./Activity";
 
-const YourProfileComponent = () =>{
-    const [user, setUser] = useState({
-        id: '',
-        user: '',
-        email: '',
-        name: '',
-        surname: '',
-        city: '',
-        street: '',
-    });
+const YourProfileComponent = (props) =>{
 
-    const [avatar, setAvatar] = useState();
+    //const [activities, setActivities] = useState ([]);
 
-    const [activities, setActivities] = useState ([]);
-
-    function getUser(){
-        Api.currentUser().then( response =>{
-            if(response.status === 200){
-                setUser({
-                    id:  response.data[0].id,
-                    email: response.data[0].email,
-                    name: response.data[0].name,
-                    surname: response.data[0].surname,
-                    city: response.data[0].city,
-                    street: response.data[0].street,
-                });
-                import(`../../src/uploads/${response.data[0].avatar}`)
-                    .then(({default: url}) =>{
-                            setAvatar(url);
-                        }
-                    )
-            }
-        })
-    }
-
-    function getUserActivities(){
+    /*function getUserActivities(){
         Api.currentUserActivities().then( response =>{
             if(response.status === 200) {
                 setActivities(response.data)
             }
         });
-    }
+    }*/
 
     function logout(){
         Api.logout().then( response =>{
@@ -68,29 +37,28 @@ const YourProfileComponent = () =>{
             });
     }
 
-    useEffect(() =>{
-        getUser();
+    /*useEffect(() =>{
         getUserActivities();
-    }, []);
+    }, []);*/
 
     return (
         <div className="App">
-            <Header/>
+            <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <div className="Your-information">
                 <div className="Profile">
                         <span className="big">
-                            <img className="Big-avatar" src={avatar} alt={"this is avatar image"}/>
+                            <img className="Big-avatar" src={props.avatar} alt={"this is avatar image"}/>
                         </span>
-                    <h2>{user.name} {user.surname}</h2>
+                    <h2>{props.user.name} {props.user.surname}</h2>
                 </div>
                 <div className="AboutMe">
                     <h2>O mnie</h2>
                     <hr/>
-                    <h5><FaMapMarkerAlt/> {user.city}, ul. {user.street}</h5>
+                    <h5><FaMapMarkerAlt/> {props.user.city}, ul. {props.user.street}</h5>
                     <h2>Moje Aktywności</h2>
                     <hr/>
                     <div className="Activities">
-                        {activities.map((activity, i) =>{
+                        {props.activities.map((activity, i) =>{
                                 return(<Activity
                                     key={i}
                                     name={activity.name}

@@ -2,7 +2,7 @@ import React from 'react';
 import '../../styles/Header.css';
 import { FiSearch } from 'react-icons/fi';
 
-const SearchInput = props =>{
+const SearchInput = (props) =>{
     return (
         <form className="search">
             <input

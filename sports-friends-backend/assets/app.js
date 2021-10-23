@@ -5,8 +5,6 @@ import './bootstrap';
 import {BrowserRouter } from 'react-router-dom';
 import Navigation from "./Navigation";
 import { MediaQueryProvider } from 'react-media-query-hoc';
-import store from './store'
-import * as actionCreators from './components/actions/conversation';
 
 import './styles/Chat.css'
 

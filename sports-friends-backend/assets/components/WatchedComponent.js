@@ -3,7 +3,7 @@ import Header from './Header';
 import {Api} from "../apiHandler/apiHandler";
 import Follower from "./followerWatched/Follower";
 
-const WatchedComponent = () =>{
+const WatchedComponent = (props) =>{
     const [watchedUsers, setWatchedUsers] = useState([]);
 
     useEffect(() =>{
@@ -30,13 +30,14 @@ const WatchedComponent = () =>{
 
     return (
         <div className="App">
-            <Header/>
+            <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <main>
                 <section className="Friends">
                     { watchedUsers.length!==0 ?
-                        watchedUsers.map((user) => {
+                        watchedUsers.map((user, index) => {
                             return (<Follower
-                                key={user.id}
+                                key={index}
+                                id={user.id}
                                 avatar={user.avatar}
                                 name={user.name}
                                 surname={user.surname}

@@ -9,13 +9,7 @@ import SearchInput from "./search/SearchInput";
 import SearchResult from "./search/SearchResult";
 import {Api} from '../apiHandler/apiHandler';
 
-const Header = () =>{
-    const UserId = localStorage.getItem('id');
-
-    const[user, setUser] = useState({
-        avatar: ''
-    });
-
+const Header = (props) =>{
     const[users, setUsers] = useState({
         users: [],
         click: false,
@@ -48,51 +42,36 @@ const Header = () =>{
         });
     }
 
-    useEffect(() =>{
-        Api.currentUser().then( response =>{
-            if(response.status === 200){
-                import(`../../src/uploads/${response.data[0].avatar}`)
-                    .then(({default: url}) =>{
-                        setUser({
-                            avatar: url,
-                        });
-                    }
-                )
-            }
-        })
-    },[]);
-
-
     return (
-    <header className="App-header">
-        <img src={logo} alt={"this is a logo image"}/>
-        <SearchInput
-            value={users.value}
-            change={handleInputChange}
-            submit={handleValueSubmit}
-        />
-        {
-            !users.click ? null :
-                <SearchResult
-                    users={users}
-                />
-        }
-        <div className="icons">
-            <Link to="/search" className="search-icon"><FiSearch/></Link>
-            <Link to="/"><FaHome/></Link>
-                <Link to="/chat"><BiMessageDetail/></Link>
-            <Link to="/notification"><FaHeart/></Link>
-            {user.avatar === '' ?
-                <Link to="/login"><FiLogIn/></Link>
-                :
-                    <Link to="/yourProfile">
-                    <span className="small">
-                    <img className="small-avatar" src={user.avatar} alt={"this is avatar image"}/>
-                    </span>
-                </Link>
+        <header className="App-header">
+            <img src={logo} alt={"this is a logo image"}/>
+            <SearchInput
+                value={users.value}
+                change={handleInputChange}
+                submit={handleValueSubmit}
+            />
+            {
+                !users.click ? null :
+                    <SearchResult
+                        users={users}
+                    />
             }
-        </div>
-    </header>
+            <div className="icons">
+                <Link to="/search" className="search-icon"><FiSearch/></Link>
+                <Link to="/"><FaHome/></Link>
+                    <Link to="/chat"><BiMessageDetail/></Link>
+                <Link to="/notification"><FaHeart/></Link>
+                {props.avatar === null ?
+                    <Link to="/login"><FiLogIn/></Link>
+                    :
+                        <Link to="/yourProfile">
+                        <span className="small">
+                        <img className="small-avatar" src={props.avatar} alt={"this is avatar image"}/>
+                        </span>
+                    </Link>
+                }
+            </div>
+        </header>
     )
 }
 

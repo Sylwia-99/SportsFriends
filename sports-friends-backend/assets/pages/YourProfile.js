@@ -1,9 +1,9 @@
 import React from 'react';
 import YourProfileComponent from "../components/YourProfileComponent";
-const YourProfile = () =>{
+const YourProfile = (props) =>{
     return (
         <>
-            <YourProfileComponent/>
+            <YourProfileComponent {...props} user = {props.user} avatar = {props.avatar} activities = {props.activities} />
         </>
     );
 }

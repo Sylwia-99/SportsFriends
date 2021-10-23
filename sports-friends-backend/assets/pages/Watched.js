@@ -1,9 +1,9 @@
 import React from 'react';
 import WatchedComponent from '../components/WatchedComponent';
 
-const Watched = () =>{
+const Watched = (props) =>{
     return (
-        <WatchedComponent/>
+        <WatchedComponent {...props} user = {props.user} avatar = {props.avatar}/>
     );
 }
 

@@ -7,12 +7,6 @@ import Activity from "./Activity";
 import {addMessage, setLastMessage} from "./actions/conversation";
 
 const ProfileComponent = (props) =>{
-    const [currentUser, setCurrentUser] = useState({
-        currentUserId: localStorage.getItem('id'),
-        currentUserEmail: '',
-        currentUserRole: localStorage.getItem('roles')
-    });
-
     const [user, setUser] =useState({
         email: '',
         name: '',
@@ -34,24 +28,10 @@ const ProfileComponent = (props) =>{
     })
 
     useEffect(() =>{
-        getCurrentUser();
         getUser(props.id);
         getUserActivities(props.id);
         getWatchedUsers();
-        console.log(props.id);
     }, [props.id]);
-
-    function getCurrentUser(){
-        Api.currentUser().then( response =>{
-            if(response.status === 200){
-                setCurrentUser({
-                    currentUserEmail: response.data[0].email,
-                    currentUserId: localStorage.getItem('id'),
-                    currentUserRole: localStorage.getItem('roles')
-                });
-            }
-        })
-    }
 
     function getUser(id){
         Api.user(id).then( response =>{
@@ -116,10 +96,10 @@ const ProfileComponent = (props) =>{
 
     function sendMessage (){
         Api.createConversation(props.id).then(response => {
-            setConversation({id: response.data.id})
+            //setConversation({id: response.data.id})
             Api.sendMessage(message.contents, response.data.id).then(({data}) => {
-                dispatch(setLastMessage(data, conversation.id));
-                return dispatch(addMessage(data, conversation))
+                dispatch(setLastMessage(data, response.data.id));
+                return dispatch(addMessage(data, response.data.id))
             });
             setMessage({
                 contents: ''
@@ -138,15 +118,15 @@ const ProfileComponent = (props) =>{
     }
     return (
         <div className="App">
-            <Header/>
+            <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <div className="Your-information">
                 <div className="Profile">
                         <span className="big">
                             <img className="Big-avatar" src={avatar} alt={"this is avatar image"}/>
                         </span>
-                    <h2>{user.name} {user.surname}</h2>
+                    <h2> {user.name} {user.surname}</h2>
                     {
-                        (currentUser.currentUserEmail === user.email || isWatched.isWatched) ? null : <button className="Follow" onClick={addUserToWatched}>Obserwuj</button>
+                        (props.user.email === user.email || isWatched.isWatched) ? null : <button className="Follow" onClick={addUserToWatched}>Obserwuj</button>
                     }
                     {
                         isWatched.isWatched ? <button className="Follow">Obserwujesz</button> : null
@@ -188,7 +168,7 @@ const ProfileComponent = (props) =>{
                 </form>
             </div>
             {
-                currentUser.currentUserRole === 'ROLE_ADMIN,ROLE_USER' ? <button className="Remove-User" onClick={removeUser}>Usuń użytkownika</button> : null
+                localStorage.getItem('roles') === 'ROLE_ADMIN,ROLE_USER' ? <button className="Remove-User" onClick={removeUser}>Usuń użytkownika</button> : null
             }
         </div>
     );

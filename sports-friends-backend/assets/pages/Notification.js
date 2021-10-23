@@ -1,9 +1,9 @@
 import React from 'react';
 import NotificationComponent from "../components/NotificationComponent";
-const Notification = () => {
+const Notification = (props) => {
     return (
         <>
-            <NotificationComponent/>
+            <NotificationComponent {...props} user = {props.user} avatar = {props.avatar}/>
         </>
     )
 }

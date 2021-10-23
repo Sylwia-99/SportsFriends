@@ -25,7 +25,7 @@ const Chat = (props) => {
     return (
         <Provider store={store}>
         <div className="App">
-            <Header/>
+            <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <div className="conversations-container">
                 <div className="conversations-content">
                     <Left {...props} email={props.user.email}/>

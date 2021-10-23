@@ -34,7 +34,7 @@ const Follower =  (props) =>{
     },[]);
 
     return (
-        <ul key={props.key}>
+        <ul key={props.id}>
             <li>
                 <div className="Watched-friend">
                     <Link to={`/profile/${props.id_user_follower}`}>

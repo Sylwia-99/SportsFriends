@@ -5,7 +5,7 @@ import '../styles/Messages.css';
 import {Api} from "../apiHandler/apiHandler";
 import Notification from "./Notification";
 
-const NotificationComponent = () =>{
+const NotificationComponent = (props) =>{
     const [followerUsers, setFollowerUsers] = useState([]);
 
     useEffect(() =>{
@@ -24,7 +24,7 @@ const NotificationComponent = () =>{
 
     return (
         <div className="App">
-            <Header/>
+            <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <div className="Notification">
                 {   followerUsers.length!==0 ?
                     followerUsers.map((user) =>{

@@ -1,12 +1,11 @@
 import React from 'react';
 import EditProfileComponent from '../components/EditProfileComponent';
 
-const EditProfile = () =>{
+const EditProfile = (props) =>{
     return (
         <>
-            <EditProfileComponent/>
+            <EditProfileComponent {...props} user = {props.user} avatar = {props.avatar} activities = {props.activities}/>
         </>
     );
 }
-
 export default EditProfile;

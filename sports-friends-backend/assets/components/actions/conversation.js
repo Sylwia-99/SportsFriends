@@ -1,5 +1,4 @@
-import {ADD_MESSAGE, GET_CONVERSATIONS, SET_EMAIL, SET_HUBURL, SET_LAST_MESSAGE} from '../constants/actionTypes';
-import {GET_MESSAGES} from '../constants/actionTypes';
+import {ADD_MESSAGE, GET_CONVERSATIONS, GET_MESSAGES, SET_EMAIL, SET_HUBURL, SET_LAST_MESSAGE} from '../constants/actionTypes';
 import {Api} from '../../apiHandler/apiHandler';
 
 export const setConversations = (data) =>{

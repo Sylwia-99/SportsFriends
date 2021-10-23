@@ -3,7 +3,7 @@ import '../../styles/Header.css';
 import '../../styles/Search.css';
 import User from "../User";
 
-const SearchResult = props =>{
+const SearchResult = (props) =>{
     const {users, err, value} = props.users;
     let content = null;
 

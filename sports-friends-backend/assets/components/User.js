@@ -22,7 +22,7 @@ const User =  (props) =>{
                 setAvatar( url);
             }
             )
-        getUserActivities();
+        //getUserActivities();
     },[]);
 
     return (
@@ -33,9 +33,9 @@ const User =  (props) =>{
             <h3>{props.name} {props.surname}</h3>
                 <div className="User-activities">
                     {
-                        activities.map((activity, index) =>{
-                            return(<h4 key={index}>{activity.name} </h4>)
-                        })
+                        //activities.map((activity, index) =>{
+                        //   return(<h4 key={index}>{activity.name} </h4>)
+                        //})
                     }
                 </div>
         </Link>

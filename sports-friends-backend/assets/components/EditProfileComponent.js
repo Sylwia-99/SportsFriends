@@ -8,76 +8,23 @@ import RemoveActivity from "./editProfile/RemoveActivity";
 import AddActivity from "./editProfile/AddActivity";
 import EditAvatar from "./editProfile/EditAvatar";
 
-const EditProfileComponent = () =>{
-    const [user, setUser] = useState({
-        name: '',
-        surname: '',
-        removeActivity: '',
-        addActivity: '',
-        errorMessage: ''
-    });
-
-    const [avatar, setAvatar] = useState();
-
-    const [activities, setActivities] = useState( []);
-
-    const [allActivities, setAllActivities] = useState([]);
-
-    useEffect(() =>{
-        getUser();
-        getUserActivities();
-        getActivities();
-    }, []);
-
-    function getUser(){
-        Api.currentUser().then( response =>{
-            if(response.status === 200){
-                setUser({
-                    email: response.data[0].email,
-                    name: response.data[0].name,
-                    surname: response.data[0].surname,
-                    city: response.data[0].city,
-                    street: response.data[0].street,
-                });
-                import(`../../src/uploads/${response.data[0].avatar}`)
-                    .then(({default: url}) =>{
-                            setAvatar( url);
-                        }
-                    )
-            }
-        })
-    }
-
-    function getUserActivities(){
-        Api.currentUserActivities().then( response =>{
-            if(response.status === 200) {
-                setActivities( response.data);
-            }
-        });
-    }
-
-    function getActivities(){
-        Api.activities().then( response =>{
-            if(response.status === 200) {
-                setAllActivities(response.data);
-            }
-        });
-    }
+const EditProfileComponent = (props) =>{
+    const allActivities = Api.activities();
 
     return (
         <div className="App">
-            <Header/>
+            <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <div className="Edit-information">
                 <EditAvatar
-                    avatar={avatar}
+                    avatar={props.avatar}
                 />
                 <EditNameSurname
-                    name={user.name}
-                    surname={user.surname}
+                    name={props.user.name}
+                    surname={props.user.surname}
                 />
                 <EditPassword/>
                 <RemoveActivity
-                    activities={activities}
+                    activities={props.activities}
                 />
                 <AddActivity
                     activities={allActivities}

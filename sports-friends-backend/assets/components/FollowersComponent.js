@@ -4,7 +4,7 @@ import '../styles/Followers.css';
 import {Api} from "../apiHandler/apiHandler";
 import Follower from "./followerWatched/Follower";
 
-const FollowersComponent = () =>{
+const FollowersComponent = (props) =>{
     const [followerUsers, setFollowerUsers] = useState([]);
     const [watchedUsers, setWatchedUsers] = useState('');
 
@@ -43,13 +43,14 @@ const FollowersComponent = () =>{
 
     return (
         <div className="App">
-            <Header/>
+            <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <main>
                 <section className="Friends">
                     {   followerUsers.length!==0 ?
-                            followerUsers.map((user) => {
+                            followerUsers.map((user, index) => {
                                 return (<Follower
-                                        key={user.id}
+                                        key={index}
+                                        id={user.id}
                                         avatar={user.avatar}
                                         name={user.name}
                                         surname={user.surname}
