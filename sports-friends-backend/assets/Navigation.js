@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import Notification from './pages/Notification';
@@ -13,6 +13,8 @@ import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Chat from './pages/Chat'
 import {Api} from "./apiHandler/apiHandler";
+import * as actionCreators from './components/actions/followers'
+import {connect} from "react-redux";
 
 const ProtectedRoute = ({component: Component, auth, ...rest}) => {
     return (
@@ -28,7 +30,15 @@ const ProtectedRoute = ({component: Component, auth, ...rest}) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return state;
+};
+
 class Navigation extends Component{
+    constructor(props){
+        super(props);
+    }
+
     state = {
         auth: false,
         user: {
@@ -83,6 +93,16 @@ class Navigation extends Component{
                 }
 
             });
+
+            this.props.fetchWatchers().then((response) => {
+                this.setState({watchers: this.props.watchers});
+            });
+
+
+            this.props.fetchFollowers().then((response) => {
+                this.setState({followers: this.props.followers});
+            });
+
         }
     }
 
@@ -92,17 +112,17 @@ class Navigation extends Component{
                     <Router>
                         <Switch>
                             <ProtectedRoute path="/notification" auth={this.state.auth} extact component={(props) =>
-                                <Notification {...props} user = {this.state.user} avatar = {this.state.avatar}/>}/>
+                                <Notification {...props} user = {this.state.user} avatar = {this.state.avatar} followers = {this.props.followers} watchers = {this.props.watchers} />}/>
                             <ProtectedRoute path="/yourProfile" auth={this.state.auth} extact component={(props) =>
                                 <YourProfile {...props} user = {this.state.user} avatar = {this.state.avatar} activities = {this.state.activities}/>}/>
                             <ProtectedRoute path="/profile/:id" auth={this.state.auth} extact component={(props) =>
-                                <Profile {...props} user = {this.state.user} avatar = {this.state.avatar}/>}/>
+                                <Profile {...props} user = {this.state.user} avatar = {this.state.avatar} watchers = {this.props.watchers}/>}/>
                             <Route path="/login" extact component={Login}/>
                             <Route path="/register" extact component={Register}/>
                             <ProtectedRoute path="/watched" auth={this.state.auth} extact component={(props) =>
-                                <Watched {...props} user = {this.state.user} avatar = {this.state.avatar}/>}/>
+                                <Watched {...props} user = {this.state.user} avatar = {this.state.avatar} watchers = {this.props.watchers}/>}/>
                             <ProtectedRoute path="/followers" auth={this.state.auth} extact component={(props) =>
-                                <Followers {...props} user = {this.state.user} avatar = {this.state.avatar}/>}/>
+                                <Followers {...props} user = {this.state.user} avatar = {this.state.avatar} followers = {this.props.followers} watchers = {this.props.watchers}/>}/>
                             <ProtectedRoute path="/editProfile" auth={this.state.auth} extact component={(props) =>
                                 <EditProfile {...props} user = {this.state.user} avatar = {this.state.avatar} activities = {this.state.activities}/>}/>
                             <ProtectedRoute path="/search" auth={this.state.auth} extact component={(props) =>
@@ -118,4 +138,4 @@ class Navigation extends Component{
     }
 }
 
-export default withRouter(Navigation);
+export default withRouter(connect(mapStateToProps, actionCreators)(Navigation));

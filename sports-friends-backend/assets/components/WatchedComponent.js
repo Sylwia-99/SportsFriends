@@ -1,27 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Header from './Header';
 import {Api} from "../apiHandler/apiHandler";
 import Follower from "./followerWatched/Follower";
+import * as actionCreators from "./actions/followers";
+import storeFollowers from "../storeFollowers";
 
 const WatchedComponent = (props) =>{
-    const [watchedUsers, setWatchedUsers] = useState([]);
-
-    useEffect(() =>{
-        getWatchedUsers();
-    }, [])
-
-    function getWatchedUsers(){
-        Api.watchers().then( response =>{
-            if(response.data !== []){
-                setWatchedUsers(response.data);
-            }
-        });
-    }
 
     const handleRemoveWatchedUser = (key) => {
         Api.removeWatchedUser(key.key).then( response =>{
             if(response.status === 200){
-                console.log('Usunięto obserwowanego użytkownika');
+                storeFollowers.dispatch(actionCreators.fetchWatchers());
             }
         }).catch(function (error) {
             console.log(error);
@@ -33,8 +22,8 @@ const WatchedComponent = (props) =>{
             <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <main>
                 <section className="Friends">
-                    { watchedUsers.length!==0 ?
-                        watchedUsers.map((user, index) => {
+                    { props.watchers.length!==0 ?
+                        props.watchers.map((user, index) => {
                             return (<Follower
                                 key={index}
                                 id={user.id}
@@ -43,6 +32,7 @@ const WatchedComponent = (props) =>{
                                 surname={user.surname}
                                 id_user={user.id_user_watcher}
                                 onClick={()=>handleRemoveWatchedUser({key:user.id_user_watcher})}
+                                watchers={props.watchers}
                                 button={'Usuń'}
                             />)
                     }) :

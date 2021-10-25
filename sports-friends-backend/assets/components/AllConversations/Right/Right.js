@@ -4,6 +4,7 @@ import * as actionCreators from '../../actions/conversation';
 import '../../../styles/Right.css';
 import Input from "./Input";
 import Message from "./Message";
+import {useLocation} from "react-router";
 
 const mapStateToProps = (state) => {
     return state;
@@ -16,7 +17,7 @@ class Right extends React.Component {
         this.bodyRef = React.createRef();
         this.state = {
             _conversationIndex: -1,
-            eventSource: null
+            eventSource: null,
         }
     }
 
@@ -46,6 +47,7 @@ class Right extends React.Component {
                     if (this.state.eventSource === null) {
                         let hubUrl = this.props.hubUrl;
                         const hub = new URL(hubUrl);
+                        console.log('props',this.props)
                         hub.searchParams.append('topic', `/getConversations/${this.props.match.params.id}`)
                         this.state.eventSource = new EventSource(hub, {
                             withCredentials: true,
@@ -56,8 +58,9 @@ class Right extends React.Component {
 
                         this.state.eventSource.onmessage = (event) => {
                             const data = JSON.parse(event.data);
-                            console.log('right', data);
-                            this.props.addMessage(data, data.conversation.id);
+                            if(data.user.email != this.props.email){
+                                this.props.addMessage(data, data.conversation.id);
+                            }
                         }
                     }
 
@@ -87,7 +90,7 @@ class Right extends React.Component {
                             ? this.props.items[this.state._conversationIndex].messages
                                 ?.map((message, index) => {
                                     return(
-                                        <Message message={message} key={index} />
+                                        <Message message={message} key={index} avatar={this.props.location.state.avatar}/>
                                     )
                                 }) : ''
                     }

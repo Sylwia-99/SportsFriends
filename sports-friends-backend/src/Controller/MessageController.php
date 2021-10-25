@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class MessageController extends AbstractController
 {
-    const ATTRIBUTES_TO_SERIALIZE = ['id', 'user_id', 'content', 'createdAt', 'mine'];
+    const ATTRIBUTES_TO_SERIALIZE = ['id', 'user', 'content', 'createdAt', 'mine'];
 
     /**
      * @Route("/messages/{id}/{myId}", name="getMessages")
@@ -86,7 +86,7 @@ class MessageController extends AbstractController
         $message->setMine(false);
         $messageSerialized = $serializer->serialize(
             $message, 'json', [
-            'attributes' => ['id', 'user_id', 'content', 'createdAt', 'mine', 'conversation' => ['id']]
+            'attributes' => ['id', 'user', 'content', 'createdAt', 'mine', 'conversation' => ['id']]
         ]);
         $update = new Update(
             [
@@ -94,16 +94,10 @@ class MessageController extends AbstractController
                 sprintf('/getConversations/%s', $recipient->getUser()->getEmail()),
             ],
             $messageSerialized,
-            false,
+            false
             //sprintf('/%s', $recipient->getUser()->getEmail())
-            $recipient->getUser()->getEmail()
-            /*[
-
-                sprintf("/%s", $recipient->getUser()->getUsername())
-            ]*/
+            //$recipient->getUser()->getEmail()
         );
-
-        dump($update);
 
         $hub->publish($update);
         $message->setMine(true);

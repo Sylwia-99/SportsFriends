@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from "react-router-dom";
-import {Api} from "../../apiHandler/apiHandler";
 
 const Follower =  (props) =>{
     const[avatar, setAvatar] = useState('');
@@ -8,23 +7,18 @@ const Follower =  (props) =>{
         isWatched: false
     })
 
-    function getWatchedUsers(){
-        Api.watchers().then( response =>{
-            if(response.status === 200){
-                const found = response.data.find(element => element.id_user_watcher === props.id_user);
-                if(found){
-                    setIsWatched({
-                        isWatched: true
-                    });
-                }
-            }
-
-        });
+    function userIsWatched(){
+        const found = props.watchers.find(element => element.id_user_watcher === props.id_user);
+        if(found){
+            setIsWatched({
+                isWatched: true
+            });
+        }
     }
 
     useEffect(() =>{
         if(props.follower==='follower'){
-            getWatchedUsers();
+            userIsWatched()
         }
         import(`../../../src/uploads/${props.avatar}`)
             .then(({default: url}) =>{

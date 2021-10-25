@@ -3,38 +3,14 @@ import Header from './Header';
 import '../styles/Followers.css';
 import {Api} from "../apiHandler/apiHandler";
 import Follower from "./followerWatched/Follower";
+import storeFollowers from "../storeFollowers";
+import * as actionCreators from "./actions/followers";
 
 const FollowersComponent = (props) =>{
-    const [followerUsers, setFollowerUsers] = useState([]);
-    const [watchedUsers, setWatchedUsers] = useState('');
-
-    useEffect(() =>{
-        getFollowerUsers();
-        getWatchedUsers();
-    }, [])
-
-    function getFollowerUsers(){
-        Api.followers().then( response =>{
-            if(response.status === 200){
-                if(response.data !== []){
-                    setFollowerUsers(response.data);
-                }
-            }
-        });
-    }
-
-    function getWatchedUsers(){
-        Api.watchers().then( response =>{
-            if(response.status === 200){
-                setWatchedUsers(response.data);
-            }
-        });
-    }
-
     const handleAddWatchedUser = (key) => {
         Api.newWatchedUser(key.key).then( response =>{
             if(response.status === 200){
-                console.log('Dodano obserwującego');
+                storeFollowers.dispatch(actionCreators.fetchWatchers());
             }
         }).catch(function (error) {
             console.log(error);
@@ -46,8 +22,8 @@ const FollowersComponent = (props) =>{
             <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <main>
                 <section className="Friends">
-                    {   followerUsers.length!==0 ?
-                            followerUsers.map((user, index) => {
+                    {   props.followers.length!==0 ?
+                            props.followers.map((user, index) => {
                                 return (<Follower
                                         key={index}
                                         id={user.id}
@@ -56,6 +32,7 @@ const FollowersComponent = (props) =>{
                                         surname={user.surname}
                                         id_user={user.id_user_follower}
                                         onClick={()=>handleAddWatchedUser({key:user.id_user_follower})}
+                                        watchers={props.watchers}
                                         button={'Obserwuj'}
                                         follower={'follower'}
                                 />)

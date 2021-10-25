@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../../styles/Message.css'
-import avatar from  '../../../../src/uploads/picture.jpg' ;
 
 class Message extends React.Component {
     render() {
         let img ='';
+
         if(this.props.message.mine != 1){
-            img = <img className="medium-avatar" src={avatar}/>
+            img = <img className="medium-avatar" src={this.props.avatar}/>
         }
         return (
             <div className={`message-container ${this.props.message.mine == 1 ? `` : `not-mine-container`}`} >

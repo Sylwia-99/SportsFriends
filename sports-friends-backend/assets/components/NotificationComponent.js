@@ -1,39 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Header from './Header';
 import '../styles/Notification.css';
 import '../styles/Messages.css';
-import {Api} from "../apiHandler/apiHandler";
 import Notification from "./Notification";
 
 const NotificationComponent = (props) =>{
-    const [followerUsers, setFollowerUsers] = useState([]);
-
-    useEffect(() =>{
-        getFollowerUsers();
-    }, [])
-
-    function getFollowerUsers(){
-        Api.followers().then( response =>{
-            if(response.status === 200){
-                if(response.data !== []){
-                    setFollowerUsers(response.data);
-                }
-            }
-        });
-    }
-
     return (
         <div className="App">
             <Header {...props} user = {props.user} avatar = {props.avatar}/>
             <div className="Notification">
-                {   followerUsers.length!==0 ?
-                    followerUsers.map((user) =>{
+                {   props.followers.length!==0 ?
+                    props.followers.map((user, index) =>{
                         return (<Notification
-                            key={user.id}
+                            key={index}
+                            id={user.id}
                             avatar={user.avatar}
                             name={user.name}
                             surname={user.surname}
                             id_user_follower={user.id_user_follower}
+                            watchers={props.watchers}
                         />)
                     }) :
                     <h4 >Brak powiadomień</h4>

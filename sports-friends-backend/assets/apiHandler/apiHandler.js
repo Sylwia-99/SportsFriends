@@ -237,4 +237,20 @@ export class Api{
             config
         });
     }
+
+    static getWatchers(){
+        return this.getWithHeaders(`/api/showWatchedUsers/${id.id}`,{
+            config
+        }).then(res=>{
+            return res;
+        });
+    }
+
+    static getFollowers(){
+        return this.getWithHeaders(`/api/showFollowerUsers/${id.id}`,{
+            config
+        }).then(res=>{
+            return res;
+        });
+    }
 }

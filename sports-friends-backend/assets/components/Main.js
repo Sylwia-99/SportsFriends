@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import '../styles/Main.css';
 import User from "./User";
 
@@ -19,6 +19,10 @@ const Main = (props) =>{
                                     avatar={user.avatar}
                                     name={user.name}
                                     surname={user.surname}
+                                    email={user.email}
+                                    city={user.city}
+                                    street={user.street}
+                                    activities={user.activities}
                                     className="avatar"
                                     classNameSpan="main"
                                     classNameImg="avatar-image"

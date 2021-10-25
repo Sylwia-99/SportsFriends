@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\UserDetails;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -93,6 +94,7 @@ class UserRepository extends ServiceEntityRepository
             LEFT JOIN App\Entity\Address a WITH ud.id_address=a.id
         ');
         return $query->execute();
+
     }
 
     public function getSearchedUsers(String $name, String $surname){

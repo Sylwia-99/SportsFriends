@@ -23,6 +23,7 @@
     padding: 0.5rem;
     border-radius: 1rem;
     position: relative;
+    margin-right: 1.5rem;
 }
 
 
@@ -30,6 +31,7 @@
     position: inherit;
     background-color: #04c9a82e;
     color: #2a907f;
+    margin-right: 0;
 }
 
 .date-content{

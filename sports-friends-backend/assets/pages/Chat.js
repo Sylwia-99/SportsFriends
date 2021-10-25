@@ -16,7 +16,6 @@ const Chat = (props) => {
 
         Api.chat().then( response =>{
             if(response.status === 200){
-                console.log('dziala')
             }
         });
     },[]);

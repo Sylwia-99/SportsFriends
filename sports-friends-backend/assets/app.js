@@ -7,8 +7,8 @@ import Navigation from "./Navigation";
 import { MediaQueryProvider } from 'react-media-query-hoc';
 
 import './styles/Chat.css'
-
-//store.dispatch(actionCreators.setEmail(document.querySelector('#app').dataset.email));
+import {Provider} from "react-redux";
+import storeFollowers from "./storeFollowers";
 
 const App =  () =>{
         return(
@@ -24,7 +24,9 @@ const App =  () =>{
 }
 
 ReactDOM.render(
-            <App/>,
+    <Provider store={storeFollowers}>
+            <App/>
+    </Provider>,
     document.getElementById("app"));
 
 

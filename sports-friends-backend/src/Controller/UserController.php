@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Activities;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,7 +58,21 @@ class UserController extends AbstractController
     {
         $response = new Response();
         $users = $userRepository->getAllUsers();
-        $response->setContent(json_encode($users));
+        $newUsers = [];
+        foreach($users as $user)
+        {
+            $userId = $user['id'];
+            $activities = $userRepository->getAllUserActivities($userId);
+            $user['activities'] = $activities;
+            array_push($newUsers, $user);
+            //$activities = $user->getUserActivities();
+        }
+
+        dump($newUsers);
+
+        $response->setContent(json_encode($newUsers));
+
+        //return $this->json($users, Response::HTTP_OK, []);
         return $response;
     }
 

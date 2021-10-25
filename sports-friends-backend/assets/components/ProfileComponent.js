@@ -5,19 +5,13 @@ import { FaMapMarkerAlt} from 'react-icons/fa';
 import {Api} from "../apiHandler/apiHandler";
 import Activity from "./Activity";
 import {addMessage, setLastMessage} from "./actions/conversation";
+import {useLocation} from "react-router";
+import * as actionCreators from "./actions/followers";
+import storeFollowers from "../storeFollowers";
 
 const ProfileComponent = (props) =>{
-    const [user, setUser] =useState({
-        email: '',
-        name: '',
-        surname: '',
-        city: '',
-        street: '',
-    })
-
-    const [avatar, setAvatar] = useState();
-
-    const [activities, setActivities] = useState ( []);
+    const location = useLocation();
+    const { email, name, surname, avatar, city, street, activities} = location.state;
 
     const [message, setMessage] = useState({
         contents: ''
@@ -28,60 +22,22 @@ const ProfileComponent = (props) =>{
     })
 
     useEffect(() =>{
-        getUser(props.id);
-        getUserActivities(props.id);
-        getWatchedUsers();
+        userIsWatched()
     }, [props.id]);
 
-    function getUser(id){
-        Api.user(id).then( response =>{
-            if(response.status === 200){
-                setUser({
-                    email: response.data[0].email,
-                    name: response.data[0].name,
-                    surname: response.data[0].surname,
-                    city: response.data[0].city,
-                    street: response.data[0].street,
-                });
-                import(`../../src/uploads/${response.data[0].avatar}`)
-                    .then(({default: url}) =>{
-                            setAvatar(url);
-                        })
-            }
-        });
-    }
-
-    function getUserActivities(id){
-        Api.userActivities(id).then( response =>{
-            if(response.status === 200) {
-                setActivities( response.data);
-            }
-        });
-    }
-
-    function getWatchedUsers(){
-        Api.watchers().then( response =>{
-            if(response.status === 200){
-                const found = response.data.find(element => element.id_user_watcher === props.id);
-                console.log(found);
-                if(found){
-                    setIsWatched({
-                        isWatched: true
-                    });
-                }
-                console.log(found);
-            }
-
-        });
+    function userIsWatched(){
+        const found = props.watchers.find(element => element.id_user_watcher === props.id);
+        if(found){
+            setIsWatched({
+                isWatched: true
+            });
+        }
     }
 
     function addUserToWatched (){
         Api.newWatchedUser(props.id).then( response =>{
             if(response.status === 200){
-                console.log('Dodano obserwującego');
-                setIsWatched({
-                    isWatched: true
-                });
+                storeFollowers.dispatch(actionCreators.fetchWatchers());
             }
         }).catch(function (error) {
             console.log(error);
@@ -96,7 +52,6 @@ const ProfileComponent = (props) =>{
 
     function sendMessage (){
         Api.createConversation(props.id).then(response => {
-            //setConversation({id: response.data.id})
             Api.sendMessage(message.contents, response.data.id).then(({data}) => {
                 dispatch(setLastMessage(data, response.data.id));
                 return dispatch(addMessage(data, response.data.id))
@@ -124,9 +79,9 @@ const ProfileComponent = (props) =>{
                         <span className="big">
                             <img className="Big-avatar" src={avatar} alt={"this is avatar image"}/>
                         </span>
-                    <h2> {user.name} {user.surname}</h2>
+                    <h2> {name} {surname}</h2>
                     {
-                        (props.user.email === user.email || isWatched.isWatched) ? null : <button className="Follow" onClick={addUserToWatched}>Obserwuj</button>
+                        (props.user.email === email || isWatched.isWatched) ? null : <button className="Follow" onClick={addUserToWatched}>Obserwuj</button>
                     }
                     {
                         isWatched.isWatched ? <button className="Follow">Obserwujesz</button> : null
@@ -135,16 +90,17 @@ const ProfileComponent = (props) =>{
                 <div className="AboutMe">
                     <h2>O mnie</h2>
                     <hr/>
-                    <h5><FaMapMarkerAlt/> {user.city}, ul. {user.street}</h5>
+                    <h5><FaMapMarkerAlt/> {city}, ul. {street}</h5>
                     <h2>Moje Aktywności</h2>
                     <hr/>
                     <div className="Activities">
-                        {activities.map((activity, i) =>{
+                        {
+                            activities.map((activity, i) =>{
                                 return(<Activity
                                             key={i}
                                             name={activity.name}
                                         />)
-                        }
+                            }
                         )}
                     </div>
                 </div>

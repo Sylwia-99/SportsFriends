@@ -12,8 +12,24 @@
 
 .conversation-data-content{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-end;
+    height: 2rem;
+}
+
+.user-name{
+    font-size: small;
+    margin-bottom: 0.1rem
+}
+
+.last-message-content{
+    margin: 0;
+    margin-right: 0.3rem;
+    width: 5rem;
+    overflow: hidden;
+}
+
+.date{
+    font-size: x-small;
 }
 
 .one-friend{
