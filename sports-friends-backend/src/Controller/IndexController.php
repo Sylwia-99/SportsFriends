@@ -136,6 +136,14 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @Route("/advancedSearch", name="advanced_search")
+     */
+    public function advancedSearch(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
      * @Route("/chat", name="chat_page")
      */
     public function getChat(): Response

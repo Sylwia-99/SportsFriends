@@ -70,4 +70,8 @@ span.main{
     .avatar > h3, .avatar > h4{
         font-size: 30px;
     }
+
+    .User-activities{
+        top: -8em;
+    }
 }

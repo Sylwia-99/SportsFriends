@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from "react-router-dom";
-import {Api} from "../apiHandler/apiHandler";
 
 const User =  (props) =>{
     const[avatar, setAvatar] = useState('');
@@ -34,8 +33,7 @@ const User =  (props) =>{
                         </span>
             <h3>{props.name} {props.surname}</h3>
                 <div className="User-activities">
-                    {
-                        props.activities.map((activity, index) =>{
+                    { props.activities?.map((activity, index) =>{
                            return(<h4 key={index}>{activity.name} </h4>)
                         })
                     }

@@ -95,7 +95,7 @@ const ProfileComponent = (props) =>{
                     <hr/>
                     <div className="Activities">
                         {
-                            activities.map((activity, i) =>{
+                            activities?.map((activity, i) =>{
                                 return(<Activity
                                             key={i}
                                             name={activity.name}

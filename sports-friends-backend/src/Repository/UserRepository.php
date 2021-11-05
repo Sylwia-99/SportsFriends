@@ -104,12 +104,39 @@ class UserRepository extends ServiceEntityRepository
                 u.id,
                 ud.name,
                 ud.surname, 
-                ud.avatar
+                ud.avatar,
+                a.postal_code,
+                a.city,
+                a.street
             FROM App\Entity\User u 
-            LEFT JOIN App\Entity\UserDetails ud WITH u.id_user_details=ud.id 
+            LEFT JOIN App\Entity\UserDetails ud WITH u.id_user_details=ud.id
+            LEFT JOIN App\Entity\Address a WITH ud.id_address=a.id 
             WHERE ud.name LIKE ?1 OR ud.surname LIKE ?2
         ')->setParameter(1, '%'.$name.'%')
             ->setParameter(2, '%'.$surname.'%');
+        return $query->execute();
+    }
+
+    public function getSearchedUsersByFilters(String $name, String $surname, String $city, String $street){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+            SELECT 
+                u.id,
+                ud.name,
+                ud.surname, 
+                ud.avatar,
+                a.postal_code,
+                a.city,
+                a.street
+            FROM App\Entity\User u 
+            LEFT JOIN App\Entity\UserDetails ud WITH u.id_user_details=ud.id
+            LEFT JOIN App\Entity\Address a WITH ud.id_address=a.id 
+            WHERE ud.name LIKE ?1 AND ud.surname LIKE ?2 AND a.city LIKE ?3 AND a.street LIKE ?4
+        ')
+            ->setParameter(1, '%'.$name.'%')
+            ->setParameter(2, '%'.$surname.'%')
+            ->setParameter(3, '%'.$city.'%')
+            ->setParameter(4, '%'.$street.'%');
         return $query->execute();
     }
 

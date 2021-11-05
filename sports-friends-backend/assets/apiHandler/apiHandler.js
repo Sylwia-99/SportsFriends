@@ -253,4 +253,11 @@ export class Api{
             return res;
         });
     }
+
+    static search(filters){
+        return this.post(`/showAdvancedSearchedUsers`,{
+            filters: filters,
+            config
+        });
+    }
 }

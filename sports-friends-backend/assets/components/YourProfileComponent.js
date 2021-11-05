@@ -11,17 +11,6 @@ import {Api} from '../apiHandler/apiHandler';
 import Activity from "./Activity";
 
 const YourProfileComponent = (props) =>{
-
-    //const [activities, setActivities] = useState ([]);
-
-    /*function getUserActivities(){
-        Api.currentUserActivities().then( response =>{
-            if(response.status === 200) {
-                setActivities(response.data)
-            }
-        });
-    }*/
-
     function logout(){
         Api.logout().then( response =>{
             if(response.status === 200){
@@ -36,10 +25,6 @@ const YourProfileComponent = (props) =>{
                 console.log(error);
             });
     }
-
-    /*useEffect(() =>{
-        getUserActivities();
-    }, []);*/
 
     return (
         <div className="App">
@@ -58,7 +43,7 @@ const YourProfileComponent = (props) =>{
                     <h2>Moje Aktywności</h2>
                     <hr/>
                     <div className="Activities">
-                        {props.activities.map((activity, i) =>{
+                        {props?.activities.map((activity, i) =>{
                                 return(<Activity
                                     key={i}
                                     name={activity.name}

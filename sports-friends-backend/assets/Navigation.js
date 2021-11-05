@@ -11,6 +11,7 @@ import Followers from './pages/Followers';
 import EditProfile from './pages/EditProfile';
 import Home from "./pages/Home";
 import Search from "./pages/Search";
+import AdvancedSearch from './pages/AdvancedSearch'
 import Chat from './pages/Chat'
 import {Api} from "./apiHandler/apiHandler";
 import * as actionCreators from './components/actions/followers'
@@ -125,8 +126,10 @@ class Navigation extends Component{
                                 <Followers {...props} user = {this.state.user} avatar = {this.state.avatar} followers = {this.props.followers} watchers = {this.props.watchers}/>}/>
                             <ProtectedRoute path="/editProfile" auth={this.state.auth} extact component={(props) =>
                                 <EditProfile {...props} user = {this.state.user} avatar = {this.state.avatar} activities = {this.state.activities}/>}/>
-                            <ProtectedRoute path="/search" auth={this.state.auth} extact component={(props) =>
+                            <Route path="/search" extact component={(props) =>
                                 <Search {...props} user = {this.state.user} avatar = {this.state.avatar}/>}/>
+                            <Route path="/advancedSearch" extact component={(props) =>
+                                <AdvancedSearch {...props} user = {this.state.user} avatar = {this.state.avatar} users={this.state.users} noUsers={this.state.noUsers} />}/>
                             <ProtectedRoute path="/chat"  auth={this.state.auth} extact component={(props) =>
                                 <Chat {...props} user={this.state.user} avatar = {this.state.avatar}/>}/>
                             <Route path="/" extact component={(props) =>

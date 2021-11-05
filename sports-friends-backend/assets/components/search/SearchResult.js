@@ -2,6 +2,7 @@ import React from 'react';
 import '../../styles/Header.css';
 import '../../styles/Search.css';
 import User from "../User";
+import {Link} from "react-router-dom";
 
 const SearchResult = (props) =>{
     const {users, err, value} = props.users;
@@ -10,18 +11,29 @@ const SearchResult = (props) =>{
     if(!err && users){
         content = (
             <div className="Result-content">
-                {users.map((user, i) =>
-                    <User
-                        key={i}
-                        id={user.id}
-                        avatar={user.avatar}
-                        name={user.name}
-                        surname={user.surname}
-                        className="Search-result"
-                        classNameSpan="search"
-                        classNameImg="avatar-image-search"
-                    />
-                )}
+                <div className="users">
+                    {users.map((user, i) =>
+                        <User
+                            key={i}
+                            id={user.id}
+                            avatar={user.avatar}
+                            name={user.name}
+                            surname={user.surname}
+                            city={user.city}
+                            street={user.street}
+                            activities={user.activities}
+                            className="search-result"
+                            classNameSpan="search"
+                            classNameImg="avatar-image-search"
+                        />
+                    )}
+                </div>
+                <div className="link-advanced-search">
+                    <Link to='/advancedSearch' className="advanced-search-button">
+                        <h3>Wyszukiwanie zaawansowane</h3>
+                    </Link>
+                </div>
+
             </div>
         )
     }

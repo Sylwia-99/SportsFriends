@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../styles/Header.css';
 import { FiSearch, FiLogIn } from 'react-icons/fi';
 import { FaHome, FaHeart } from 'react-icons/fa';

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Header from './Header';
 import '../styles/Followers.css';
 import {Api} from "../apiHandler/apiHandler";

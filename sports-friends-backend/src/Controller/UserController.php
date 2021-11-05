@@ -38,8 +38,6 @@ class UserController extends AbstractController
         return $response;
     }
 
-
-
     /**
      * @Route("/api/user/{id}", name="show_current_user")
      */
@@ -65,14 +63,9 @@ class UserController extends AbstractController
             $activities = $userRepository->getAllUserActivities($userId);
             $user['activities'] = $activities;
             array_push($newUsers, $user);
-            //$activities = $user->getUserActivities();
         }
 
-        dump($newUsers);
-
         $response->setContent(json_encode($newUsers));
-
-        //return $this->json($users, Response::HTTP_OK, []);
         return $response;
     }
 
@@ -92,7 +85,55 @@ class UserController extends AbstractController
 
         $response = new Response();
         $users =$userRepository->getSearchedUsers($name, $surname);
-        $response->setContent(json_encode($users));
+        $newUsers = [];
+        foreach($users as $user)
+        {
+            $userId = $user['id'];
+            $activities = $userRepository->getAllUserActivities($userId);
+            $user['activities'] = $activities;
+            array_push($newUsers, $user);
+        }
+
+        $response->setContent(json_encode($newUsers));
+        return $response;
+    }
+
+    /**
+     * @Route("/showAdvancedSearchedUsers", name="show_advanced_searched_users")
+     */
+    public function showAdvancedSearchedUsers(Request $request,UserRepository $userRepository): Response
+    {
+        $params = $request->getContent();
+        $params = json_decode($params, true);
+        $activity = $params['body']['filters']['activity'];
+        $name = $params['body']['filters']['name'];
+        $surname = $params['body']['filters']['surname'];
+        $city = $params['body']['filters']['city'];
+        $street = $params['body']['filters']['street'];
+        $response = new Response();
+        $users =$userRepository->getSearchedUsersByFilters($name, $surname, $city, $street);
+        $newUsers = [];
+        foreach($users as $user)
+        {
+            $userId = $user['id'];
+            $activities = $userRepository->getAllUserActivities($userId);
+            $user['activities'] = $activities;
+            array_push($newUsers, $user);
+        }
+
+        $searchUsers = [];
+        foreach($newUsers as $newUser){
+            $newUser['hasThisActicity'] = false;
+            foreach($newUser['activities'] as $userActivity){
+                if($userActivity['name'] == $activity){
+                    $newUser['hasThisActicity'] = true;
+                }
+            }
+            if($newUser['hasThisActicity'] ==true){
+                array_push($searchUsers, $newUser);
+            }
+        }
+        $response->setContent(json_encode($searchUsers));
         return $response;
     }
 
