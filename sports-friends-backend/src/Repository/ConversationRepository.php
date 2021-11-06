@@ -110,6 +110,34 @@ class ConversationRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function removeConversationById(int $id){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM conversation
+            WHERE id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function setLastMessageIdOnNull(int $conversationId){
+        $entityManager = $this->getEntityManager()->getConnection();
+
+        $query = '
+            UPDATE conversation c SET c.last_message_id=:null
+                WHERE c.id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(array(':null' =>null, ':id'=>$conversationId));
+
+        return $stmt->fetchAllAssociative();
+    }
+
     // /**
     //  * @return Conversation[] Returns an array of Conversation objects
     //  */

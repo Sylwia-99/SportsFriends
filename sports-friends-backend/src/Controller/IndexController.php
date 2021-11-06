@@ -144,6 +144,14 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @Route("/adminPanel", name="admin_panel")
+     */
+    public function adminPanel(): Response
+    {
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
      * @Route("/chat", name="chat_page")
      */
     public function getChat(): Response

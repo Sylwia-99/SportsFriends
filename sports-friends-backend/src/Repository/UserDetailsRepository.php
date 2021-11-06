@@ -37,6 +37,20 @@ class UserDetailsRepository extends ServiceEntityRepository
         return $userDetails;
     }
 
+    public function removeUserDatails(int $id){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM user_details
+            WHERE id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
     public function changeUserNameSurname(int $id,String $name, String $surname){
         $entityManager = $this->getEntityManager();
 

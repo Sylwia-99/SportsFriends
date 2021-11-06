@@ -1,0 +1,83 @@
+section.all-users{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:0;
+    align-items: center;
+    background-color: #ffffffc4;
+    margin: 3vh 10vw 3vh 10vw;
+    border-radius: 2em;
+    box-shadow: 0 0 20px 5px #2a907f;
+    overflow: auto;
+    padding: 0 0 2rem;
+}
+
+.user-to-remove{
+    display: flex;
+    margin: 1vh 0;
+    box-shadow: 0 0 20px 5px #2a907f;
+    width: -webkit-fill-available;
+    background-color: white;
+    justify-content: space-between;
+}
+
+.user-to-remove>a{
+    height: 7em;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-information{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-information>h3{
+    display: flex;
+    width: 38vw;
+}
+
+.medium{
+    width: 7em;
+    height: 7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 0 3rem;
+}
+
+.remove-user-button{
+    font-size: large;
+    color: white;
+    background-color: #04C9A8;
+    width: 10em;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 1em;
+    margin: 0 3vw 0 13vw;
+}
+
+@media only screen and (max-width: 1200px) {
+    section.all-users{
+        display: flex;
+    }
+
+    .user-information>h3{
+        width: 20vw;
+    }
+
+    .medium{
+        margin: 0
+    }
+
+    .remove-user-button{
+        margin: 0 1vw 0 5vw;
+    }
+
+}

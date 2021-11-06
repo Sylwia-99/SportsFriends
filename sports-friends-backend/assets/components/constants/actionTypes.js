@@ -6,4 +6,6 @@ export const SET_EMAIL = 'SET_EMAIL';
 export const SET_HUBURL = 'SET_HUBURL';
 export const GET_WATCHERS = 'GET_WATCHERS';
 export const GET_FOLLOWERS = 'GET_FOLLOWERS';
+export const GET_USERS = 'GET_USERS';
+export const SET_NO_USERS = 'SET_NO_USERS';
 

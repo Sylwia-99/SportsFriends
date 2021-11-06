@@ -164,6 +164,22 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function removeAllUserActivities(User $user){
+        $userId = $user->getId();
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM users_activities
+            WHERE user_id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $userId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
     public function getAllUserActivities(int $id){
         $entityManager = $this->getEntityManager()->getConnection();
         $query = '
@@ -195,12 +211,53 @@ class UserRepository extends ServiceEntityRepository
     public function removeWatchedUser(User $follower, User $watcher){
         $entityManager = $this->getEntityManager();
         $follower->removeWatcher($watcher);
-
         try {
             $entityManager->persist($follower);
             $entityManager->flush();
         } catch (ORMException $e) {
         }
+    }
+
+    public function removeWatchedUserByAdmin(int $userId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM follower_watched
+            WHERE id_user_follower=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $userId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function removeUserFromFollowersByAdmin(int $userId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM follower_watched
+            WHERE id_user_watcher=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $userId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function removeUserByAdmin(int $userId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM user
+            WHERE id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $userId]);
+
+        return $stmt->fetchAllAssociative();
     }
 
     public function getAllWatchedUsers(int $id){

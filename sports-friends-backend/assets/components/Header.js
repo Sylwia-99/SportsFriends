@@ -3,6 +3,7 @@ import '../styles/Header.css';
 import { FiSearch, FiLogIn } from 'react-icons/fi';
 import { FaHome, FaHeart } from 'react-icons/fa';
 import { BiMessageDetail } from 'react-icons/bi';
+import { RiAdminLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import logo from '../images/logo.png';
 import SearchInput from "./search/SearchInput";
@@ -58,6 +59,9 @@ const Header = (props) =>{
             }
             <div className="icons">
                 <Link to="/search" className="search-icon"><FiSearch/></Link>
+                {
+                    localStorage.getItem('roles') === 'ROLE_ADMIN,ROLE_USER' ? <Link to="adminPanel"><RiAdminLine/></Link> : null
+                }
                 <Link to="/"><FaHome/></Link>
                     <Link to="/chat"><BiMessageDetail/></Link>
                 <Link to="/notification"><FaHeart/></Link>

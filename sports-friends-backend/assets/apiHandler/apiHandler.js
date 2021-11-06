@@ -169,8 +169,14 @@ export class Api{
         });
     }
 
-    static removeUser(id){
+    /*static removeUser(id){
         return this.delete(`/api/users/${id}`,{
+            config
+        });
+    }*/
+
+    static removeUser(id){
+        return this.post(`/deleteUser/${id}`,{
             config
         });
     }
@@ -248,6 +254,14 @@ export class Api{
 
     static getFollowers(){
         return this.getWithHeaders(`/api/showFollowerUsers/${id.id}`,{
+            config
+        }).then(res=>{
+            return res;
+        });
+    }
+
+    static getUsers(){
+        return this.getWithHeaders(`/users`,{
             config
         }).then(res=>{
             return res;

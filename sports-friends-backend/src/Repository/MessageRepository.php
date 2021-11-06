@@ -41,6 +41,48 @@ class MessageRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findConversationsByUserId(int $userId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            SELECT 
+                m.conversation_id
+            FROM message m 
+            WHERE m.user_id=:id
+        ';
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $userId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function removeMessageByUserId(int $userId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM message
+            WHERE user_id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $userId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function removeMessageByByConversationId(int $conversationId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM message
+            WHERE conversation_id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $conversationId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
     // /**
     //  * @return Message[] Returns an array of Message objects
     //  */

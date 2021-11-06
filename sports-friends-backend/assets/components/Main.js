@@ -23,6 +23,7 @@ const Main = (props) =>{
                                     city={user.city}
                                     street={user.street}
                                     activities={user.activities}
+                                    removed={false}
                                     className="avatar"
                                     classNameSpan="main"
                                     classNameImg="avatar-image"

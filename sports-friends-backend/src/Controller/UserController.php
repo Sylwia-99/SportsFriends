@@ -4,6 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Activities;
 use App\Entity\User;
+use App\Repository\ConversationRepository;
+use App\Repository\MessageRepository;
+use App\Repository\ParticipantRepository;
+use App\Repository\UserDetailsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +26,41 @@ class UserController extends AbstractController
         $user = $userRepository->getUser($id);
 
         $response->setContent(json_encode($user));
+        return $response;
+    }
+
+    /**
+     * @Route("deleteUser/{id}", name="delete_user")
+     */
+    public function deleteUser(UserRepository $userRepository, int $id, ParticipantRepository $participantRepository, MessageRepository $messageRepository, ConversationRepository  $conversationRepository, UserDetailsRepository $userDetailsRepository):Response
+    {
+        $response = new Response();
+        $user = $userRepository->find($id);
+        $userId= $user->getId();
+        $userRepository->removeWatchedUserByAdmin($userId);
+        $userRepository->removeUserFromFollowersByAdmin($userId);
+
+        $participantRepository->removeParticipantByUserId($userId);
+        //$conversations = $conversationRepository->findConversationsByUser($userId);
+        $conversations = $messageRepository->findConversationsByUserId($userId);
+        foreach($conversations as $conversation)
+        {
+            $conversationId = $conversation['conversation_id'];
+            $participantRepository->removeParticipantByConversationId($conversationId);
+            $conversationRepository->setLastMessageIdOnNull($conversationId);
+            $messageRepository->removeMessageByByConversationId($conversationId);
+            $conversationRepository->removeConversationById($conversationId);
+
+        }
+
+        //$messageRepository->removeMessageByUserId($userId);
+
+        $userDetailsId = $user->getIdUserDetails()->getId();
+        $userRepository->removeAllUserActivities($user);
+        $userRepository->removeUserByAdmin($userId);
+        $userDetailsRepository->removeUserDatails($userDetailsId);
+
+        $response->setContent(json_encode('Usunięto Użytkownika'));
         return $response;
     }
 

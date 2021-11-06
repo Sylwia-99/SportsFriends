@@ -24,24 +24,24 @@ img{
 
 .search-input{
     height: 2.5em;
-    width: 16em;
+    width: 20em;
     position: relative;
-    left: 1em;
+    left: 1.6em;
     text-align:center;
-    border-radius: 10em 0 0 10em;
+    border-radius: 10em;
     box-shadow: 0 0 20px 5px #2a907f;
     border: none;
 }
 
 .search-button{
-    height: 2.65em;
-    width: 3em;
+    height: 2em;
+    width: 2em;
     text-align: center;
     border-radius: 0 10em 10em 0;
     border: none;
     background-color: white;
     position: relative;
-    left: -1em;
+    left: -1.2em;
     cursor: pointer;
 }
 

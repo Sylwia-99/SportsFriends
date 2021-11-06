@@ -1,4 +1,4 @@
-import {GET_WATCHERS, GET_FOLLOWERS} from "../constants/actionTypes";
+import {GET_WATCHERS, GET_FOLLOWERS, GET_USERS, SET_NO_USERS} from "../constants/actionTypes";
 import {Api} from "../../apiHandler/apiHandler";
 
 export const setWatchers = (data) =>{
@@ -13,6 +13,30 @@ export const setFollowers = (data) =>{
         type: GET_FOLLOWERS,
         followers: data
     }
+}
+
+export const setUsers = (data) =>{
+    return{
+        type: GET_USERS,
+        users: data,
+    }
+}
+
+export const setNoUsers = (data) =>{
+    return{
+        type: SET_NO_USERS,
+        noUsers: data,
+    }
+}
+
+export const fetchUsers = () => async (dispatch) =>{
+    Api.getUsers().then( ({response}) => {
+        console.log(response.data)
+        if(response.data.length ===0){
+            return dispatch(setNoUsers(true))
+        }
+        return dispatch(setUsers(response.data))
+    });
 }
 
 export const fetchWatchers = () => async (dispatch) =>{

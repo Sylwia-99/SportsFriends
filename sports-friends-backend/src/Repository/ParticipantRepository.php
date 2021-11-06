@@ -35,6 +35,34 @@ class ParticipantRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    public function removeParticipantByUserId(int $userId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM participant
+            WHERE user_id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $userId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function removeParticipantByConversationId(int $conversationId){
+        $entityManager = $this->getEntityManager()->getConnection();
+        $query = '
+            DELETE 
+            FROM participant
+            WHERE conversation_id=:id
+        ';
+
+        $stmt = $entityManager->prepare($query);
+        $stmt->execute(['id' => $conversationId]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
     // /**
     //  * @return Participant[] Returns an array of Participant objects
     //  */
