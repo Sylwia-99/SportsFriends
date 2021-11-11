@@ -54,6 +54,7 @@ class Navigation extends Component{
         },
         avatar: null,
         activities:[],
+        allActivities: [],
     };
 
     componentDidMount() {
@@ -110,6 +111,9 @@ class Navigation extends Component{
                 this.setState({followers: this.props.followers});
             });
 
+            this.props.fetchAllActivities().then((response) => {
+                this.setState({allActivities: this.props.allActivities})
+            });
         }
     }
 
@@ -139,7 +143,7 @@ class Navigation extends Component{
                             <ProtectedRoute path="/chat"  auth={this.state.auth} extact component={(props) =>
                                 <Chat {...props} user={this.state.user} avatar = {this.state.avatar}/>}/>
                             <ProtectedRoute path="/adminPanel"  auth={this.state.auth} extact component={(props) =>
-                                <AdministratorPanel {...props} user={this.state.user} avatar = {this.state.avatar} users={this.props.users} />}/>
+                                <AdministratorPanel {...props} user={this.state.user} avatar = {this.state.avatar} users={this.props.users} allActivities={this.props.allActivities} />}/>
                             <Route path="/" extact component={(props) =>
                                 <Home {...props} user={this.state.user} avatar={this.state.avatar} users={this.props.users} noUsers={this.props.noUsers} />}/>
                         </Switch>

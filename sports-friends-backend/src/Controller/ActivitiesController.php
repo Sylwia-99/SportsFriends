@@ -20,8 +20,22 @@ class ActivitiesController extends AbstractController
     {
         $params = $request->getContent();
         $params = json_decode($params, true);
-        $name = $params['name'];
+        dump($params);
+        $name = $params['body']['name'];
         $activitiesRepository->addActivity($name);
+        return $this->render('index/index.html.twig');
+    }
+
+    /**
+     * @Route("/api/removeActivity", name="remove_activity")
+     */
+    public function removeActivity(Request $request, ActivitiesRepository $activitiesRepository):Response
+    {
+        $params = $request->getContent();
+        $params = json_decode($params, true);
+        $idActivity = ['id' => $params['body']['removeActivity']];
+        $activity = $activitiesRepository->findOneBy($idActivity);
+        $activitiesRepository->removeActivity($activity);
         return $this->render('index/index.html.twig');
     }
 

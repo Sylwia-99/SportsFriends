@@ -1,5 +1,5 @@
 import React from 'react'
-import {FaRunning, FaSwimmer} from "react-icons/fa";
+import {FaRunning, FaSwimmer, FaVolleyballBall, FaBasketballBall, FaSkiing} from "react-icons/fa";
 import {MdDirectionsBike} from "react-icons/md";
 import {BiFootball} from "react-icons/bi";
 import {CgGym} from "react-icons/cg";
@@ -22,6 +22,15 @@ const Activity =  (props) =>{
             }
             {
                 props.name==="Siłownia" ? <h4><CgGym/> Siłownia</h4> : null
+            }
+            {
+                props.name==="Siatkówka" ? <h4><FaVolleyballBall/> Siatkówka </h4> : null
+            }
+            {
+                props.name==="Koszykówka" ? <h4><FaBasketballBall/> Koszykówka </h4> : null
+            }
+            {
+                props.name==="Jazda na nartach" ? <h4><FaSkiing/> Jazda na nartach </h4> : null
             }
             {
                 props.name===null ? <h4> Brak aktywności</h4> : null

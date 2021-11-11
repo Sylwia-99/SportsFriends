@@ -2,14 +2,14 @@ import {
     GET_FOLLOWERS,
     GET_WATCHERS,
     GET_USERS,
-    SET_NO_USERS
+    SET_NO_USERS, SET_ALL_ACTIVITIES
 } from "../components/constants/actionTypes";
 
 export default (
     state = {
         watchers:[],
         users: [],
-        noUsers: false
+        allActivities: false
     },
         action
 
@@ -34,6 +34,11 @@ export default (
             return{
                 ...state,
                 noUsers: action.users
+            }
+        case SET_ALL_ACTIVITIES:
+            return{
+                ...state,
+                allActivities: action.allActivities
             }
         default:
             return state;

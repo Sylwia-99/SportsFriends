@@ -34,7 +34,7 @@ class UserRepository extends ServiceEntityRepository
         $user->setPassword($encoder->encodePassword($user, $password));
         $user->setIdUserDetails($userDetails);
         $user->setIsLogged(false);
-        //$user->setRoles(array('ROLE_ADMIN'));
+        $user->setRoles(array('ROLE_ADMIN'));
         try {
             $entityManager->persist($user);
             $entityManager->flush();

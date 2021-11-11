@@ -3,7 +3,7 @@ import AdministratorPanelComponent from "../components/adminPanel/AdministratorP
 const AdministratorPanel = (props) => {
     return (
         <>
-            <AdministratorPanelComponent {...props} user = {props.user} avatar = {props.avatar} users = {props.users}/>
+            <AdministratorPanelComponent {...props} user = {props.user} avatar = {props.avatar} users = {props.users} allActivities = {props.allActivities}/>
         </>
     )
 }

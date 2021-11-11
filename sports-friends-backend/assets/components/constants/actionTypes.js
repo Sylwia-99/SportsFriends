@@ -8,4 +8,5 @@ export const GET_WATCHERS = 'GET_WATCHERS';
 export const GET_FOLLOWERS = 'GET_FOLLOWERS';
 export const GET_USERS = 'GET_USERS';
 export const SET_NO_USERS = 'SET_NO_USERS';
+export const SET_ALL_ACTIVITIES = 'SET_ALL_ACTIVITIES';
 

@@ -34,6 +34,20 @@ class ActivitiesRepository extends ServiceEntityRepository
         return $activity;
     }
 
+    public function removeActivity(Activities $activity){
+        $entityManager = $this->getEntityManager();
+
+        $id = $activity->getId();
+        try {
+            $entityManager->remove($activity);
+            $entityManager->flush();
+        } catch (ORMException $e) {
+        }
+        return $activity;
+    }
+
+
+
     public function getAllActivities(){
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery('

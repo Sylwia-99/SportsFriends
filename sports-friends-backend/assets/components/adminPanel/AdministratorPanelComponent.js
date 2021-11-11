@@ -2,6 +2,9 @@ import React from 'react';
 import '../../styles/PanelAdmin.css';
 import Header from '../Header';
 import User from "../User";
+import AddAppActivity from './AddAppActivity';
+import RemoveAppActivity from './RemoveAppActivity';
+import Activity from "../Activity";
 
 const AdministratorPanelComponent = (props) =>{
     return (
@@ -26,6 +29,26 @@ const AdministratorPanelComponent = (props) =>{
                         }) :
                         <h4>Nie ma żadnego użytkownika</h4>
                     }
+                </section>
+
+                <section className="all-users">
+                    <h2>Aktywności</h2>
+                    <div className="Activities">
+                        {   props.allActivities.length!==0 ?
+                            props.allActivities.map((activity, index) => {
+                                return (<Activity
+                                    key={index}
+                                    id={activity.id}
+                                    name={activity.name}
+                                />)
+                            }) :
+                            <h4>Brak aktywności</h4>
+                        }
+                    </div>
+                    <div className="edit-activities">
+                        <AddAppActivity {...props} />
+                        <RemoveAppActivity {...props}  allActivities = {props.allActivities}/>
+                    </div>
                 </section>
             </main>
         </div>

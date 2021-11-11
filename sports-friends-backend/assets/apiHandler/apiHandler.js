@@ -15,6 +15,7 @@ export class Api{
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         localStorage.removeItem('id');
+        localStorage.removeItem('mercureAuthorization');
         this.logout();
     }
 
@@ -274,4 +275,27 @@ export class Api{
             config
         });
     }
+
+    static addActivity(name){
+        return this.post(`/api/addActivity`,{
+            name: name,
+            config
+        });
+    }
+
+    static removeActivity(activity){
+        return this.post(`/api/removeActivity`,{
+            removeActivity: activity,
+            config
+        });
+    }
+
+    static allActivities(){
+        return this.getWithHeaders(`/getAllActivities`,{
+            config
+        }).then(res=>{
+            return res;
+        });
+    }
+
 }

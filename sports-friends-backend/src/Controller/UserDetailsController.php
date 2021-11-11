@@ -54,5 +54,4 @@ class UserDetailsController extends AbstractController
         $response->setContent(json_encode('Avatar has changed'));
         return $response;
     }
-
 }
