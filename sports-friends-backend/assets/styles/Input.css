@@ -39,3 +39,16 @@
     border: none;
     font-size: xx-large;
 }
+@media only screen and (max-width: 1200px) {
+    .input-container{
+        height: 8.5em;
+    }
+
+    .input-group{
+        font-size: xx-large;
+    }
+
+    .send-button-chat{
+        font-size: xxx-large;
+    }
+}

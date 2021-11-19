@@ -66,7 +66,7 @@ input{
 
 @media only screen and (max-width: 1200px) {
     .App-log{
-        height: 130vh;
+        height: 130em;
     }
 
     .Register{

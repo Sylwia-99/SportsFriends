@@ -51,3 +51,13 @@
     margin-left: 1.5rem;
     margin-right: 0;
 }
+
+@media only screen and (max-width: 1200px) {
+    .message-content {
+        font-size: xx-large;
+    }
+
+    .small-date{
+        font-size: x-large;
+    }
+}

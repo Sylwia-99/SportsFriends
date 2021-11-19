@@ -52,7 +52,6 @@ const Notification =  (props) =>{
                         <button className="Accept-button" onClick={()=>handleAddWatchedUser({key:props.id_user_follower})}>Obserwuj</button>
 
                 }
-                <button className="Reject-button" type="submit">Odrzuć</button>
             </div>
         </div>
     )

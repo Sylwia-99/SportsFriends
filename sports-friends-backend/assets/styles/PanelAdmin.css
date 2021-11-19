@@ -91,25 +91,84 @@ section.all-users{
     box-shadow: 5px 4px 11px 1px #000000;
 }
 
+.activities{
+    grid-template-columns: repeat(1, 1fr);
+    margin: 1em;
+    align-content: center;
+    width: -webkit-fill-available;
+}
+
+.activities > div{
+    width: -webkit-fill-available;
+    margin: 0.5em;
+    background-color: #EA0B72;
+    color: white;
+    border-radius: 2em;
+    height: 3em;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 5px 4px 11px 1px #000000;
+}
+
+.activities > div > h4 >svg{
+    color: white;
+    font-size: x-large;
+    padding: 0.5em 0.5em 0.5em 0;
+}
+
+.activities > div > h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .edit-activities{
     display: flex;
 }
 
 @media only screen and (max-width: 1200px) {
+    .activities {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .activities > div {
+        height: 4.5em;
+    }
+
+    .activities > div > h4 >svg{
+        font-size: xxx-large;
+    }
+
+    .activities > div > h4{
+        font-size: xx-large;
+    }
+
+
     section.all-users{
         display: flex;
     }
 
+    .all-users > h2{
+        font-size:-webkit-xxx-large;
+        margin: 0.5em
+    }
+
     .user-information>h3{
-        width: 20vw;
+        width: auto;
     }
 
     .medium{
         margin: 0
     }
 
+    .user-to-remove{
+        font-size: x-large;
+    }
+
     .remove-user-button{
         margin: 0 1vw 0 5vw;
+        font-size: xx-large;
     }
 
     .save-button{
@@ -126,5 +185,10 @@ section.all-users{
 
     .edit-activities{
         flex-direction: column;
+        font-size: x-large;
+    }
+
+    .edit-activities > div > form > select, .edit-activities > div > form > button{
+        margin: 0.5em;
     }
 }

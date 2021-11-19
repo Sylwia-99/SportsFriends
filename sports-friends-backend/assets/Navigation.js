@@ -95,12 +95,7 @@ class Navigation extends Component{
 
             });*/
 
-            this.props.fetchUsers().then((response) => {
-                this.setState({users: this.props.users});
-                /*if(this.props.users.length ===0){
-                    this.setState({ noUsers: true});
-                }*/
-            });
+
 
             this.props.fetchWatchers().then((response) => {
                 this.setState({watchers: this.props.watchers});
@@ -115,6 +110,13 @@ class Navigation extends Component{
                 this.setState({allActivities: this.props.allActivities})
             });
         }
+
+        this.props.fetchUsers().then((response) => {
+            this.setState({users: this.props.users});
+            /*if(this.props.users.length ===0){
+                this.setState({ noUsers: true});
+            }*/
+        });
     }
 
     render() {

@@ -33,7 +33,7 @@ const AdministratorPanelComponent = (props) =>{
 
                 <section className="all-users">
                     <h2>Aktywności</h2>
-                    <div className="Activities">
+                    <div className="activities">
                         {   props.allActivities.length!==0 ?
                             props.allActivities.map((activity, index) => {
                                 return (<Activity

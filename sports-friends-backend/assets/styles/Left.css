@@ -16,3 +16,15 @@
     color: #2a907f;
     text-align: center;
 }
+
+@media only screen and (max-width: 1200px) {
+    .left-container {
+        height: 93em;
+        width: 10.2em;
+        margin-right: 1em;
+    }
+
+    .conversation-content{
+        display: none;
+    }
+}

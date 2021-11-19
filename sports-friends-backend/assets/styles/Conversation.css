@@ -44,3 +44,8 @@
     margin: 0.5em;
 }
 
+@media only screen and (max-width: 1200px) {
+    .medium-avatar{
+        font-size: x-large;
+    }
+}
