@@ -16,7 +16,7 @@
     border-radius: 1em;
 }
 
-.users{
+.users, .no-search-result{
     width: 30vw;
     justify-content: center;
     height: 26em;
@@ -36,6 +36,12 @@
     align-self: center;
     margin-left: 1em;
     color: white;
+}
+
+.no-search-result>h3{
+    color: white;
+    margin: 3rem;
+    text-align: center;
 }
 
 .avatar-image-search{
@@ -99,7 +105,7 @@ span.search{
         height: 30em;
     }
 
-    .users {
+    .users, .no-search-result {
         width: 80vw;
         height: 26em;
     }

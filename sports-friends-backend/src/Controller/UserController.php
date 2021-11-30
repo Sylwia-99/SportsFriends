@@ -159,20 +159,31 @@ class UserController extends AbstractController
             $user['activities'] = $activities;
             array_push($newUsers, $user);
         }
+        dump($newUsers);
 
-        $searchUsers = [];
-        foreach($newUsers as $newUser){
-            $newUser['hasThisActicity'] = false;
-            foreach($newUser['activities'] as $userActivity){
-                if($userActivity['name'] == $activity){
-                    $newUser['hasThisActicity'] = true;
+        //$searchUsers = [];
+        dump($activity);
+
+        if($activity != ""){
+            $searchUsers = [];
+            foreach($newUsers as $newUser){
+                $newUser['hasThisActicity'] = false;
+                foreach($newUser['activities'] as $userActivity){
+                    if($userActivity['name'] == $activity){
+                        $newUser['hasThisActicity'] = true;
+                    }
+                }
+                if($newUser['hasThisActicity'] == true){
+                    array_push($searchUsers, $newUser);
                 }
             }
-            if($newUser['hasThisActicity'] ==true){
-                array_push($searchUsers, $newUser);
-            }
+            $newUsers = $searchUsers;
+            dump($searchUsers);
+
         }
-        $response->setContent(json_encode($searchUsers));
+
+
+        $response->setContent(json_encode($newUsers));
         return $response;
     }
 

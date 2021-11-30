@@ -14,7 +14,7 @@ const Header = (props) =>{
     const[users, setUsers] = useState({
         users: [],
         click: false,
-        err: '',
+        err: false,
         value: ''
     });
 
@@ -37,8 +37,9 @@ const Header = (props) =>{
         }).catch(err => {
             console.log(err);
             setUsers({
+                users: [],
                 err: true,
-                //name: state.value
+                value: users.value,
             })
         });
     }

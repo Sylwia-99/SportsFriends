@@ -85,18 +85,6 @@ class Navigation extends Component{
                 }
             });
 
-            /*Api.users().then( response =>{
-                if(response.status === 200){
-                    this.setState({users:response.data});
-                    if(response.data.length === 0){
-                        this.setState({ noUsers: true});
-                    }
-                }
-
-            });*/
-
-
-
             this.props.fetchWatchers().then((response) => {
                 this.setState({watchers: this.props.watchers});
             });

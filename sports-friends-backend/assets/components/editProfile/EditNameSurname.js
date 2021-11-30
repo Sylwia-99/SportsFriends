@@ -8,12 +8,13 @@ const EditNameSurname = props =>{
     const [errorMessage,setErrorMessage] = useState('');
     const [userChange, setUserChange] = useState({name: '', surname: ''});
     const [isOpen, setIsOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     const onSubmit = formData => {
         Api.changeNameSurname(formData.name, formData.surname)
             .then( response =>{
                 if(response.status === 200){
-                    console.log('Zmieniono imie, nazwisko');
+
                 }
             }).catch( (error) =>{
             if(error.response){
@@ -21,6 +22,7 @@ const EditNameSurname = props =>{
             }
         }).then(()=>{
             if (errorMessage === '') {
+                setMessage("Imię i nazwisko zostały zmienione");
                 setIsOpen(!isOpen);
                 setUserChange({name: formData.name, surname: formData.surname});
                 reset({name:''});
@@ -30,7 +32,7 @@ const EditNameSurname = props =>{
 
     return (
         <div className="Edit-name-surname">
-            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={"Imię i nazwisko zostało zmienione"}/>
+            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={message}/>
             <h3>Edytuj Imię i Nazwisko</h3>
             {(userChange?.name || userChange?.surname) && <h2 id="name">{userChange.name} {userChange.surname}</h2> }
             {!userChange?.name && <h2 id="name">{props.name} {props.surname}</h2> }
@@ -41,7 +43,7 @@ const EditNameSurname = props =>{
                     {...register("name",{
                         pattern:{
                             value: /[A-Zaz]/,
-                            message: 'Imie może zawierać tylko małe i duże litery'
+                            message: 'Imię może zawierać tylko małe i duże litery'
                         },
                         maxLength:{
                             value:20,

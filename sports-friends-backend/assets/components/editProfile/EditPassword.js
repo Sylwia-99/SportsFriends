@@ -7,11 +7,14 @@ const EditPassword = props =>{
     const {register, handleSubmit, formState:{ errors }, reset} = useForm();
     const [errorMessage,setErrorMessage] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     const onSubmit = formData =>{
        Api.changePassword(formData.currentPassword, formData.password, formData.confirmedPassword).then( response =>{
            if(response.status === 200){
+               setMessage("Hasło zostało zmienione")
                setIsOpen(!isOpen);
+               setErrorMessage('');
                reset({name:''});
            }
        }).catch( (error) =>{
@@ -23,7 +26,7 @@ const EditPassword = props =>{
 
     return (
         <div className="Edit-password">
-            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={"Hasło zostało zmienione"}/>
+            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={message}/>
             <h3>Zmień hasło</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage==='' ?

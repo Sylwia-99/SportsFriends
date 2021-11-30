@@ -13,7 +13,7 @@ const User =  (props) =>{
                 setAvatar( url);
             }
             )
-    },[]);
+    },[props]);
 
     function removeUser (){
         Api.removeUser(props.id).then( response =>{

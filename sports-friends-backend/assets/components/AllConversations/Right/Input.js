@@ -37,7 +37,7 @@ class Input extends React.Component {
         return (
             <form action="#" className="input-container">
                 <div className="input-group">
-                    <input type="text" placeholder="Aa"
+                    <input type="text" placeholder="Napisz coś"
                            aria-describedby="button-addon2"
                            onChange={this.handleChange}
                            value={this.state.content}

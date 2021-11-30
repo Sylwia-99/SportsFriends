@@ -5,7 +5,6 @@ import './bootstrap';
 import {BrowserRouter } from 'react-router-dom';
 import Navigation from "./Navigation";
 import { MediaQueryProvider } from 'react-media-query-hoc';
-
 import './styles/Chat.css'
 import {Provider} from "react-redux";
 import storeFollowers from "./storeFollowers";

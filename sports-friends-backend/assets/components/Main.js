@@ -13,6 +13,7 @@ const Main = (props) =>{
                     :
                     <section>
                         {props.users.map((user, i) =>{
+                            {user.avatar}
                                 return(<User
                                     key={i}
                                     id={user.id}

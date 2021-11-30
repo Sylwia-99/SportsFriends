@@ -6,24 +6,33 @@ const RemoveActivity = props =>{
     const {register, handleSubmit, formState:{ errors }} = useForm();
     const [errorMessage,setErrorMessage] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     const onSubmit = formData => {
         Api.removeUserActivity(formData.removeActivity).then( response =>{
             if(response.status === 200){
                 setIsOpen(!isOpen);
+                setMessage("Pomyślnie usunięto aktywność")
             }
         }).then(function (response) {
             console.log(response);
         }).catch( (error) =>{
             if(error.response){
+                setIsOpen(!isOpen);
+                setMessage("Nie udało się usunąć aktywności. Spróbuj jeszcze raz")
                 setErrorMessage(error.response.data.detail);
             }
         });
     }
 
+    const clickOk  = () => {
+        setIsOpen(!isOpen);
+        location.href = '/yourProfile';
+    }
+
     return (
         <div className="Remove-activities">
-            <MyModal isOpen={isOpen} onClick={()=>setIsOpen(!isOpen)} message={"Pomyślnie usunieto aktywność"}/>
+            <MyModal isOpen={isOpen} onClick={()=>clickOk()} message={message}/>
             <h3>Usuń aktywność</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage==='' ?

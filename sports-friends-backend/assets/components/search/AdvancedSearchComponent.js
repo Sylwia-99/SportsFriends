@@ -11,7 +11,6 @@ const AdvancedSearchComponent = (props) =>{
 
     const wrapperSetFilters = useCallback(val => {
         setFilters(val);
-        console.log(val);
         Api.search(val).then( response =>{
             if(response.status === 200){
                 if(response.data.length === 0){
@@ -20,7 +19,7 @@ const AdvancedSearchComponent = (props) =>{
                 else{
                     setNoUsers( false);
                     console.log(response.data);
-                    setSearchUsers(response.data)
+                    setSearchUsers(response.data);
                 }
             }
         }).catch( (error) => {
@@ -34,7 +33,9 @@ const AdvancedSearchComponent = (props) =>{
     return (
         <div className="App">
             <Header {...props} user = {props.user} avatar = {props.avatar}/>
-            <div> <Filters filters={filters} filtersStateSetter={wrapperSetFilters}></Filters></div>
+                <div>
+                    <Filters filters={filters} filtersStateSetter={wrapperSetFilters}/>
+                </div>
             <Main {...props} users = {searchUsers} noUsers = {noUsers}/>
         </div>
     );

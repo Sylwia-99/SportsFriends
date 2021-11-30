@@ -105,24 +105,28 @@ const ProfileComponent = (props) =>{
                     </div>
                 </div>
             </div>
-            <div className="Send-message-profile">
-                <form action="#" className="Send-message-form">
-                    <input
-                        className="Send-input"
-                        name="contents"
-                        type="text"
-                        value={message.contents}
-                        onChange={handleChange}
-                    />
-                    <button
-                        className="Send-button"
-                        type="button"
-                        onClick={sendMessage}
-                    >
-                        Wyślij
-                    </button>
-                </form>
-            </div>
+            {props.user.email === email ? null
+                :
+                <div className="Send-message-profile">
+                    <form action="#" className="Send-message-form">
+                        <input
+                            className="Send-input"
+                            name="contents"
+                            type="text"
+                            placeholder="Napisz coś"
+                            value={message.contents}
+                            onChange={handleChange}
+                        />
+                        <button
+                            className="Send-button"
+                            type="button"
+                            onClick={sendMessage}
+                        >
+                            Wyślij
+                        </button>
+                    </form>
+                </div>
+            }
             {
                 localStorage.getItem('roles') === 'ROLE_ADMIN,ROLE_USER' ? <button className="Remove-User" onClick={removeUser}>Usuń użytkownika</button> : null
             }

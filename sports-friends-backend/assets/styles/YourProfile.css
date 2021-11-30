@@ -129,6 +129,7 @@ form.Send-message-form{
     background-color: transparent;
     border: none;
     -webkit-appearance: none;
+    padding-left: 1rem;
 }
 
 input:focus-visible{

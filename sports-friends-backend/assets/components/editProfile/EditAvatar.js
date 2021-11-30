@@ -8,6 +8,7 @@ const EditAvatar = props =>{
     const [selectedFile, setSelectedFile] = useState();
     const [errorMessage,setErrorMessage] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     const fileSelectedHandler = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -19,11 +20,14 @@ const EditAvatar = props =>{
         Api.changeAvatar(fd).then( response =>{
             if(response.status === 200) {
                 setIsOpen(!isOpen);
+                setMessage("Pomyślnie dodano zdjęcie")
             }
         }).then(function (response) {
             console.log(response);
         }).catch( (error) =>{
             if(error.response){
+                setIsOpen(!isOpen);
+                setMessage("Nie udało się dodać zdjęcia. Spróbuj jeszcze raz")
                 setErrorMessage(error.response.data.detail);
             }
         });
@@ -36,7 +40,7 @@ const EditAvatar = props =>{
 
     return (
         <div className="Edit-image">
-            <MyModal isOpen={isOpen} onClick={()=>clickOk()} message={"Pomyślnie zmieniono zdjęcie profilowe"}/>
+            <MyModal isOpen={isOpen} onClick={()=>clickOk()} message={message}/>
             <h3>Edytuj zdjęcie profilowe</h3>
             <form onSubmit={handleSubmit(fileUploadHandler)}>
                 {errorMessage==='' ?

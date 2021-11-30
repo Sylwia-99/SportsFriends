@@ -10,9 +10,8 @@ const SearchResult = (props) =>{
 
     if(!err && users){
         content = (
-            <div className="Result-content">
                 <div className="users">
-                    {users.map((user, i) =>
+                    {users?.map((user, i) =>
                         <User
                             key={i}
                             id={user.id}
@@ -28,20 +27,26 @@ const SearchResult = (props) =>{
                         />
                     )}
                 </div>
-                <div className="link-advanced-search">
-                    <Link to='/advancedSearch' className="advanced-search-button">
-                        <h3>Wyszukiwanie zaawansowane</h3>
-                    </Link>
-                </div>
-
-            </div>
         )
     }
 
     return (
         <div
             className="Result">
-            {err ? `Nie znaleziono użytkownika:${value}` : content}
+            <div className="Result-content">
+                {users.length ===0 ?
+                    <div className="no-search-result">
+                        <h3>Nie znaleziono użytkownika</h3>
+                    </div>
+                    :
+                    content
+                }
+                <div className="link-advanced-search">
+                    <Link to='/advancedSearch' className="advanced-search-button">
+                        <h3>Wyszukiwanie zaawansowane</h3>
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }

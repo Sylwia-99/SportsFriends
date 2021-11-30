@@ -7,16 +7,20 @@ const AddActivity = props =>{
     const {register, handleSubmit, formState:{ errors }} = useForm();
     const [errorMessage,setErrorMessage] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     const onSubmit = formData => {
         Api.addUserActivity(formData.addActivity).then( response =>{
             if(response.status === 200){
                 setIsOpen(!isOpen);
+                setMessage("Pomyślnie dodano aktywność")
             }
         }).then(function (response) {
             console.log(response);
         }).catch( (error) =>{
             if(error.response){
+                setIsOpen(!isOpen);
+                setMessage("Nie udało się dodać aktywności. Spróbuj jeszcze raz")
                 setErrorMessage(error.response.data.detail);
             }
         });
@@ -29,7 +33,7 @@ const AddActivity = props =>{
 
     return (
         <div className="Add-activities">
-            <MyModal isOpen={isOpen} onClick={()=>clickOk()} message={"Pomyślnie dodano aktywność"}/>
+            <MyModal isOpen={isOpen} onClick={()=>clickOk()} message={message}/>
             <h3>Dodaj aktywność</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage==='' ?
